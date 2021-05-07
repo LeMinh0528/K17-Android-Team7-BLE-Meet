@@ -10,7 +10,8 @@ import android.widget.ImageButton
 import android.widget.Spinner
 import com.ceslab.team7_ble_meet.R
 
-class Activity_Profile : AppCompatActivity() {
+
+class ProfileActivity : AppCompatActivity() {
     lateinit var spi_genner : Spinner
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

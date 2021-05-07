@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/recyclerview"
+        android:layout_below="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_above="@id/navigationView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        <View
+            android:background="@color/colorgray200"
+            android:layout_above="@id/navigationView"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"/>
+        <com.ismaeldivita.chipnavigation.ChipNavigationBar
+            android:id="@+id/navigationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:cnb_badgeColor="@color/colorred"
+            android:paddingVertical="10dp"
+            android:background="@color/colorwhite"
+            app:cnb_menuResource="@menu/navigation"/>
+    </RelativeLayout>
+
+</LinearLayout>
