@@ -17,4 +17,6 @@
     <color name="colororange">#FE724C</color>
     <color name="colorblue">#0000FF</color>
     <color name="colorred">#FF0000</color>
+    <color name="colorgreen300">#9900FF00</color>
+    <color name="colorgreen">#44FF00</color>
 </resources>

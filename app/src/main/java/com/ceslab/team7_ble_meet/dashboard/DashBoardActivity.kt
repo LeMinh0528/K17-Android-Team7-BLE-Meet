@@ -61,9 +61,7 @@ class DashBoardActivity: AppCompatActivity() {
         viewPager.adapter = viewPagerAdapter
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
             override fun onPageScrollStateChanged(state: Int) {
-
             }
-
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
@@ -71,7 +69,6 @@ class DashBoardActivity: AppCompatActivity() {
             ) {
 
             }
-
             override fun onPageSelected(position: Int) {
                 Log.d("TAG",position.toString())
                 when(position){
