@@ -10,7 +10,10 @@
     <string name="log_in_1">Log In</string>
     <string name="log_in_2">LOG IN</string>
     <string name="username_or_email_1">Username or Email</string>
-<string-array name="gender_spinner">
+    <string name="oldpassword">Old Password</string>
+    <string name="newpassword">New Password</string>
+    <string name="comfirm_password">Comfirn Password</string>
+    <string-array name="gender_spinner">
     <item>Male</item>
     <item>Female</item>
     <item>Gay</item>
