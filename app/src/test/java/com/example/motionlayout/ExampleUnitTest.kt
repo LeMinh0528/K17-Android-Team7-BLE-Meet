@@ -1,4 +1,4 @@
-package com.ceslab.team7_ble_meet
+package com.example.motionlayout
 
 import org.junit.Test
 
