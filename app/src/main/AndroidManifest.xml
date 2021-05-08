@@ -19,6 +19,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Team7_BLEMeet">
         <activity
+            android:name=".ScanActivity"
+            android:label="@string/title_activity_scan"
+            android:theme="@style/Theme.Team7_BLEMeet.NoActionBar"></activity>
+        <activity
             android:name=".SplashActivity"
             android:label="@string/title_activity_splash">
             <intent-filter>
@@ -28,8 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".login.LogInActivity" />
-        <activity android:name=".signup.SignUpActivity">
-        </activity>
+        <activity android:name=".signup.SignUpActivity"></activity>
         <activity android:name=".profile.ProfileActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".dashboard.DashBoardActivity" />
