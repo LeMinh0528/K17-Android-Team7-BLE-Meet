@@ -13,7 +13,7 @@ class BleHandle {
 
     private val HEX_CHARS: CharArray = "0123456789ABCDEF".toCharArray()
     val TAG = "BLE_Handler"
-    private val ble_uuid: String = "00001234-0000-1000-8000-00805F9B34FB"
+    private val manu_id: Int = 0x6969
 
     fun init() {
 
@@ -28,10 +28,9 @@ class BleHandle {
             .setTimeout(0)
             .setConnectable(false)
             .build()
-        val pUuid = ParcelUuid(UUID.fromString(ble_uuid))
         val data: AdvertiseData = AdvertiseData.Builder()
             .setIncludeDeviceName(false)
-            .addServiceData(pUuid, data)
+            .addManufacturerData(manu_id, data)
             .build()
 
 
