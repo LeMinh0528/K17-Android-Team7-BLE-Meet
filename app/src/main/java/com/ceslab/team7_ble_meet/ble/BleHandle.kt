@@ -61,13 +61,10 @@ class BleHandle {
             override fun onScanResult(callbackType: Int, result: ScanResult) {
                 super.onScanResult(callbackType, result)
                 val adType = result.scanRecord?.bytes?.get(1)?.toInt()
-                val upper_UUID = result.scanRecord?.bytes?.get(2)?.toInt()
-                val lower_UUID = result.scanRecord?.bytes?.get(3)?.toInt()
-                if (adType == 22 && upper_UUID == 52 && lower_UUID == 18) {
-                    Log.d(
-                        TAG,
-                        "Scan result:" + bytesToHexWhitespaceDelimited(result.scanRecord?.bytes)
-                    )
+                val manuID_upper = result.scanRecord?.bytes?.get(2)?.toInt()
+                val manuID_lower = result.scanRecord?.bytes?.get(3)?.toInt()
+                if (adType == -1 && manuID_upper == 105 && manuID_lower == 105) {
+                    Log.d(TAG, "Scan result:" + bytesToHexWhitespaceDelimited(result.scanRecord?.bytes))
                 }
             }
 

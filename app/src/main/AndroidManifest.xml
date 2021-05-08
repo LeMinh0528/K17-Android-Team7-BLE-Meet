@@ -19,12 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Team7_BLEMeet">
         <activity
-            android:name=".ScanActivity"
-            android:label="@string/title_activity_scan"
-            android:theme="@style/Theme.Team7_BLEMeet.NoActionBar"></activity>
-        <activity
             android:name=".SplashActivity"
-            android:label="@string/title_activity_splash">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
