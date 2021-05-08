@@ -6,7 +6,8 @@
     <Transition
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
-        motion:duration="1500">
+        motion:autoTransition="animateToEnd"
+        motion:duration="3000">
        <KeyFrameSet>
            <KeyAttribute
                motion:motionTarget="@+id/icon_img"
@@ -49,7 +50,6 @@
                android:scaleX="5"
                android:scaleY="5" />
        </KeyFrameSet>
-        <OnClick motion:targetId="@+id/icon_img" />
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
