@@ -18,14 +18,16 @@
         <EditText
             android:id="@+id/LogIn_editUserNameOrEmail"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:background="@drawable/slector_edittext"
             android:ems="10"
+            android:gravity="center_vertical"
+            android:paddingVertical="18dp"
             android:hint="@string/username_or_email_1"
             android:inputType="textPersonName"
-            android:paddingLeft="25dp"
+            android:paddingLeft="18dp"
             android:text="@={logInViewModel.usrName}"
             android:textSize="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -44,40 +46,53 @@
             app:hintAnimationEnabled="false"
             app:hintEnabled="false"
             app:endIconMode="password_toggle"
+            android:gravity="center|right"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:boxBackgroundMode="none"
             app:layout_constraintVertical_bias="0.499">
 
             <com.google.android.material.textfield.TextInputEditText
+
                 android:id="@+id/LogIn_edtPassword"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:paddingLeft="25dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/slector_edittext"
+                android:gravity="center_vertical"
                 android:hint="@string/password_1"
                 android:inputType="textPassword"
-                android:background="@drawable/slector_edittext"
+                android:paddingVertical="18dp"
                 android:text="@={logInViewModel.password}"
                 tools:ignore="MissingConstraints" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <LinearLayout
+            android:clickable="true"
             android:id="@+id/LogIn_btnLogIn"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:background="@drawable/ripble_button"
             android:onClick="@{()->logInViewModel.logIn()}"
-            android:text="Continute"
+            android:gravity="center"
             android:textColor="#F4F4F4"
+            android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.176"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.636" />
+            app:layout_constraintVertical_bias="0.636" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Continute"
+                android:textColor="@color/colorwhite"
+                android:textSize="18dp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/LogIn_tvGoToSignUp"
@@ -101,7 +116,7 @@
             android:layout_height="wrap_content"
             android:text="Hello There !"
             android:textSize="40dp"
-
+            android:textColor="#AE1C4FE8"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.102"
@@ -115,6 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Your Don't Have Acccount ? ->"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.203"
