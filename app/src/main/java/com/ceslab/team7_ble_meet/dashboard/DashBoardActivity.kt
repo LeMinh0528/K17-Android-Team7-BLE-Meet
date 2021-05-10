@@ -1,13 +1,10 @@
 package com.ceslab.team7_ble_meet.dashboard
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.ceslab.team7_ble_meet.R
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
 class DashBoardActivity: AppCompatActivity() {
@@ -57,7 +54,7 @@ class DashBoardActivity: AppCompatActivity() {
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPagerAdapter.addFragment(InfomationFragment(),"Infomation")
         viewPagerAdapter.addFragment(ChatsFFragment(),"Chats")
-        viewPagerAdapter.addFragment(BluetoothFragment(),"Bluetooth")
+        viewPagerAdapter.addFragment(ConnectFragment(),"Bluetooth")
         viewPager.adapter = viewPagerAdapter
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
             override fun onPageScrollStateChanged(state: Int) {
