@@ -78,14 +78,12 @@ class BleHandle {
             }
         }
 
-//        val filter = ScanFilter.Builder().setServiceUuid(ParcelUuid(UUID.fromString("00001234-0000-1000-8000-00805F9B34FB"))).build()
         val filter = ScanFilter.Builder().build()
         val filters = listOf(filter)
         val settings = ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build()
         mBluetoothLeScanner.startScan(filters, settings, mScanCallback);
     }
 
-    // Gets value in hexadecimal system
     fun bytesToHexWhitespaceDelimited(value: ByteArray?): String {
         if (value == null) {
             return ""
