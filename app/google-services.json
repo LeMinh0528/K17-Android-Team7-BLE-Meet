@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "648765792552",
+    "project_id": "meet-ble",
+    "storage_bucket": "meet-ble.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648765792552:android:874b1ed24ce1a314aab01d",
+        "android_client_info": {
+          "package_name": "com.ceslab.team7_ble_meet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "648765792552-8mlft7ri3h8659m6hl6h82k3786t1ts3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVB8L8qL998YlQaaxXzdStoWZgqP7klsA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "648765792552-8mlft7ri3h8659m6hl6h82k3786t1ts3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
