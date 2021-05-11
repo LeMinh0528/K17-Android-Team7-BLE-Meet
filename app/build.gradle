@@ -73,4 +73,10 @@ dependencies {
     //firebase authentication
     implementation 'com.google.firebase:firebase-auth-ktx:20.0.4'
 
+    //cropimage
+    api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+
+    //compressor
+    implementation 'id.zelory:compressor:1.0.1'
+
 }
