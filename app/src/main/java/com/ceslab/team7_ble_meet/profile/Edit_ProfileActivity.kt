@@ -1,20 +1,27 @@
 package Activity
 
+import android.app.ActionBar
+import android.app.ProgressDialog.show
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import com.ceslab.team7_ble_meet.EditDialog.Edit_Dialog
 import com.ceslab.team7_ble_meet.R
 import kotlinx.android.synthetic.main.custom_spinner_gender.*
 import kotlinx.android.synthetic.main.custom_spinner_gender.view.*
 
 
-class ProfileActivity : AppCompatActivity() {
+class Edit_ProfileActivity : AppCompatActivity() {
     private lateinit var spinner_gender : TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,11 +58,28 @@ class ProfileActivity : AppCompatActivity() {
 //                spinner_gender.setText(Gay)
 //                mAlertDialog.dismiss()
 //            }
+            setupAlertDialog(object :Edit_Dialog.EditDialogCallback
+            {
+                override fun onConfirmClicked(data: String) {
+
+                }
+            })
 
         }
 
 
+
     }
 
+    private fun setupAlertDialog(editDialogCallback: Edit_Dialog.EditDialogCallback) {
+        val dialog = Edit_Dialog(this)
+        dialog.setEditDialogCallback(editDialogCallback)
+        dialog.show()
+        dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+        // lam mat vien vuong khi bo man hinh
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(800,LinearLayout.LayoutParams.WRAP_CONTENT)
 
+
+    }
 }
