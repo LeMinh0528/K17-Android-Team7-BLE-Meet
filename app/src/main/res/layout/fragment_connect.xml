@@ -13,7 +13,7 @@
         tools:context=".MainActivity"
         tools:ignore="UseSwitchCompatOrMaterialXml">
 
-        <com.skyfishjy.library.RippleBackground xmlns:app="http://schemas.android.com/apk/res-auto"
+        <com.skyfishjy.library.RippleBackground
             android:layout_width="match_parent"
             android:layout_height="564dp"
             android:id="@+id/vRipple"
@@ -39,5 +39,15 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp" />
+
+        <ListView
+            android:id="@+id/listBleDataReceived"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/swTurnOnOffBLE"
+            android:layout_marginTop="32dp">
+
+        </ListView>
+
     </RelativeLayout>
 </layout>

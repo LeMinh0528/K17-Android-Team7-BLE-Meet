@@ -46,12 +46,9 @@ class ConnectFragment : Fragment() {
     ): View {
         checkPermissions()
         setUpConnectFragment(inflater, container)
-        //filter for BLE broadcast receiver
+//        filter for BLE broadcast receiver
         val filter = IntentFilter()
-        filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
         filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED)
-        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED)
-        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
         requireContext().registerReceiver(broadcastReceiver, filter)
 
         return binding.root
@@ -107,7 +104,7 @@ class ConnectFragment : Fragment() {
             }
             btnFindFriend.setOnClickListener {
                 if (bluetoothAdapter.isEnabled) {
-                    val data = byteArrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
+                    val data = byteArrayOf(1, 7, 2, 4, 5, 6, 7, 8, 9, 10, 11)
                     connect.advertise(data)
                     connect.discover()
                 } else {

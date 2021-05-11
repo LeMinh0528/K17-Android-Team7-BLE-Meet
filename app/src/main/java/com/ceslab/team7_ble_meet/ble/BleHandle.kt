@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.le.*
 import android.os.ParcelUuid
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import java.nio.charset.Charset
 import java.util.*
 
@@ -15,6 +16,7 @@ class BleHandle {
     val TAG = "BLE_Handler"
     private val manu_id: Int = 0x6969
 
+    var bleDataReceived: MutableLiveData<ByteArray> = MutableLiveData()
 
     fun advertise(data: ByteArray) {
         Log.d(TAG, "Advertise function called")
@@ -42,9 +44,6 @@ class BleHandle {
                 super.onStartFailure(errorCode)
             }
         }
-        settings?.let {
-            Log.d(TAG, "BleHandler: setting is not null")
-        }
         Log.d(TAG, "BleHandler: data: $data")
         Log.d(TAG, "BleHandler: advertise callback: $advertisingCallback")
         advertiser.startAdvertising(settings, data, advertisingCallback)
@@ -61,9 +60,10 @@ class BleHandle {
                 val manuID_lower = result.scanRecord?.bytes?.get(3)?.toInt()
                 Log.d(TAG, "Scan result:" + bytesToHexWhitespaceDelimited(result.scanRecord?.bytes))
                 if (adType == -1 && manuID_upper == 105 && manuID_lower == 105) {
-                    Log.d(TAG, "Scan result:" + bytesToHexWhitespaceDelimited(result.scanRecord?.bytes))
-                    Log.d(TAG, "Scan result:" + result.scanRecord?.bytes)
-
+//                    Log.d(TAG, "Scan result:" + bytesToHexWhitespaceDelimited(result.scanRecord?.bytes))
+//                    Log.d(TAG, "Scan result:" + result.scanRecord?.bytes)
+//                    bleDataReceived.value = result.scanRecord!!.bytes
+//                    Log.d(TAG, "Scan result:" + bleDataReceived.value)
                 }
             }
 
