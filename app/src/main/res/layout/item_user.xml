@@ -19,7 +19,7 @@
         android:layout_height="wrap_content">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image"
-            android:src="@drawable/beer"
+            android:src="@drawable/icon_alcohol"
             android:layout_marginLeft="10dp"
             android:layout_width="50dp"
             android:layout_height="50dp"/>

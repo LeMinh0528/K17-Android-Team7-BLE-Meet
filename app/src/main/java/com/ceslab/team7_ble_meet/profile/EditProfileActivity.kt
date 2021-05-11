@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.custom_spinner_gender.*
 import kotlinx.android.synthetic.main.custom_spinner_gender.view.*
 
 
-class Edit_ProfileActivity : AppCompatActivity() {
+class EditProfileActivity : AppCompatActivity() {
     private lateinit var spinner_gender : TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
