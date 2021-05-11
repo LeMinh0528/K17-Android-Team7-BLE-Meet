@@ -32,15 +32,6 @@
                 android:src="@drawable/heart" />
         </com.skyfishjy.library.RippleBackground>
 
-        <ListView
-            android:id="@+id/listBleDataReceiver"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/swTurnOnOffBLE"
-            android:layout_marginTop="32dp">
-
-        </ListView>
-
         <Switch
             android:id="@+id/swTurnOnOffBLE"
             android:layout_width="wrap_content"
