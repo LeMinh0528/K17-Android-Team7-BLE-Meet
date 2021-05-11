@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ceslab.team7_ble_meet.R
 
-
 class ChatsFragment: Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -17,5 +16,4 @@ class ChatsFragment: Fragment() {
         var view = inflater.inflate(R.layout.fragment_chats,container,false)
         return view
     }
-
 }
