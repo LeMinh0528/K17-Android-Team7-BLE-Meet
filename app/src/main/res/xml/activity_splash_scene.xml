@@ -12,13 +12,13 @@
            <KeyAttribute
                motion:motionTarget="@+id/icon_img"
                motion:framePosition="20"
-               android:scaleX="0.7"
-               android:scaleY="0.7" />
+               android:scaleX="0.8"
+               android:scaleY="0.8" />
            <KeyAttribute
                motion:motionTarget="@+id/icon_img"
                motion:framePosition="50"
-               android:scaleX="0.7"
-               android:scaleY="0.7" />
+               android:scaleX="0.8"
+               android:scaleY="0.8" />
            <KeyAttribute
                motion:motionTarget="@+id/icon_img"
                motion:framePosition="100"

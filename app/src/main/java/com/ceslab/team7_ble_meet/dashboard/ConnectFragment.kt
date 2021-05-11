@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ceslab.team7_ble_meet.R
 import android.widget.ImageView
+import androidx.core.view.isGone
 import com.skyfishjy.library.RippleBackground
+import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.fragment_connect.*
 
 class ConnectFragment : Fragment() {
@@ -22,10 +24,9 @@ class ConnectFragment : Fragment() {
         p = view.findViewById(R.id.btnConnect)
         img = view.findViewById(R.id.centerImage)
         img.setOnClickListener {
-            p.startRippleAnimation();
-        }
-        p.setOnClickListener {
-            p.stopRippleAnimation();
+            if(p.isRippleAnimationRunning)
+                p.stopRippleAnimation();
+            else p.startRippleAnimation();
         }
         return view
     }

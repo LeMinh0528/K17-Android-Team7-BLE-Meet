@@ -19,30 +19,43 @@ class ProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
-         spinner_gender = findViewById(R.id.spinner_genner)
+        spinner_gender = findViewById(R.id.spinner_genner)
         spinner_gender.setOnClickListener {
             //inflate the dialog with cutomview
-            val  Dialog_View = LayoutInflater.from(this).inflate(R.layout.custom_spinner_gender,null)
-            //Builder AlertDialog
-            val mBuilder = AlertDialog.Builder(this).setView(Dialog_View)
-            //show Dialog
-            val mAlertDialog = mBuilder.show()
-            Dialog_View.text_Men.setOnClickListener {
-                    val men = Dialog_View.text_Men.text.toString()
-                spinner_gender.setText(men)
-                mAlertDialog.dismiss()
-            }
-            Dialog_View.text_Girl.setOnClickListener {
-                val girl = Dialog_View.text_Girl.text.toString()
-                spinner_gender.setText(girl)
-                mAlertDialog.dismiss()
-            }
+//            val  Dialog_View = LayoutInflater.from(this).inflate(R.layout.custom_spinner_gender,null)
+//            //Builder AlertDialog
+//            val mBuilder = AlertDialog.Builder(this).setView(Dialog_View)
+//            //show Dialog
+//            val mAlertDialog = mBuilder.show()
+//            val _men = Dialog_View.checkbox_Men.text.toString()
+//            val _men1 = spinner_gender.text.toString()
+//            if (_men == _men1)
+//            {
+//                if(checkbox_Men.isChecked){
+//                    checkbox_Men.(true)
+//                }
+//            }
+
+//            Dialog_View.checkbox_Men.setOnClickListener {
+//                val Man = Dialog_View.checkbox_Men.text.toString()
+//                spinner_gender.setText(Man)
+//                mAlertDialog.dismiss()
+//            }
+//            Dialog_View.checkbox_Girl.setOnClickListener {
+//                val Girl =Dialog_View.checkbox_Girl.text.toString()
+//                spinner_gender.setText(Girl)
+//                mAlertDialog.dismiss()
+//            }
+//            Dialog_View.checkbox_Gay.setOnClickListener {
+//                val Gay =Dialog_View.checkbox_Gay.text.toString()
+//                spinner_gender.setText(Gay)
+//                mAlertDialog.dismiss()
+//            }
 
         }
 
 
     }
-    private fun setDialog(){
-            android.R.layout.simple_list_item_multiple_choice
-    }
+
+
 }
