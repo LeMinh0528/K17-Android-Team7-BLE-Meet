@@ -1,449 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        >
-        <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-            <LinearLayout
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                >
-                <Button
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:paddingTop="10dp"
-                    android:background="@drawable/ic_baseline_cancel_20"
-                    />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20dp"
-                    android:text="Edit profile"
-                    android:textColor="@color/black"/>
-                <Button
-
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:paddingTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/ic_baseline_check_10"/>
+    android:background="@drawable/background_profileactivity"
+    tools:context=".Profile.Fragment_Profile">
 
 
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/background_profile"
-            android:orientation="vertical"
-            tools:context="Activity.Activity_Profile">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="33dp"
+                android:layout_gravity="center_horizontal">
 
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_circle"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:src="@drawable/avatar_default"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" >
+                </de.hdodenhof.circleimageview.CircleImageView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@color/white"
-                android:paddingTop="25dp"
-                android:paddingBottom="25dp"
-                >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:padding="10dp">
-
-                    <ImageButton
-                        android:id="@+id/button1"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginRight="30dp"
-                        android:background="@drawable/shape_image"
-                        android:src="@drawable/ic_baseline_add_24"
-                        tools:src="@drawable/ic_baseline_add_24" />
-
-                    <ImageButton
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginRight="30dp"
-                        android:background="@drawable/shape_image"
-                        android:src="@drawable/ic_baseline_add_24"
-                        tools:src="@drawable/ic_baseline_add_24" />
-                    <ImageButton
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginRight="30dp"
-                        android:background="@drawable/shape_image"
-                        android:src="@drawable/ic_baseline_add_24"
-                        tools:src="@drawable/ic_baseline_add_24" />
-                    <ImageButton
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:background="@drawable/shape_image"
-                        android:src="@drawable/ic_baseline_add_24"
-                        tools:src="@drawable/ic_baseline_add_24" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:padding="10dp">
-
-                    <ImageButton
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginRight="30dp"
-                        android:background="@drawable/shape_image"
-                        android:src="@drawable/ic_baseline_add_24"
-                        tools:src="@drawable/ic_baseline_add_24" />
-
-                    <ImageButton
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginRight="30dp"
-                        android:background="@drawable/shape_image"
-                        android:src="@drawable/ic_baseline_add_24"
-                        tools:src="@drawable/ic_baseline_add_24" />
-                    <ImageButton
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginRight="30dp"
-                        android:background="@drawable/shape_image"
-                        android:src="@drawable/ic_baseline_add_24"
-                        tools:src="@drawable/ic_baseline_add_24" />
-                    <ImageButton
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:background="@drawable/shape_image"
-                        android:src="@drawable/ic_baseline_add_24"
-                        tools:src="@drawable/ic_baseline_add_24" />
-                </LinearLayout>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="10dp"
-                android:paddingTop="15dp"
-                android:background="@color/white"
-                android:orientation="vertical">
+                android:layout_marginTop="5dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="15dp"
-                    android:text="My basic Info"
-                    android:textColor="@color/black"
-                    android:textSize="20dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Name"
-                    android:paddingBottom="15dp"
-                    android:textColor="@color/black"
+                    android:paddingVertical="10dp"
+                    android:gravity="center"
                     android:textStyle="bold"
-                    android:textSize="20dp"/>
-                <EditText
+                    android:fontFamily="serif"
+                    android:text="Tran Thi Nhu Nguyet"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="15dp"
-                    android:hint="Enter your name "
-                    android:textSize="15dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="15dp"
-                    android:text="Gender"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="20dp"/>
-<!--                <Spinner-->
-<!--                    android:id="@+id/spi_gender"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:paddingBottom="15dp"-->
-<!--                    android:clickable="true"-->
-<!--                    android:spinnerMode="dropdown"-->
-<!--                    android:autofillHints="Men/Girl"/>-->
-               <TextView
-                   android:id="@+id/spinner_genner"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:text="Men"
-                   android:textSize="20dp"
-                   android:drawableRight="@drawable/ic_baseline_arrow_drop_down_24"
-                   android:clickable="true"></TextView>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="15dp"
-                    android:text="Looking for "
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="22dp"/>
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="15dp"
-                    android:textSize="15dp"
-                    android:hint="Your adress"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="15dp"
-                    android:text="Work and education"
-                    android:textColor="@color/black"
-                    android:textSize="22dp"
-                    android:textStyle="bold"/>
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="25dp"
-                    android:textSize="15dp"
-                    android:hint="e.g teacher , doctor"/>
-
-
-            </LinearLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="25dp"
-                android:paddingLeft="10dp"
-                android:textColor="@color/black"
-                android:text="ADDITIONAL INFORMATION"
-                android:textSize="15dp"
-
-                android:textStyle="bold"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="25dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:src="@drawable/icon_alcohol"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    android:paddingVertical="5dp">
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_marginStart="148dp"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:paddingHorizontal="5dp"
+                        android:text="22 Age"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.533" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/icon_gender_female"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/textView2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="From: Ho Dau Tieng, Binh Duong , Ha Loi , TP Vung Tau"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-black"
+                    android:paddingLeft="13dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tag:"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-black"
+                    android:paddingLeft="13dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="7dp"
+                    android:paddingHorizontal="20dp">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingVertical="6dp"
+                        android:paddingHorizontal="10dp"
+                        android:clickable="true"
+                        android:background="@drawable/ripble_tag_fragmentprofile">
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Alcohol"
-                            android:textStyle="bold"
                             android:textColor="@color/black"
-                            android:layout_marginLeft="10dp"
-                            android:textSize="15dp"
-                            android:gravity="center|left"
-                            />
-
-                        <Spinner
-                            android:id="@+id/spi_genner"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:textStyle="bold"
+                            ></TextView>
                     </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:src="@drawable/icon_smoke"/>
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:gravity="center"
+                        android:layout_marginHorizontal="10dp"
+                        android:paddingVertical="6dp"
+                        android:paddingHorizontal="10dp"
+                        android:clickable="true"
+                        android:background="@drawable/ripble_tag_fragmentprofile">
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Smoke"
                             android:textColor="@color/black"
                             android:textStyle="bold"
-                            android:layout_marginLeft="10dp"
-                            android:textSize="15dp"
-                            android:gravity="center|left"
-                            />
-                        <Spinner
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            ></TextView>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginHorizontal="10dp"
+                        android:paddingVertical="6dp"
+                        android:paddingHorizontal="10dp"
+                        android:clickable="true"
+                        android:background="@drawable/ripble_tag_fragmentprofile">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Dog Love's"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            ></TextView>
                     </LinearLayout>
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:src="@drawable/icon_children"/>
+                    android:orientation="horizontal"
+                    android:paddingVertical="7dp"
+                    android:paddingHorizontal="20dp">
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:gravity="center"
+                        android:paddingVertical="6dp"
+                        android:paddingHorizontal="10dp"
+                        android:clickable="true"
+                        android:background="@drawable/ripble_tag_fragmentprofile">
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Children"
-                            android:textStyle="bold"
+                            android:text="Babyface"
                             android:textColor="@color/black"
-                            android:layout_marginLeft="10dp"
-                            android:textSize="15dp"
-                            android:gravity="center|left"
-                            />
-                        <Spinner
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:textStyle="bold"
+                            ></TextView>
                     </LinearLayout>
-                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginHorizontal="10dp"
+                        android:paddingVertical="6dp"
+                        android:paddingHorizontal="10dp"
+                        android:clickable="true"
+                        android:background="@drawable/ripble_tag_fragmentprofile">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hot "
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            ></TextView>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginHorizontal="10dp"
+                        android:paddingVertical="6dp"
+                        android:paddingHorizontal="10dp"
+                        android:clickable="true"
+                        android:background="@drawable/ripble_tag_fragmentprofile">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Like play game"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            ></TextView>
+                    </LinearLayout>
 
+
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:src="@drawable/tiger"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:paddingVertical="10dp"
+                    android:background="@drawable/shape_option1"
+                    android:gravity="center_horizontal"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginHorizontal="40dp">
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Pets"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            android:layout_marginLeft="10dp"
-                            android:textSize="15dp"
-                            android:gravity="center|left"
-                            />
-                        <Spinner
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
+                        android:text="Em con di hoc ,anh cho em nha"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
                 </LinearLayout>
 
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:src="@drawable/icon_height"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Height"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:layout_marginLeft="10dp"
-                            android:textSize="15dp"
-                            android:gravity="center|left"
-                            />
-                        <Spinner
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:src="@drawable/icon_religion"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Religion"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            android:layout_marginLeft="10dp"
-                            android:textSize="15dp"
-                            android:gravity="center|left"
-                            />
-                        <Spinner
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:src="@drawable/icon_tastes"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Preferred tastes"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            android:layout_marginLeft="10dp"
-                            android:textSize="15dp"
-                            android:gravity="center|left"
-                            />
-                        <Spinner
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
-                </LinearLayout>
-
+                    android:layout_height="wrap_content">
+                </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
