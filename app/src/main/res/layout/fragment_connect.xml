@@ -30,6 +30,8 @@
                 android:layout_marginTop="250dp"
                 android:id="@+id/btnFindFriend"
                 android:src="@drawable/heart" />
+
+
         </com.skyfishjy.library.RippleBackground>
 
         <Switch
@@ -41,7 +43,7 @@
             android:layout_marginTop="16dp" />
 
         <ListView
-            android:id="@+id/listBleDataReceived"
+            android:id="@+id/listViewBleDataReceived"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/swTurnOnOffBLE"

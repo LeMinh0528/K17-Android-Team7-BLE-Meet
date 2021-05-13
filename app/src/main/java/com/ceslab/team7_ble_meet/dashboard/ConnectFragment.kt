@@ -24,7 +24,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.ble.BleHandle
+import com.ceslab.team7_ble_meet.bytesToHex
 import com.ceslab.team7_ble_meet.databinding.FragmentConnectBinding
+import com.ceslab.team7_ble_meet.toast
 import kotlin.collections.ArrayList
 
 
@@ -41,7 +43,7 @@ class ConnectFragment : Fragment() {
     private lateinit var bluetoothAdapter: BluetoothAdapter
     private lateinit var connect: BleHandle
 
-    private var listDataReceived: ArrayList<ByteArray> = ArrayList()
+    private var listDataReceived: ArrayList<String> = ArrayList()
     private lateinit var arrayAdapter: ArrayAdapter<*>
 
     override fun onCreateView(
@@ -52,21 +54,6 @@ class ConnectFragment : Fragment() {
         checkPermissions()
         setUpBle()
         setUpUI(inflater, container)
-        listDataReceived.add(byteArrayOf(1, 7, 2, 0, 1, 4, 5))
-        listDataReceived.add(byteArrayOf(1, 8, 2, 0, 1, 4, 6))
-        listDataReceived.add(byteArrayOf(1, 9, 2, 4, 5, 6, 7))
-        listDataReceived.add(byteArrayOf(1, 5, 2, 4, 5, 6, 7, 8, 9, 10, 11))
-        listDataReceived.add(byteArrayOf(1, 3, 2, 4, 5, 6, 7, 8, 9, 10, 11))
-
-        arrayAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, listDataReceived)
-
-        binding.btnFindFriend.isGone = true
-        binding.listBleDataReceived.adapter = arrayAdapter
-
-
-        listDataReceived.add(byteArrayOf(1, 3, 2, 4, 5, 6, 7))
-
-
 
         return binding.root
     }
@@ -79,10 +66,20 @@ class ConnectFragment : Fragment() {
         bluetoothManager = activity?.let { getSystemService(it, BluetoothManager::class.java) }!!
         bluetoothAdapter = bluetoothManager.adapter
         connect = BleHandle()
+    }
 
-        connect.bleDataReceived.observe(viewLifecycleOwner,{
-            Toast.makeText(activity,"Receive data",Toast.LENGTH_LONG).show()
-        })
+    private fun bleDataHandler(value: ByteArray){
+        var exist = false
+        for(i in listDataReceived){
+            if(i == bytesToHex(value)){
+                Log.d(TAG, "exist")
+                exist = true
+            }
+        }
+        if(!exist){
+            listDataReceived.add(bytesToHex(value))
+            arrayAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun setUpUI(inflater: LayoutInflater, container: ViewGroup?){
@@ -102,7 +99,7 @@ class ConnectFragment : Fragment() {
             }
             btnFindFriend.setOnClickListener {
                 if (bluetoothAdapter.isEnabled) {
-                    val data = byteArrayOf(1, 7, 2, 4, 5, 6, 7, 8, 9, 10, 11)
+                    val data = byteArrayOf(1, 7, 2, 4, 5, 6, 7, 8, 9, 15, 11)
                     connect.advertise(data)
                     connect.discover()
                 } else {
@@ -110,6 +107,17 @@ class ConnectFragment : Fragment() {
                 }
                 if(vRipple.isRippleAnimationRunning) vRipple.stopRippleAnimation() else vRipple.startRippleAnimation()
             }
+
+            arrayAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, listDataReceived)
+            binding.listViewBleDataReceived.adapter = arrayAdapter
+            connect.bleDataReceived.observe(viewLifecycleOwner,{
+                requireContext().toast("Receive data")
+                if(!binding.btnFindFriend.isGone){
+                    binding.btnFindFriend.isGone = true
+                    binding.vRipple.isGone = true
+                }
+                bleDataHandler(it)
+            })
         }
     }
 

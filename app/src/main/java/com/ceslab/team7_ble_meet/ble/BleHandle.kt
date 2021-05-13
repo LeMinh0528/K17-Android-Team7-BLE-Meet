@@ -5,6 +5,7 @@ import android.bluetooth.le.*
 import android.os.ParcelUuid
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.ceslab.team7_ble_meet.bytesToHex
 import java.nio.charset.Charset
 import java.util.*
 
@@ -22,7 +23,7 @@ class BleHandle {
         Log.d(TAG, "Advertise function called")
         val advertiser = BluetoothAdapter.getDefaultAdapter().bluetoothLeAdvertiser
         val settings = AdvertiseSettings.Builder()
-            .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY)
+            .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_BALANCED)
             .setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_MEDIUM)
             .setTimeout(0)
             .setConnectable(false)
@@ -50,19 +51,17 @@ class BleHandle {
 
     fun discover() {
         Log.d(TAG, "Discover function called")
-        val mBluetoothLeScanner = BluetoothAdapter.getDefaultAdapter().bluetoothLeScanner;
+        val mBluetoothLeScanner = BluetoothAdapter.getDefaultAdapter().bluetoothLeScanner
         val mScanCallback: ScanCallback = object : ScanCallback() {
             override fun onScanResult(callbackType: Int, result: ScanResult) {
                 super.onScanResult(callbackType, result)
                 val adType = result.scanRecord?.bytes?.get(1)?.toInt()
                 val manuID_upper = result.scanRecord?.bytes?.get(2)?.toInt()
                 val manuID_lower = result.scanRecord?.bytes?.get(3)?.toInt()
-                Log.d(TAG, "Scan result:" + bytesToHexWhitespaceDelimited(result.scanRecord?.bytes))
                 if (adType == -1 && manuID_upper == 105 && manuID_lower == 105) {
-//                    Log.d(TAG, "Scan result:" + bytesToHexWhitespaceDelimited(result.scanRecord?.bytes))
-//                    Log.d(TAG, "Scan result:" + result.scanRecord?.bytes)
-//                    bleDataReceived.value = result.scanRecord!!.bytes
-//                    Log.d(TAG, "Scan result:" + bleDataReceived.value)
+                    Log.d(TAG, "Scan result:" + bytesToHex(result.scanRecord?.bytes))
+                    bleDataReceived.value = result.scanRecord!!.bytes
+                    Log.d(TAG, "Scan result DATA received:" + bleDataReceived.value)
                 }
             }
 
@@ -78,21 +77,7 @@ class BleHandle {
 
         val filter = ScanFilter.Builder().build()
         val filters = listOf(filter)
-        val settings = ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build()
+        val settings = ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_BALANCED).build()
         mBluetoothLeScanner.startScan(filters, settings, mScanCallback);
-    }
-
-    fun bytesToHexWhitespaceDelimited(value: ByteArray?): String {
-        if (value == null) {
-            return ""
-        }
-        val hexChars = CharArray(value.size * 2)
-        var v: Int
-        for (j in value.indices) {
-            v = value[j].toInt() and 0xFF
-            hexChars[j * 2] = HEX_CHARS[v ushr 4]
-            hexChars[j * 2 + 1] = HEX_CHARS[v and 0x0F]
-        }
-        return String(hexChars)
     }
 }
