@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.*
-import com.ceslab.team7_ble_meet.EditDialog.Edit_Dialog
+import com.ceslab.team7_ble_meet.EditDialog.EditGenderDialog
 import com.ceslab.team7_ble_meet.R
 
 
@@ -47,7 +47,7 @@ class EditProfileActivity : AppCompatActivity() {
 //                spinner_gender.setText(Gay)
 //                mAlertDialog.dismiss()
 //            }
-            setupAlertDialog(object :Edit_Dialog.EditDialogCallback
+            setupAlertDialog(object :EditGenderDialog.EditDialogCallback
             {
                 override fun onConfirmClicked(data: String) {
 
@@ -60,14 +60,24 @@ class EditProfileActivity : AppCompatActivity() {
 
     }
 
-    private fun setupAlertDialog(editDialogCallback: Edit_Dialog.EditDialogCallback) {
-        val dialog = Edit_Dialog(this)
+    private fun setupAlertDialog_corner(editDialogCallback: EditGenderDialog.EditDialogCallback) {
+        val dialog = EditGenderDialog(this)
         dialog.setEditDialogCallback(editDialogCallback)
         dialog.show()
         dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
         // lam mat vien vuong khi bo man hinh
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window?.setLayout(800,LinearLayout.LayoutParams.WRAP_CONTENT)
+
+
+    }
+    private fun setupAlertDialog(editDialogCallback: EditGenderDialog.EditDialogCallback) {
+        val dialog = EditGenderDialog(this)
+        dialog.setEditDialogCallback(editDialogCallback)
+        dialog.show()
+        dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+
+
 
 
     }
