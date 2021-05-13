@@ -44,7 +44,6 @@ class BleHandle {
                 super.onStartFailure(errorCode)
             }
         }
-        Log.d(TAG, "BleHandler: data: $data")
         Log.d(TAG, "BleHandler: advertise callback: $advertisingCallback")
         advertiser.startAdvertising(settings, data, advertisingCallback)
     }

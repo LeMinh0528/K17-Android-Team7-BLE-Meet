@@ -2,7 +2,6 @@ package com.ceslab.team7_ble_meet.dashboard
 
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -15,85 +14,84 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.view.isGone
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.ble.BleHandle
 import com.ceslab.team7_ble_meet.databinding.FragmentConnectBinding
-import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ConnectFragment : Fragment() {
+
+    companion object {
+        const val PERMISSIONS_REQUEST_CODE: Int = 12
+    }
+    private val TAG = "ConnectFragment"
     private lateinit var binding: FragmentConnectBinding
+
     // Initializes Bluetooth adapter.
     private lateinit var bluetoothManager : BluetoothManager
     private lateinit var bluetoothAdapter: BluetoothAdapter
     private lateinit var connect: BleHandle
 
-    companion object {
-        const val PERMISSIONS_REQUEST_CODE: Int = 12
-    }
+    private var listDataReceived: ArrayList<ByteArray> = ArrayList()
+    private lateinit var arrayAdapter: ArrayAdapter<*>
 
-    private val TAG = "ConnectFragment"
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         checkPermissions()
-        setUpConnectFragment(inflater, container)
-//        filter for BLE broadcast receiver
-        val filter = IntentFilter()
-        filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED)
-        requireContext().registerReceiver(broadcastReceiver, filter)
+        setUpBle()
+        setUpUI(inflater, container)
+        listDataReceived.add(byteArrayOf(1, 7, 2, 0, 1, 4, 5))
+        listDataReceived.add(byteArrayOf(1, 8, 2, 0, 1, 4, 6))
+        listDataReceived.add(byteArrayOf(1, 9, 2, 4, 5, 6, 7))
+        listDataReceived.add(byteArrayOf(1, 5, 2, 4, 5, 6, 7, 8, 9, 10, 11))
+        listDataReceived.add(byteArrayOf(1, 3, 2, 4, 5, 6, 7, 8, 9, 10, 11))
+
+        arrayAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, listDataReceived)
+
+        binding.btnFindFriend.isGone = true
+        binding.listBleDataReceived.adapter = arrayAdapter
+
+
+        listDataReceived.add(byteArrayOf(1, 3, 2, 4, 5, 6, 7))
+
+
 
         return binding.root
     }
 
-    private fun checkPermissions() {
-        val reqPermissions = ArrayList<String>()
-        if (activity?.let { ContextCompat.checkSelfPermission(
-                it,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) }
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            reqPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
-        }
-        if (Build.VERSION.SDK_INT >= 23 && activity?.let {
-                ContextCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-            }
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            reqPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION)
-        }
-        if (reqPermissions.isNotEmpty()) {
-            activity?.let {
-                ActivityCompat.requestPermissions(
-                    it, reqPermissions.toTypedArray(), PERMISSIONS_REQUEST_CODE
-                )
-            }
-        }
-    }
+    private fun setUpBle(){
+        val filter = IntentFilter()
+        filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED)
+        requireContext().registerReceiver(broadcastReceiver, filter)
 
-    private fun setUpConnectFragment(inflater: LayoutInflater, container: ViewGroup?){
         bluetoothManager = activity?.let { getSystemService(it, BluetoothManager::class.java) }!!
         bluetoothAdapter = bluetoothManager.adapter
         connect = BleHandle()
 
+        connect.bleDataReceived.observe(viewLifecycleOwner,{
+            Toast.makeText(activity,"Receive data",Toast.LENGTH_LONG).show()
+        })
+    }
+
+    private fun setUpUI(inflater: LayoutInflater, container: ViewGroup?){
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_connect, container, false)
         binding.apply {
             if(bluetoothAdapter.isEnabled){
                 swTurnOnOffBLE.isChecked = true
             }
-            swTurnOnOffBLE.setOnCheckedChangeListener { _, isChecked ->
+            swTurnOnOffBLE.setOnCheckedChangeListener {_, isChecked ->
                 if (isChecked){
                     bluetoothAdapter.enable()
                     Log.d(TAG, "BLE is enable")
@@ -110,10 +108,30 @@ class ConnectFragment : Fragment() {
                 } else {
                     Toast.makeText(activity, "Please turn on Bluetooth", Toast.LENGTH_SHORT).show()
                 }
-                vRipple.startRippleAnimation();
+                if(vRipple.isRippleAnimationRunning) vRipple.stopRippleAnimation() else vRipple.startRippleAnimation()
             }
-            vRipple.setOnClickListener {
-                vRipple.stopRippleAnimation();
+        }
+    }
+
+    private fun checkPermissions() {
+        val reqPermissions = ArrayList<String>()
+        if (activity?.let {
+                ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION)
+        } != PackageManager.PERMISSION_GRANTED) {
+            reqPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+
+        if (Build.VERSION.SDK_INT >= 23 && activity?.let {
+                ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_COARSE_LOCATION)
+            } != PackageManager.PERMISSION_GRANTED
+        ) {
+            reqPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION)
+        }
+        if (reqPermissions.isNotEmpty()) {
+            activity?.let {
+                ActivityCompat.requestPermissions(
+                    it, reqPermissions.toTypedArray(), PERMISSIONS_REQUEST_CODE
+                )
             }
         }
     }
