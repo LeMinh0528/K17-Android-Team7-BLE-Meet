@@ -3,9 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:title="Swipe"
+        android:id="@+id/awesome"
+        android:enabled="true"
+        app:cnb_iconColor="#D74CFE"
+        android:icon="@drawable/ic_baseline_auto_awesome_24"/>
+    <item
         android:title="Info"
         android:id="@+id/info"
-        android:enabled="true"
         app:cnb_iconColor="@color/colororange"
         android:icon="@drawable/ic_baseline_face_24"/>
     <item

@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ceslab.team7_ble_meet.R
 
-class ChatsFFragment: Fragment() {
+class SwipeFragment: Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = inflater.inflate(R.layout.fragment_chats,container,false)
+        var view = inflater.inflate(R.layout.fragment_swipe,container,false)
         return view
     }
 }
