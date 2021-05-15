@@ -5,112 +5,174 @@
     style="@android:style/Widget.DatePicker"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_profileactivity"
     tools:context=".RegisterImformation.RegisterBirthdayActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
+
+    <Button
+        android:id="@+id/button_back"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/left_arrow"
+        android:paddingTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintVertical_bias="0.021"
+        tools:ignore="MissingConstraints" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="10dp">
-
-                <Button
-                    android:id="@+id/button_back"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/left_arrow"
-                    android:paddingTop="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="MissingConstraints" />
-
-                <Button
-                    android:id="@+id/button_details"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginBottom="6dp"
-                    android:background="@drawable/ic_baseline_info_24"
-                    android:paddingTop="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.6"
-                    tools:ignore="MissingConstraints" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+    <Button
+        android:id="@+id/button_details"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/ic_baseline_info_24"
+        android:paddingTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.008"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textview222"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="100dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginHorizontal="80dp"
+        android:layout_marginTop="96dp"
         android:gravity="center_horizontal"
         android:paddingHorizontal="15dp"
+        android:text="What's your date of Birth ?"
         android:textColor="@color/black"
-        android:textSize="25dp"
-        android:text="What's your date of birth?"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <LinearLayout
+        android:id="@+id/bt_birthday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="39dp"
+        android:background="@drawable/shape_onlygray"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="30dp"
+        android:paddingVertical="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2"
-        tools:ignore="MissingConstraints" />
+        android:clickable="true"
+        app:layout_constraintTop_toBottomOf="@+id/textview222">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
+            >
+            <TextView
+                android:id="@+id/tv_birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01 11 1999"
+                android:paddingVertical="5dp"
+                android:textSize="50dp"
+                android:textColor="@color/black" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/textView7"
+                android:paddingVertical="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="40dp"
+                android:text="Day"
+                android:textSize="17dp"
+                />
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="50dp"
+                android:paddingVertical="5dp"
+                android:text="Month"
+                android:textSize="17dp"
+                />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:paddingVertical="5dp"
+                android:text="Year"
+                android:textSize="17dp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn_continue"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="52dp"
-        android:text="22"
-        android:textSize="30dp"
-        android:textStyle="bold"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/ripble_button"
+        android:clickable="true"
+        android:gravity="center"
+        android:paddingVertical="12dp"
+        android:textColor="#F4F4F4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview222"></TextView>
+        tools:ignore="MissingConstraints">
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="52dp"
-        android:text="22"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/textview222"
-        tools:ignore="MissingConstraints" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Continute"
+            android:textColor="@color/colorwhite"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
-    <Textview
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/btn_setbirthday"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="64dp"
-        android:text="1999"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/textview222"
-        tools:ignore="MissingConstraints" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="80dp"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/ripble_button2"
+        android:clickable="true"
+        android:gravity="center"
+        android:paddingVertical="12dp"
+
+        android:textColor="#F4F4F4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_birthday"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set Your BirthDay"
+            android:textColor="@color/colorwhite"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:paddingLeft="40dp"
     android:paddingRight="40dp"
-    android:background="@drawable/shape_button"
+    android:background="@drawable/shape_white"
     android:orientation="vertical">
     <CheckedTextView
         android:layout_width="match_parent"
