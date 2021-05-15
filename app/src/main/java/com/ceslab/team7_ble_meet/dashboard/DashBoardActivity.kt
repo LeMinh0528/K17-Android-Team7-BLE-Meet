@@ -2,8 +2,10 @@ package com.ceslab.team7_ble_meet.dashboard
 
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.ceslab.team7_ble_meet.R
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
@@ -13,6 +15,7 @@ class DashBoardActivity: AppCompatActivity() {
     lateinit private var viewPagerAdapter: ViewPagerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_dash_board)
         viewPager = findViewById(R.id.viewPager)
         navigationView = findViewById(R.id.navigationView)
@@ -51,6 +54,7 @@ class DashBoardActivity: AppCompatActivity() {
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
+                Log.d("TAG","position: $position, ofset: $positionOffset, pixel: $positionOffsetPixels")
 
             }
             override fun onPageSelected(position: Int) {
@@ -63,5 +67,6 @@ class DashBoardActivity: AppCompatActivity() {
                 }
             }
         })
+        viewPager.offscreenPageLimit = 3
     }
 }
