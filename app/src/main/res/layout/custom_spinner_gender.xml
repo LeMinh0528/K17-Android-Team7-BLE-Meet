@@ -7,7 +7,7 @@
     android:paddingRight="40dp"
     android:layout_marginLeft="60dp"
     android:layout_marginRight="60dp"
-    android:background="@drawable/slector_edittext"
+    android:background="@drawable/selector_edittext"
     android:orientation="vertical"
     android:gravity="center">
 
@@ -20,7 +20,7 @@
         android:paddingHorizontal="12dp"
         android:paddingVertical="12dp"
         android:onClick="onCheckboxClicked"
-        android:background="@drawable/slector_edittext"
+        android:background="@drawable/selector_edittext"
         android:text="Men"></CheckBox>
     <CheckBox
         android:button="@drawable/custom_button_checkbox"
@@ -30,7 +30,7 @@
         android:paddingHorizontal="12dp"
         android:paddingVertical="12dp"
         android:onClick="onCheckboxClicked"
-        android:background="@drawable/slector_edittext"
+        android:background="@drawable/selector_edittext"
         android:text="Girl"></CheckBox>
     <CheckBox
         android:button="@drawable/custom_button_checkbox"
@@ -40,7 +40,7 @@
         android:paddingHorizontal="12dp"
         android:paddingVertical="12dp"
         android:onClick="onCheckboxClicked"
-        android:background="@drawable/slector_edittext"
+        android:background="@drawable/selector_edittext"
         android:text="Gay"></CheckBox>
 
 

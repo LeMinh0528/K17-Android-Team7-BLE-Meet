@@ -8,7 +8,7 @@ import com.ceslab.team7_ble_meet.R
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.custom_spinner_gender.*
 
-class Edit_Dialog (context: Context) : AlertDialog(context)
+class EditGenderDialog (context: Context) : AlertDialog(context)
 {
     private lateinit var editDialogCallback: EditDialogCallback
     override fun onCreate(savedInstanceState: Bundle?) {
