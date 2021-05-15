@@ -13,7 +13,6 @@ import java.util.*
 @Suppress("NAME_SHADOWING")
 class BleHandle {
 
-    private val HEX_CHARS: CharArray = "0123456789ABCDEF".toCharArray()
     val TAG = "BLE_Handler"
     private val manu_id: Int = 0x6969
 

@@ -11,7 +11,16 @@ import org.junit.Assert.*
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+
+    private fun getLastBits(value: Int, number: Int): Int{
+        var temp = 0
+        var number = number
+        var value = value
+        while(number > 0){
+            temp = (temp shl 1) + 1
+            number -= 1
+        }
+        value = value and temp
+        return value
     }
 }
