@@ -1,17 +1,12 @@
-package com.ceslab.team7_ble_meet.RegisterImformation
+package com.ceslab.team7_ble_meet.registerImformation
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.app.DatePickerDialog.OnDateSetListener
-import android.app.TimePickerDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import com.ceslab.team7_ble_meet.R
 import java.util.*
 

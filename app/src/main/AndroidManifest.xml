@@ -32,7 +32,7 @@
         <activity
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:name=".dashboard.DashBoardActivity" />
-        <activity android:name=".RegisterImformation.RegisterGenderActivity"/>
+        <activity android:name=".registerImformation.RegisterGenderActivity"/>
     </application>
 
 </manifest>

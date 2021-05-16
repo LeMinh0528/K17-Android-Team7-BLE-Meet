@@ -1,12 +1,10 @@
-package com.ceslab.team7_ble_meet.EditDialog
+package com.ceslab.team7_ble_meet.dialog
 
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import com.ceslab.team7_ble_meet.R
-import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.android.synthetic.main.custom_spinner_gender.*
 
 class EditGenderDialog (context: Context) : AlertDialog(context)
 {

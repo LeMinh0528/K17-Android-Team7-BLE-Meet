@@ -1,14 +1,10 @@
-package com.ceslab.team7_ble_meet.RegisterImformation
+package com.ceslab.team7_ble_meet.registerImformation
 
-import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import com.ceslab.team7_ble_meet.R
-import kotlinx.android.synthetic.main.activity_register_oject_find.*
 
 class RegisterOjectFindActivity : AppCompatActivity() {
     lateinit var CheckLongRelationship : ImageView
