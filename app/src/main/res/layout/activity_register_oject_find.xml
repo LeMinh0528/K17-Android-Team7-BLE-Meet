@@ -81,6 +81,7 @@
                     android:layout_marginTop="20dp"
                     android:gravity="center_horizontal"
                     android:paddingVertical="5dp"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="What are you looking for"
                     android:layout_marginBottom="10dp"
                     android:textSize="25dp"

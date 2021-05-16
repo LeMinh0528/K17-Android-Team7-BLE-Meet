@@ -12,7 +12,6 @@ import kotlin.experimental.or
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
-
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
