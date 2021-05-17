@@ -1,4 +1,4 @@
-package com.ceslab.team7_ble_meet.Data
+package com.ceslab.team7_ble_meet.data
 
 
 import android.util.Log

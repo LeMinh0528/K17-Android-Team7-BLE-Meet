@@ -2,7 +2,7 @@ package com.ceslab.team7_ble_meet.signup
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ceslab.team7_ble_meet.Data.DataAccount
+import com.ceslab.team7_ble_meet.data.DataAccount
 import com.ceslab.team7_ble_meet.Model.Account
 
 class SignUpViewModel: ViewModel() {

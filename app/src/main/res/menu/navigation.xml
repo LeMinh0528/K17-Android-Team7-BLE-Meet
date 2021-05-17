@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:title="Swipe"
+        android:title="Discover"
         android:id="@+id/awesome"
         android:enabled="true"
         app:cnb_iconColor="#D74CFE"

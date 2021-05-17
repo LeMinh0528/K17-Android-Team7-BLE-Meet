@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.*
-import com.ceslab.team7_ble_meet.EditDialog.EditGenderDialog
 import com.ceslab.team7_ble_meet.R
+import com.ceslab.team7_ble_meet.dialog.EditGenderDialog
 
 
 class EditProfileActivity : AppCompatActivity() {

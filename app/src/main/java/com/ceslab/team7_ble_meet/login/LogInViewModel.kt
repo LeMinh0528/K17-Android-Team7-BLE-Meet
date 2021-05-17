@@ -1,10 +1,8 @@
 package com.ceslab.team7_ble_meet.login
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ceslab.team7_ble_meet.Data.DataAccount
-import com.ceslab.team7_ble_meet.Model.Account
+import com.ceslab.team7_ble_meet.data.DataAccount
 
 class LogInViewModel(var usrname: String = ""): ViewModel() {
     var usrName: String = ""

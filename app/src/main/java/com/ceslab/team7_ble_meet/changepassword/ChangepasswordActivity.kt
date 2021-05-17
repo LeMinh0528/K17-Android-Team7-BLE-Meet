@@ -1,4 +1,4 @@
-package com.ceslab.team7_ble_meet.Change_Password
+package com.ceslab.team7_ble_meet.changepassword
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
