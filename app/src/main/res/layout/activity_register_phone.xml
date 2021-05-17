@@ -104,7 +104,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Continute"
+            android:text="Continue"
             android:textColor="@color/colorwhite"
             android:textSize="18dp"
             android:textStyle="bold" />
@@ -116,7 +116,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="48dp"
-        android:text="When you tap Continue, App will send a text with verfication code. Message and data  rates my apply. The verified phone number can be used to login"
+        android:text="When you tap continue, App will send a text with verfication code. Message and data rates my apply"
         android:textColor="@color/black"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
