@@ -22,13 +22,10 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isGone
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.ceslab.team7_ble_meet.*
 import com.ceslab.team7_ble_meet.Model.BleCharacter
-import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.ble.BleHandle
-import com.ceslab.team7_ble_meet.bytesToHex
 import com.ceslab.team7_ble_meet.databinding.FragmentConnectBinding
-import com.ceslab.team7_ble_meet.getLastBits
-import com.ceslab.team7_ble_meet.toast
 import kotlin.experimental.or
 
 
@@ -46,6 +43,7 @@ class ConnectFragment : Fragment() {
     private lateinit var connect: BleHandle
 
     private var listDataReceived: ArrayList<String> = ArrayList()
+    private var listDataDisplay: ArrayList<String> = ArrayList()
     private lateinit var arrayAdapter: ArrayAdapter<*>
 
     override fun onCreateView(
@@ -88,7 +86,7 @@ class ConnectFragment : Fragment() {
             btnFindFriend.setOnClickListener {
                 if (bluetoothAdapter.isEnabled) {
                     connect.advertise(setUpDataAdvertise())
-                    connect.discover()
+//                    connect.discover()
                 } else {
                     Toast.makeText(activity, "Please turn on Bluetooth", Toast.LENGTH_SHORT).show()
                 }
@@ -148,7 +146,7 @@ class ConnectFragment : Fragment() {
             it.add(BleCharacter(hightlight[1], 7))
             it.add(BleCharacter(hightlight[2], 7))
         }
-        val data = ByteArray(24)
+        val data = ByteArray(27)
         var pos_bit = 0
         var pos_byte = 0
         var bit_needed = 0
@@ -174,13 +172,13 @@ class ConnectFragment : Fragment() {
                     pos_byte++
                 }
             }
-            Log.d(TAG, "data: ${bytesToHex(data)}")
         }
         return data
     }
 
     private fun bleDataReceivedHandler(value: ByteArray){
         var exist = false
+        Log.d(TAG, "$value")
         for(i in listDataReceived){
             if(i == bytesToHex(value)){
                 Log.d(TAG, "exist")
@@ -348,4 +346,39 @@ class ConnectFragment : Fragment() {
 //        Log.d(TAG, "data: ${bytesToHex(data)}")
 //    }
 //    return data
+//}
+
+//private fun convertByteArraytoString(value: ByteArray) {
+////        var output: String = "ff"
+//    val list_size = listOf(24,7,3,3,8,8,4,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7)
+//
+////        val list_size = listOf(24,7,3,3,8,8,4)
+//    var pos_byte = 0
+//    var pos_bit = 7
+//    for (i in list_size) {
+//        var temp = 0
+//        var bit_taken = 0
+//        while (bit_taken < i) {
+//            var bit_available = if (i - bit_taken >= pos_bit + 1) (pos_bit + 1) else (i - bit_taken)
+//            Log.d(TAG, "value: ${value[pos_byte]}")
+//            Log.d(TAG, "pos bit before: $pos_bit")
+//            Log.d(TAG, "bit available: $bit_available")
+//            Log.d(TAG, "bit taken to value: ${getBitsFromPos(value[pos_byte].toInt(), pos_bit, bit_available)}")
+//            Log.d(TAG, "data before: $temp")
+//            Log.d(TAG, "data after shift left: ${temp shl bit_available}")
+//            temp = (temp shl bit_available) or getBitsFromPos(value[pos_byte].toInt(), pos_bit, bit_available)
+//            Log.d(TAG, "data result: $temp")
+//            pos_bit -= bit_available
+//            Log.d(TAG, "pos bit after: $pos_bit")
+//            bit_taken += bit_available
+//            Log.d(TAG, "bit taken: $bit_taken")
+//            if (pos_bit < 0) {
+//                pos_bit += 8
+//                pos_byte++
+//            }
+//            Log.d(TAG, "pos bit reduce: $pos_bit")
+//            Log.d(TAG, "pos byte: $pos_byte")
+//        }
+//        Log.d(TAG, "------------------------result: $temp")
+//    }
 //}

@@ -1,0 +1,39 @@
+length: 1 byte
+AD type: 1 byte
+Manufacture: 2 bytes
+
+
+id: 3 bytes
+	0 - 16777216
+age: 7 bit
+	18 - 273
+sex: 3 bits
+	Male
+	Female
+	Bisexual
+	Male Transgender
+	Female Transgender
+	Questioning
+	NonBinary
+xu huong tinh duc: 3 bits
+	straight
+	Gay (Phúc Hào)
+	Lesibian
+	Bisexual (song tính)
+	Asexual (vô tính)
+	Pansexuality (toàn tính)
+	demisexual (á tính)
+height: 8 bit 
+	- 30 -> 285 cm
+weight: 8 bit
+	- 1 -> 255 kg
+	
+zodiac: 4 bits
+
+outlook: 8 bits x 3
+professorial: 8 bits x 3
+character: 8 bits x 3
+favorite: 8 bits x 3
+hightlight: 8 bits x3
+
+12 + 15 bytes 27 bytes

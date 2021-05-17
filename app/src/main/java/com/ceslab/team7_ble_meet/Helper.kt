@@ -4,7 +4,7 @@ import android.content.Context
 import android.widget.Toast
 
 fun Context.toast(message: String) = Toast.makeText(this,message,Toast.LENGTH_LONG).show()
-fun bytesToHex(value: ByteArray?) : String {
+fun bytesToHex(value: ByteArray) : String {
     val HEX_CHARS: CharArray = "0123456789ABCDEF".toCharArray()
     if (value == null) {
         return ""
@@ -26,6 +26,17 @@ fun getLastBits(value: Int, number: Int): Int{
         temp = (temp shl 1) + 1
         number -= 1
     }
-    value = value and temp
-    return value
+    return value and temp
+}
+fun getBitsFromPos(value: Int, pos: Int, n: Int): Int{
+    val bit_shift = pos + 1 - n
+    var value = value
+    var n = n
+    var temp = 0
+    value = value ushr bit_shift
+    while(n > 0){
+        temp = (temp shl 1) + 1
+        n --
+    }
+    return value and temp
 }

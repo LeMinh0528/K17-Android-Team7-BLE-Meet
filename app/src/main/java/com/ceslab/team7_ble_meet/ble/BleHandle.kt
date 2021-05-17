@@ -2,11 +2,9 @@ package com.ceslab.team7_ble_meet.ble
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.le.*
-import android.os.ParcelUuid
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.ceslab.team7_ble_meet.bytesToHex
-import java.nio.charset.Charset
 import java.util.*
 
 
@@ -58,7 +56,7 @@ class BleHandle {
                 val manuID_upper = result.scanRecord?.bytes?.get(2)?.toInt()
                 val manuID_lower = result.scanRecord?.bytes?.get(3)?.toInt()
                 if (adType == -1 && manuID_upper == 105 && manuID_lower == 105) {
-                    Log.d(TAG, "Scan result:" + bytesToHex(result.scanRecord?.bytes))
+                    Log.d(TAG, "Scan result:" + bytesToHex(result.scanRecord!!.bytes))
                     bleDataReceived.value = result.scanRecord!!.bytes
                     Log.d(TAG, "Scan result DATA received:" + bleDataReceived.value)
                 }
