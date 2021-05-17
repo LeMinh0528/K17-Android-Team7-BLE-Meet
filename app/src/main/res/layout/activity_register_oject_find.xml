@@ -46,7 +46,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="Edit profile"
+                            android:text="Register Profile"
                             android:textColor="@color/black"
                             android:textSize="20dp"
                             android:textStyle="bold" />
