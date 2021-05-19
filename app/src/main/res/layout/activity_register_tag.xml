@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".registerImformation.RegisterGenderActivity">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:background="@drawable/left_arrow"
+                    android:paddingTop="10dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Register Profile"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+    <RelativeLayout
+        android:layout_below="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_above="@+id/btn_continue"
+            android:paddingHorizontal="25dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_marginTop="15dp"
+                android:text="Passions"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"/>
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="Let everyone know what you're passionate about by adding it to your profile"
+                android:textSize="13dp"
+                android:textStyle="italic"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"/>
+            <ScrollView
+                android:scrollbars="none"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroup"
+                    app:singleSelection="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </ScrollView>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/btn_continue"
+            android:clickable="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripble_button"
+            android:layout_alignParentBottom="true"
+            android:layout_marginVertical="8dp"
+            android:gravity="center"
+            android:textColor="#F4F4F4"
+            android:paddingVertical="12dp"
+            android:layout_marginHorizontal="25dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Continue"
+                android:textStyle="bold"
+                android:textColor="@color/colorwhite"
+                android:textSize="18dp" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
