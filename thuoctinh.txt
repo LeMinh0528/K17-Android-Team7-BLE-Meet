@@ -1,9 +1,9 @@
-length: 1 byte
-AD type: 1 byte
-Manufacture: 2 bytes
+byte 0:length: 1 byte
+byte 1:AD type: 1 byte
+byte 2,3: Manufacture: 2 bytes
 
 
-id: 3 bytes
+byte 4,5,6: id: 3 bytes
 	0 - 16777216
 age: 7 bit
 	18 - 273

@@ -5,8 +5,9 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.ceslab.team7_ble_meet.Model.BleCharacter
+import com.ceslab.team7_ble_meet.ble.Character
 import com.ceslab.team7_ble_meet.databinding.ActivityMainBinding
-import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.experimental.or
 
 
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 //            Log.d(TAG, bytesToHex(i))
 //        }
 //        Log.d(TAG,"${getBitsFromPos(26,7, 8)}")
-        convertByteArraytoString(setUpDataAdvertise(1720145)).toString()
+        Log.d(TAG, convertByteArraytoString(setUpDataAdvertise(1720145)))
     }
 
     private fun handleDataReceived(value: ByteArray) {
@@ -45,11 +46,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun convertByteArraytoString(value: ByteArray) {
-//        var output: String = "ff"
+    private fun convertByteArraytoString(value: ByteArray): String {
         val list_size = listOf(24,7,3,3,8,8,4,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7)
+        var raw_data =  ArrayList<Int>()
 
-//        val list_size = listOf(24,7,3,3,8,8,4)
         var pos_byte = 0
         var pos_bit = 7
         for (i in list_size) {
@@ -57,27 +57,29 @@ class MainActivity : AppCompatActivity() {
             var bit_taken = 0
             while (bit_taken < i) {
                 var bit_available = if (i - bit_taken >= pos_bit + 1) (pos_bit + 1) else (i - bit_taken)
-                Log.d(TAG, "value: ${value[pos_byte]}")
-                Log.d(TAG, "pos bit before: $pos_bit")
-                Log.d(TAG, "bit available: $bit_available")
-                Log.d(TAG, "bit taken to value: ${getBitsFromPos(value[pos_byte].toInt(), pos_bit, bit_available)}")
-                Log.d(TAG, "data before: $temp")
-                Log.d(TAG, "data after shift left: ${temp shl bit_available}")
                 temp = (temp shl bit_available) or getBitsFromPos(value[pos_byte].toInt(), pos_bit, bit_available)
-                Log.d(TAG, "data result: $temp")
                 pos_bit -= bit_available
-                Log.d(TAG, "pos bit after: $pos_bit")
                 bit_taken += bit_available
-                Log.d(TAG, "bit taken: $bit_taken")
                 if (pos_bit < 0) {
                     pos_bit += 8
                     pos_byte++
                 }
-                Log.d(TAG, "pos bit reduce: $pos_bit")
-                Log.d(TAG, "pos byte: $pos_byte")
             }
-            Log.d(TAG, "------------------------result: $temp")
+            raw_data.add(temp)
         }
+        var output: String = "ID: ${raw_data[0]}\n" +
+                "Age: ${raw_data[1]}\n" +
+                "Sex: ${Character.sex[raw_data[2]]}\n"+
+                "Sexuality Orientation: ${Character.sexualOrientation[raw_data[3]]}\n"+
+                "Tall: ${raw_data[4]}\n"+
+                "Weight: ${raw_data[5]}\n"+
+                "Zodiac: ${Character.zodiac[raw_data[6]]}\n"+
+                "Outlook: ${Character.outlook[raw_data[7]]} - ${Character.outlook[raw_data[8]]} - ${Character.outlook[raw_data[9]]}\n"+
+                "Job: ${Character.job[raw_data[10]]} - ${Character.job[raw_data[11]]} - ${Character.job[raw_data[12]]}\n"+
+                "Character: ${Character.character[raw_data[13]]} - ${Character.character[raw_data[14]]} - ${Character.character[raw_data[15]]}\n"+
+                "Favorite: ${Character.hightlight[raw_data[16]]} - ${Character.hightlight[raw_data[17]]} - ${Character.hightlight[raw_data[18]]}\n"+
+                "Hightlight: ${Character.hightlight[raw_data[19]]} - ${Character.hightlight[raw_data[20]]} - ${Character.hightlight[raw_data[21]]}\n"
+        return output
     }
 
     private fun setUpDataAdvertise(id: Int): ByteArray {
@@ -88,7 +90,7 @@ class MainActivity : AppCompatActivity() {
         val weight = 30
         val zodiac = 1
         val outlook = arrayOf(1, 2, 3)
-        val professorial = arrayOf(1, 2, 3)
+        val job = arrayOf(1, 2, 3)
         val character = arrayOf(1, 2, 3)
         val favorite = arrayOf(1, 2, 3)
         val hightlight = arrayOf(1, 2, 3)
@@ -103,9 +105,9 @@ class MainActivity : AppCompatActivity() {
             it.add(BleCharacter(outlook[0], 7))
             it.add(BleCharacter(outlook[1], 7))
             it.add(BleCharacter(outlook[2], 7))
-            it.add(BleCharacter(professorial[0], 7))
-            it.add(BleCharacter(professorial[1], 7))
-            it.add(BleCharacter(professorial[2], 7))
+            it.add(BleCharacter(job[0], 7))
+            it.add(BleCharacter(job[1], 7))
+            it.add(BleCharacter(job[2], 7))
             it.add(BleCharacter(character[0], 7))
             it.add(BleCharacter(character[1], 7))
             it.add(BleCharacter(character[2], 7))
@@ -121,7 +123,7 @@ class MainActivity : AppCompatActivity() {
         var pos_byte = 0
         for (i in raw_data) {
             while (i.size > 0) {
-                var bit_needed = 8 - pos_bit
+                val bit_needed = 8 - pos_bit
                 if (i.size >= bit_needed) {
                     var bit_shift = i.size - bit_needed
                     data[pos_byte] = data[pos_byte] or (i.data ushr bit_shift).toByte()

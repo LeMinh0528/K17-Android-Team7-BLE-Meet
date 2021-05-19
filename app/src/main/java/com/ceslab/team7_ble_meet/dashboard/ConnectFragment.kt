@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment
 import com.ceslab.team7_ble_meet.*
 import com.ceslab.team7_ble_meet.Model.BleCharacter
 import com.ceslab.team7_ble_meet.ble.BleHandle
+import com.ceslab.team7_ble_meet.ble.Character
 import com.ceslab.team7_ble_meet.databinding.FragmentConnectBinding
 import kotlin.experimental.or
 
@@ -42,7 +43,7 @@ class ConnectFragment : Fragment() {
     private lateinit var bluetoothAdapter: BluetoothAdapter
     private lateinit var connect: BleHandle
 
-    private var listDataReceived: ArrayList<String> = ArrayList()
+    private var listDataReceived: ArrayList<ByteArray> = ArrayList()
     private var listDataDisplay: ArrayList<String> = ArrayList()
     private lateinit var arrayAdapter: ArrayAdapter<*>
 
@@ -85,8 +86,10 @@ class ConnectFragment : Fragment() {
             }
             btnFindFriend.setOnClickListener {
                 if (bluetoothAdapter.isEnabled) {
-                    connect.advertise(setUpDataAdvertise())
-//                    connect.discover()
+                    connect.advertise(setUpDataAdvertise(584621,26,0,1,180,70,
+                    11,1,2,3,4,5,6,7,8,9,
+                        10,11, 12,13,14,15))
+                    connect.discover()
                 } else {
                     Toast.makeText(activity, "Please turn on Bluetooth", Toast.LENGTH_SHORT).show()
                 }
@@ -96,7 +99,7 @@ class ConnectFragment : Fragment() {
             arrayAdapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_list_item_1,
-                listDataReceived
+                listDataDisplay
             )
             binding.listViewBleDataReceived.adapter = arrayAdapter
             connect.bleDataReceived.observe(viewLifecycleOwner, {
@@ -105,54 +108,45 @@ class ConnectFragment : Fragment() {
                     binding.btnFindFriend.isGone = true
                     binding.vRipple.isGone = true
                 }
-                bleDataReceivedHandler(it)
+                handleDataReceived(it)
             })
         }
     }
-    private fun setUpDataAdvertise(): ByteArray {
-        val id = 1720145
-        val age = 21
-        val sex = 1
-        val sexuality_orientation = 2
-        val height = 110
-        val weight = 30
-        val zodiac = 1
-        val outlook = arrayOf(1,2,3)
-        val professorial = arrayOf(1,2,3)
-        val character = arrayOf(1,2,3)
-        val favorite = arrayOf(1,2,3)
-        val hightlight = arrayOf(1,2,3)
-        val raw_data = java.util.ArrayList<BleCharacter>().also {
+    private fun setUpDataAdvertise(id: Int, age: Int, sex: Int, sexuality_orientation: Int, height: Int,
+                                   weight: Int, zodiac: Int, outlook_1: Int, outlook_2: Int, outlook_3: Int,
+                                   job_1: Int, job_2: Int, job_3: Int, character_1: Int, character_2: Int,
+                                   character_3: Int,favorite_1: Int, favorite_2: Int, favorite_3: Int,
+                                   hightlight_1: Int, hightlight_2: Int, hightlight_3: Int): ByteArray {
+        val raw_data = ArrayList<BleCharacter>().also {
             it.add(BleCharacter(id, 24))
             it.add(BleCharacter(age, 7))
             it.add(BleCharacter(sex, 3))
-            it.add(BleCharacter(sexuality_orientation,3))
-            it.add(BleCharacter(height,8))
+            it.add(BleCharacter(sexuality_orientation, 3))
+            it.add(BleCharacter(height, 8))
             it.add(BleCharacter(weight, 8))
             it.add(BleCharacter(zodiac, 4))
-            it.add(BleCharacter(outlook[0], 7))
-            it.add(BleCharacter(outlook[1], 7))
-            it.add(BleCharacter(outlook[2], 7))
-            it.add(BleCharacter(professorial[0], 7))
-            it.add(BleCharacter(professorial[1], 7))
-            it.add(BleCharacter(professorial[2], 7))
-            it.add(BleCharacter(character[0], 7))
-            it.add(BleCharacter(character[1], 7))
-            it.add(BleCharacter(character[2], 7))
-            it.add(BleCharacter(favorite[0], 7))
-            it.add(BleCharacter(favorite[1], 7))
-            it.add(BleCharacter(favorite[2], 7))
-            it.add(BleCharacter(hightlight[0], 7))
-            it.add(BleCharacter(hightlight[1], 7))
-            it.add(BleCharacter(hightlight[2], 7))
+            it.add(BleCharacter(outlook_1, 7))
+            it.add(BleCharacter(outlook_2, 7))
+            it.add(BleCharacter(outlook_3, 7))
+            it.add(BleCharacter(job_1, 7))
+            it.add(BleCharacter(job_2, 7))
+            it.add(BleCharacter(job_3, 7))
+            it.add(BleCharacter(character_1, 7))
+            it.add(BleCharacter(character_2, 7))
+            it.add(BleCharacter(character_3, 7))
+            it.add(BleCharacter(favorite_1, 7))
+            it.add(BleCharacter(favorite_2, 7))
+            it.add(BleCharacter(favorite_3, 7))
+            it.add(BleCharacter(hightlight_1, 7))
+            it.add(BleCharacter(hightlight_2, 7))
+            it.add(BleCharacter(hightlight_3, 7))
         }
-        val data = ByteArray(27)
+        val data = ByteArray(24)
         var pos_bit = 0
         var pos_byte = 0
-        var bit_needed = 0
         for (i in raw_data) {
             while (i.size > 0) {
-                bit_needed = 8 - pos_bit
+                val bit_needed = 8 - pos_bit
                 if (i.size >= bit_needed) {
                     var bit_shift = i.size - bit_needed
                     data[pos_byte] = data[pos_byte] or (i.data ushr bit_shift).toByte()
@@ -162,12 +156,10 @@ class ConnectFragment : Fragment() {
                 } else {
                     var bit_shift = bit_needed - i.size
                     data[pos_byte] = data[pos_byte] or (i.data shl bit_shift).toByte()
-//                    i.data = i.data ushr i.size
-//                    Log.d(TAG, "data raw after shift right: ${i.data}")
                     pos_bit += i.size
                     i.size = 0
                 }
-                if(pos_bit >= 8){
+                if (pos_bit >= 8) {
                     pos_bit -= 8
                     pos_byte++
                 }
@@ -176,19 +168,54 @@ class ConnectFragment : Fragment() {
         return data
     }
 
-    private fun bleDataReceivedHandler(value: ByteArray){
+    private fun handleDataReceived(value: ByteArray) {
         var exist = false
-        Log.d(TAG, "$value")
-        for(i in listDataReceived){
-            if(i == bytesToHex(value)){
+        for (i in listDataReceived) {
+            if (i[0] == value[4] && i[1] == value[5] && i[2] == value[6]) {
                 Log.d(TAG, "exist")
                 exist = true
             }
         }
-        if(!exist){
-            listDataReceived.add(bytesToHex(value))
+        if (!exist) {
+            listDataReceived.add(value.drop(4).toByteArray())
+            listDataDisplay.add(convertByteArraytoString(value.drop(4).toByteArray()))
             arrayAdapter.notifyDataSetChanged()
         }
+    }
+
+    private fun convertByteArraytoString(value: ByteArray): String {
+        val list_size = listOf(24,7,3,3,8,8,4,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7)
+        var raw_data =  ArrayList<Int>()
+
+        var pos_byte = 0
+        var pos_bit = 7
+        for (i in list_size) {
+            var temp = 0
+            var bit_taken = 0
+            while (bit_taken < i) {
+                var bit_available = if (i - bit_taken >= pos_bit + 1) (pos_bit + 1) else (i - bit_taken)
+                temp = (temp shl bit_available) or getBitsFromPos(value[pos_byte].toInt(), pos_bit, bit_available)
+                pos_bit -= bit_available
+                bit_taken += bit_available
+                if (pos_bit < 0) {
+                    pos_bit += 8
+                    pos_byte++
+                }
+            }
+            raw_data.add(temp)
+        }
+        return "ID: ${raw_data[0]}\n" +
+                "Age: ${raw_data[1]}\n" +
+                "Sex: ${Character.sex[raw_data[2]]}\n"+
+                "Sexuality Orientation: ${Character.sexualOrientation[raw_data[3]]}\n"+
+                "Tall: ${raw_data[4]}\n"+
+                "Weight: ${raw_data[5]}\n"+
+                "Zodiac: ${Character.zodiac[raw_data[6]]}\n"+
+                "Outlook: ${Character.outlook[raw_data[7]]} - ${Character.outlook[raw_data[8]]} - ${Character.outlook[raw_data[9]]}\n"+
+                "Job: ${Character.job[raw_data[10]]} - ${Character.job[raw_data[11]]} - ${Character.job[raw_data[12]]}\n"+
+                "Character: ${Character.character[raw_data[13]]} - ${Character.character[raw_data[14]]} - ${Character.character[raw_data[15]]}\n"+
+                "Favorite: ${Character.hightlight[raw_data[16]]} - ${Character.hightlight[raw_data[17]]} - ${Character.hightlight[raw_data[18]]}\n"+
+                "Hightlight: ${Character.hightlight[raw_data[19]]} - ${Character.hightlight[raw_data[20]]} - ${Character.hightlight[raw_data[21]]}\n"
     }
 
     private fun checkPermissions() {
