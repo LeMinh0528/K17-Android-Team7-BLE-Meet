@@ -46,7 +46,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="Edit profile"
+                            android:text="Register Profile"
                             android:textColor="@color/black"
                             android:textSize="20dp"
                             android:textStyle="bold" />
@@ -81,6 +81,7 @@
                     android:layout_marginTop="20dp"
                     android:gravity="center_horizontal"
                     android:paddingVertical="5dp"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="What are you looking for"
                     android:layout_marginBottom="10dp"
                     android:textSize="25dp"
@@ -245,7 +246,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Continute"
+            android:text="Continue"
             android:textColor="@color/colorwhite"
             android:textSize="18dp"
             android:textStyle="bold" />

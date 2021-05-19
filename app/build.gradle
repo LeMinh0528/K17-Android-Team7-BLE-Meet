@@ -96,5 +96,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
 
     implementation 'com.google.code.gson:gson:2.6.2'
+    //Country Code Picker
+    implementation 'com.hbb20:ccp:2.3.1'
 
 }
