@@ -1,26 +1,12 @@
-package com.ceslab.team7_ble_meet.registerImformation
+package com.ceslab.team7_ble_meet.registerInformation
 
-import android.content.Context
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.CompoundButton
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
-import androidx.core.view.setPadding
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.ceslab.team7_ble_meet.R
-import com.ceslab.team7_ble_meet.toast
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 
 class RegisterTagActivity : AppCompatActivity() {

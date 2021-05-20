@@ -1,10 +1,9 @@
-package com.ceslab.team7_ble_meet.registerImformation
+package com.ceslab.team7_ble_meet.registerInformation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.ceslab.team7_ble_meet.R
 import com.hbb20.CountryCodePicker
-import kotlinx.android.synthetic.main.activity_register_phone.*
 
 class RegisterPhoneActivity : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package com.ceslab.team7_ble_meet.registerImformation
+package com.ceslab.team7_ble_meet.registerInformation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

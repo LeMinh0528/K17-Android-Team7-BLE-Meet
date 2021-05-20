@@ -1,4 +1,4 @@
-package com.ceslab.team7_ble_meet.registerImformation
+package com.ceslab.team7_ble_meet.registerInformation
 
 import android.app.DatePickerDialog
 import android.graphics.Color
