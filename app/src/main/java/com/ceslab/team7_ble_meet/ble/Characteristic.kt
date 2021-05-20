@@ -1,6 +1,6 @@
 package com.ceslab.team7_ble_meet.ble
 
-object Character {
+object Characteristic {
     var sex = mutableMapOf<Int,String>().apply{
         put(0,"")
         put(1,"Male")

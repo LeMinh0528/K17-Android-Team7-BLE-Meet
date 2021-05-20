@@ -30,10 +30,23 @@ weight: 8 bit
 	
 zodiac: 4 bits
 
-outlook: 8 bits x 3
-professorial: 8 bits x 3
-character: 8 bits x 3
-favorite: 8 bits x 3
-hightlight: 8 bits x3
+outlook: 7 bits x 3
+professorial: 7 bits x 3
+character: 7 bits x 3
+favorite: 7 bits x 3
+hightlight: 7 bits x3
 
-12 + 15 bytes 27 bytes
+
+
+Filter discover:
+Age: Min Max
+Sex: 3 types
+Sex_orientation: 3 types
+height: Min Max
+Weight: Min Max
+Zodiac: 3 types
+outlook: 3 types
+professorial: 3 types
+character: 3 types
+favorite: 3 types
+hightlight: 3 types

@@ -1,3 +1,5 @@
+@file:Suppress("NAME_SHADOWING")
+
 package com.ceslab.team7_ble_meet
 
 import android.content.Context
@@ -21,7 +23,7 @@ fun bytesToHex(value: ByteArray) : String {
 fun getLastBits(value: Int, number: Int): Int{
     var temp = 0
     var number = number
-    var value = value
+    val value = value
     while(number > 0){
         temp = (temp shl 1) + 1
         number -= 1
@@ -29,11 +31,11 @@ fun getLastBits(value: Int, number: Int): Int{
     return value and temp
 }
 fun getBitsFromPos(value: Int, pos: Int, n: Int): Int{
-    val bit_shift = pos + 1 - n
+    val bitShift = pos + 1 - n
     var value = value
     var n = n
     var temp = 0
-    value = value ushr bit_shift
+    value = value ushr bitShift
     while(n > 0){
         temp = (temp shl 1) + 1
         n --

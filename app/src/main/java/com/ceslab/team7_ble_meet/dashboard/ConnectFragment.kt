@@ -23,13 +23,13 @@ import androidx.core.view.isGone
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.ceslab.team7_ble_meet.*
-import com.ceslab.team7_ble_meet.Model.BleCharacter
 import com.ceslab.team7_ble_meet.ble.BleHandle
-import com.ceslab.team7_ble_meet.ble.Character
+import com.ceslab.team7_ble_meet.ble.Characteristic
 import com.ceslab.team7_ble_meet.databinding.FragmentConnectBinding
 import kotlin.experimental.or
 
 
+@Suppress("NAME_SHADOWING")
 class ConnectFragment : Fragment() {
 
     companion object {
@@ -43,9 +43,12 @@ class ConnectFragment : Fragment() {
     private lateinit var bluetoothAdapter: BluetoothAdapter
     private lateinit var connect: BleHandle
 
-    private var listDataReceived: ArrayList<ByteArray> = ArrayList()
+    private var listDataDiscovered: ArrayList<ArrayList<Int>> = ArrayList()
     private var listDataDisplay: ArrayList<String> = ArrayList()
     private lateinit var arrayAdapter: ArrayAdapter<*>
+
+    val data = listOf(1720145,22,1,1,150,60,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
+    val filter = listOf(18, 30, 1, 2, 3, 1, 2, 3, 160, 180, 50, 80, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,9 +89,7 @@ class ConnectFragment : Fragment() {
             }
             btnFindFriend.setOnClickListener {
                 if (bluetoothAdapter.isEnabled) {
-                    connect.advertise(setUpDataAdvertise(584621,26,0,1,180,70,
-                    11,1,2,3,4,5,6,7,8,9,
-                        10,11, 12,13,14,15))
+                    connect.advertise(setUpDataAdvertise(data as MutableList<Int>))
                     connect.discover()
                 } else {
                     Toast.makeText(activity, "Please turn on Bluetooth", Toast.LENGTH_SHORT).show()
@@ -108,114 +109,148 @@ class ConnectFragment : Fragment() {
                     binding.btnFindFriend.isGone = true
                     binding.vRipple.isGone = true
                 }
-                handleDataReceived(it)
+                handleDataDiscovered(it)
             })
         }
     }
-    private fun setUpDataAdvertise(id: Int, age: Int, sex: Int, sexuality_orientation: Int, height: Int,
-                                   weight: Int, zodiac: Int, outlook_1: Int, outlook_2: Int, outlook_3: Int,
-                                   job_1: Int, job_2: Int, job_3: Int, character_1: Int, character_2: Int,
-                                   character_3: Int,favorite_1: Int, favorite_2: Int, favorite_3: Int,
-                                   hightlight_1: Int, hightlight_2: Int, hightlight_3: Int): ByteArray {
-        val raw_data = ArrayList<BleCharacter>().also {
-            it.add(BleCharacter(id, 24))
-            it.add(BleCharacter(age, 7))
-            it.add(BleCharacter(sex, 3))
-            it.add(BleCharacter(sexuality_orientation, 3))
-            it.add(BleCharacter(height, 8))
-            it.add(BleCharacter(weight, 8))
-            it.add(BleCharacter(zodiac, 4))
-            it.add(BleCharacter(outlook_1, 7))
-            it.add(BleCharacter(outlook_2, 7))
-            it.add(BleCharacter(outlook_3, 7))
-            it.add(BleCharacter(job_1, 7))
-            it.add(BleCharacter(job_2, 7))
-            it.add(BleCharacter(job_3, 7))
-            it.add(BleCharacter(character_1, 7))
-            it.add(BleCharacter(character_2, 7))
-            it.add(BleCharacter(character_3, 7))
-            it.add(BleCharacter(favorite_1, 7))
-            it.add(BleCharacter(favorite_2, 7))
-            it.add(BleCharacter(favorite_3, 7))
-            it.add(BleCharacter(hightlight_1, 7))
-            it.add(BleCharacter(hightlight_2, 7))
-            it.add(BleCharacter(hightlight_3, 7))
-        }
-        val data = ByteArray(24)
-        var pos_bit = 0
-        var pos_byte = 0
-        for (i in raw_data) {
-            while (i.size > 0) {
-                val bit_needed = 8 - pos_bit
-                if (i.size >= bit_needed) {
-                    var bit_shift = i.size - bit_needed
-                    data[pos_byte] = data[pos_byte] or (i.data ushr bit_shift).toByte()
-                    i.data = getLastBits(i.data, bit_shift)
-                    pos_bit += bit_needed
-                    i.size -= bit_needed
+
+    private fun setUpDataAdvertise(input: MutableList<Int>): ByteArray {
+        val output = ByteArray(24)
+        val sizeEachCharacter = mutableListOf(24, 7, 3, 3, 8, 8, 4, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7)
+        var posBit = 0
+        var posByte = 0
+        for (i in 0 until input.size) {
+            while (sizeEachCharacter[i] > 0) {
+                val bitNeed = 8 - posBit
+                if (sizeEachCharacter[i] >= bitNeed) {
+                    val bitShift = sizeEachCharacter[i] - bitNeed
+                    output[posByte] = output[posByte] or (input[i] ushr bitShift).toByte()
+                    input[i] = getLastBits(input[i], bitShift)
+                    posBit += bitNeed
+                    sizeEachCharacter[i] -= bitNeed
                 } else {
-                    var bit_shift = bit_needed - i.size
-                    data[pos_byte] = data[pos_byte] or (i.data shl bit_shift).toByte()
-                    pos_bit += i.size
-                    i.size = 0
+                    val bitShift = bitNeed - sizeEachCharacter[i]
+                    output[posByte] = output[posByte] or (input[i] shl bitShift).toByte()
+                    posBit += sizeEachCharacter[i]
+                    sizeEachCharacter[i] = 0
                 }
-                if (pos_bit >= 8) {
-                    pos_bit -= 8
-                    pos_byte++
+                if (posBit >= 8) {
+                    posBit -= 8
+                    posByte++
                 }
             }
         }
-        return data
+        return output
     }
 
-    private fun handleDataReceived(value: ByteArray) {
+    private fun handleDataDiscovered(data: ByteArray) {
+        val dataDiscovered = data.drop(4)
+        val listOfCharacteristic = convertDataDiscovered(dataDiscovered.toByteArray())
         var exist = false
-        for (i in listDataReceived) {
-            if (i[0] == value[4] && i[1] == value[5] && i[2] == value[6]) {
+        for (dataDiscovered in listDataDiscovered) {
+            if (dataDiscovered[0] == listOfCharacteristic[0]) {
                 Log.d(TAG, "exist")
                 exist = true
+                break
             }
         }
         if (!exist) {
-            listDataReceived.add(value.drop(4).toByteArray())
-            listDataDisplay.add(convertByteArraytoString(value.drop(4).toByteArray()))
-            arrayAdapter.notifyDataSetChanged()
+            Log.d(TAG, "do not exist")
+            if (checkCharacteristic(listOfCharacteristic.drop(1) as MutableList<Int>, filter as MutableList<Int>)) {
+                Log.d(TAG, "matched")
+                listDataDiscovered.add(listOfCharacteristic)
+                listDataDisplay.add(setUpDataDisplay(listOfCharacteristic))
+                arrayAdapter.notifyDataSetChanged()
+            }
+            else{
+                Log.d(TAG, "no matched")
+            }
         }
     }
 
-    private fun convertByteArraytoString(value: ByteArray): String {
-        val list_size = listOf(24,7,3,3,8,8,4,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7)
-        var raw_data =  ArrayList<Int>()
-
-        var pos_byte = 0
-        var pos_bit = 7
-        for (i in list_size) {
+    private fun convertDataDiscovered(data: ByteArray): ArrayList<Int> {
+        val rawData = ArrayList<Int>()
+        val sizeEachCharacter = mutableListOf(24, 7, 3, 3, 8, 8, 4, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7)
+        var posByte = 0
+        var posBit = 7
+        for (i in sizeEachCharacter) {
             var temp = 0
-            var bit_taken = 0
-            while (bit_taken < i) {
-                var bit_available = if (i - bit_taken >= pos_bit + 1) (pos_bit + 1) else (i - bit_taken)
-                temp = (temp shl bit_available) or getBitsFromPos(value[pos_byte].toInt(), pos_bit, bit_available)
-                pos_bit -= bit_available
-                bit_taken += bit_available
-                if (pos_bit < 0) {
-                    pos_bit += 8
-                    pos_byte++
+            var bitTaken = 0
+            while (bitTaken < i) {
+                val bitAvailable = if (i - bitTaken >= posBit + 1) (posBit + 1) else (i - bitTaken)
+                temp = (temp shl bitAvailable) or getBitsFromPos(
+                    data[posByte].toInt(),
+                    posBit,
+                    bitAvailable
+                )
+                posBit -= bitAvailable
+                bitTaken += bitAvailable
+                if (posBit < 0) {
+                    posBit += 8
+                    posByte++
                 }
             }
-            raw_data.add(temp)
+            rawData.add(temp)
         }
+        return rawData
+    }
+
+    private fun checkCharacteristic(input: MutableList<Int>, filter: MutableList<Int>): Boolean {
+        Log.d(TAG, "start to check")
+        var score = 0
+        if (filter[0] < input[0] && input[0] < filter[1]) score++
+        for (i in 2..4) {
+            if(input[1] == filter[i]) score++
+        }
+        for (i in 5..7) {
+            if(input[2] == filter[i]) score++
+        }
+        if (filter[8] < input[3] && input[3] < filter[9]) score++
+        if (filter[10] < input[4] && input[4] < filter[11]) score++
+        for (i in 12..13) {
+            if(input[5] == filter[i]) score++
+        }
+        for (i in 6..8) {
+            for (j in 14..16) {
+                if (input[i] == filter[j]) score++
+            }
+        }
+        for (i in 9..11) {
+            for (j in 17..19) {
+                if (input[i] == filter[j]) score++
+            }
+        }
+        for (i in 12..14) {
+            for (j in 20..22) {
+                if (input[i] == filter[j]) score++
+            }
+        }
+        for (i in 15..17) {
+            for (j in 23..25) {
+                if (input[i] == filter[j]) score++
+            }
+        }
+        for (i in 18..20) {
+            for (j in 26..28) {
+                if (input[i] == filter[j]) score++
+            }
+        }
+        return score >= 3
+    }
+
+    private fun setUpDataDisplay(raw_data: ArrayList<Int>): String {
         return "ID: ${raw_data[0]}\n" +
                 "Age: ${raw_data[1]}\n" +
-                "Sex: ${Character.sex[raw_data[2]]}\n"+
-                "Sexuality Orientation: ${Character.sexualOrientation[raw_data[3]]}\n"+
-                "Tall: ${raw_data[4]}\n"+
-                "Weight: ${raw_data[5]}\n"+
-                "Zodiac: ${Character.zodiac[raw_data[6]]}\n"+
-                "Outlook: ${Character.outlook[raw_data[7]]} - ${Character.outlook[raw_data[8]]} - ${Character.outlook[raw_data[9]]}\n"+
-                "Job: ${Character.job[raw_data[10]]} - ${Character.job[raw_data[11]]} - ${Character.job[raw_data[12]]}\n"+
-                "Character: ${Character.character[raw_data[13]]} - ${Character.character[raw_data[14]]} - ${Character.character[raw_data[15]]}\n"+
-                "Favorite: ${Character.hightlight[raw_data[16]]} - ${Character.hightlight[raw_data[17]]} - ${Character.hightlight[raw_data[18]]}\n"+
-                "Hightlight: ${Character.hightlight[raw_data[19]]} - ${Character.hightlight[raw_data[20]]} - ${Character.hightlight[raw_data[21]]}\n"
+                "Sex: ${Characteristic.sex[raw_data[2]]}\n" +
+                "Sexuality Orientation: ${Characteristic.sexualOrientation[raw_data[3]]}\n" +
+                "Tall: ${raw_data[4]}\n" +
+                "Weight: ${raw_data[5]}\n" +
+                "Zodiac: ${Characteristic.zodiac[raw_data[6]]}\n" +
+                "Outlook: ${Characteristic.outlook[raw_data[7]]} - ${Characteristic.outlook[raw_data[8]]} - ${Characteristic.outlook[raw_data[9]]}\n" +
+                "Job: ${Characteristic.job[raw_data[10]]} - ${Characteristic.job[raw_data[11]]} - ${Characteristic.job[raw_data[12]]}\n" +
+                "Character: ${Characteristic.character[raw_data[13]]} - ${Characteristic.character[raw_data[14]]} - ${Characteristic.character[raw_data[15]]}\n" +
+                "Favorite: ${Characteristic.hightlight[raw_data[16]]} - ${Characteristic.hightlight[raw_data[17]]} - ${Characteristic.hightlight[raw_data[18]]}\n" +
+                "Hightlight: ${Characteristic.hightlight[raw_data[19]]} - ${Characteristic.hightlight[raw_data[20]]} - ${Characteristic.hightlight[raw_data[21]]}\n"
     }
 
     private fun checkPermissions() {
@@ -286,126 +321,3 @@ class ConnectFragment : Fragment() {
         }
     }
 }
-//private fun setUpDataAdvertise(): ByteArray {
-//    val id = 1720145
-//    val age = 21
-//    val sex = 1
-//    val sexuality_orientation = 2
-//    val height = 110
-//    val weight = 30
-//    val zodiac = 1
-//    val outlook = arrayOf(1,2,3)
-//    val professorial = arrayOf(1,2,3)
-//    val character = arrayOf(1,2,3)
-//    val favorite = arrayOf(1,2,3)
-//    val hightlight = arrayOf(1,2,3)
-//    val raw_data = java.util.ArrayList<BleCharacter>().also {
-//        it.add(BleCharacter(id, 24))
-//        it.add(BleCharacter(age, 7))
-//        it.add(BleCharacter(sex, 3))
-//        it.add(BleCharacter(sexuality_orientation,3))
-//        it.add(BleCharacter(height,8))
-//        it.add(BleCharacter(weight, 8))
-//        it.add(BleCharacter(zodiac, 4))
-//        it.add(BleCharacter(outlook[0], 7))
-//        it.add(BleCharacter(outlook[1], 7))
-//        it.add(BleCharacter(outlook[2], 7))
-//        it.add(BleCharacter(professorial[0], 7))
-//        it.add(BleCharacter(professorial[1], 7))
-//        it.add(BleCharacter(professorial[2], 7))
-//        it.add(BleCharacter(character[0], 7))
-//        it.add(BleCharacter(character[1], 7))
-//        it.add(BleCharacter(character[2], 7))
-//        it.add(BleCharacter(favorite[0], 7))
-//        it.add(BleCharacter(favorite[1], 7))
-//        it.add(BleCharacter(favorite[2], 7))
-//        it.add(BleCharacter(hightlight[0], 7))
-//        it.add(BleCharacter(hightlight[1], 7))
-//        it.add(BleCharacter(hightlight[2], 7))
-//    }
-//    val data = ByteArray(24)
-//    var pos_bit = 0
-//    var pos_byte = 0
-//    var bit_needed = 0
-//    for (i in raw_data) {
-//        Log.d(TAG, "raw data : $i")
-//        while (i.size > 0) {
-//            Log.d(TAG,"------------------------------------------------------")
-//            Log.d(TAG, "pos_byte: $pos_byte")
-//            Log.d(TAG, "pos_bit after reduce: $pos_bit")
-//            bit_needed = 8 - pos_bit
-//            Log.d(TAG, "bit need: $bit_needed")
-//            Log.d(TAG, "size of raw data[i]: ${i.size}")
-//            if (i.size >= bit_needed) {
-//                Log.d(TAG, "---------------------------bigger")
-//                var bit_shift = i.size - bit_needed
-//                Log.d(TAG, "bit shift: $bit_shift")
-//                Log.d(TAG, "data raw after shift: ${i.data ushr bit_shift}")
-//                Log.d(TAG, "data result $pos_byte before: ${data[pos_byte]}")
-//                data[pos_byte] = data[pos_byte] or (i.data ushr bit_shift).toByte()
-//                Log.d(TAG, "data result $pos_byte after: ${data[pos_byte]}")
-//                i.data = getLastBits(i.data, bit_shift)
-//                Log.d(TAG, "data raw after remove bit shift: ${i.data}")
-//                pos_bit += bit_needed
-//                Log.d(TAG, "pos_bit: $pos_bit")
-//                i.size -= bit_needed
-//                Log.d(TAG, "size of raw data[i]: ${i.size}")
-//            } else {
-//                Log.d(TAG, "---------------------------smaller")
-//                var bit_shift = bit_needed - i.size
-//                Log.d(TAG, "bit shift to left: $bit_shift")
-//                Log.d(TAG, "data raw after shift: ${i.data shl bit_shift}")
-//                Log.d(TAG, "data result $pos_byte before: ${data[pos_byte]}")
-//                data[pos_byte] = data[pos_byte] or (i.data shl bit_shift).toByte()
-//                Log.d(TAG, "data result $pos_byte after: ${data[pos_byte]}")
-////                    i.data = i.data ushr i.size
-////                    Log.d(TAG, "data raw after shift right: ${i.data}")
-//                pos_bit += i.size
-//                Log.d(TAG, "pos bit: $pos_bit")
-//                i.size = 0
-//                Log.d(TAG, "size of raw data[i]: ${i.size}")
-//            }
-//            if(pos_bit >= 8){
-//                pos_bit -= 8
-//                pos_byte++
-//            }
-//        }
-//        Log.d(TAG, "data: ${bytesToHex(data)}")
-//    }
-//    return data
-//}
-
-//private fun convertByteArraytoString(value: ByteArray) {
-////        var output: String = "ff"
-//    val list_size = listOf(24,7,3,3,8,8,4,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7)
-//
-////        val list_size = listOf(24,7,3,3,8,8,4)
-//    var pos_byte = 0
-//    var pos_bit = 7
-//    for (i in list_size) {
-//        var temp = 0
-//        var bit_taken = 0
-//        while (bit_taken < i) {
-//            var bit_available = if (i - bit_taken >= pos_bit + 1) (pos_bit + 1) else (i - bit_taken)
-//            Log.d(TAG, "value: ${value[pos_byte]}")
-//            Log.d(TAG, "pos bit before: $pos_bit")
-//            Log.d(TAG, "bit available: $bit_available")
-//            Log.d(TAG, "bit taken to value: ${getBitsFromPos(value[pos_byte].toInt(), pos_bit, bit_available)}")
-//            Log.d(TAG, "data before: $temp")
-//            Log.d(TAG, "data after shift left: ${temp shl bit_available}")
-//            temp = (temp shl bit_available) or getBitsFromPos(value[pos_byte].toInt(), pos_bit, bit_available)
-//            Log.d(TAG, "data result: $temp")
-//            pos_bit -= bit_available
-//            Log.d(TAG, "pos bit after: $pos_bit")
-//            bit_taken += bit_available
-//            Log.d(TAG, "bit taken: $bit_taken")
-//            if (pos_bit < 0) {
-//                pos_bit += 8
-//                pos_byte++
-//            }
-//            Log.d(TAG, "pos bit reduce: $pos_bit")
-//            Log.d(TAG, "pos byte: $pos_byte")
-//        }
-//        Log.d(TAG, "------------------------result: $temp")
-//    }
-//}
