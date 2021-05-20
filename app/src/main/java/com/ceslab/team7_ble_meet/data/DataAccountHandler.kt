@@ -4,19 +4,21 @@ package com.ceslab.team7_ble_meet.data
 import android.util.Log
 import android.util.Patterns
 import com.ceslab.team7_ble_meet.Model.Account
+import com.ceslab.team7_ble_meet.UsersFireStoreHandler
+import com.ceslab.team7_ble_meet.isValidEmail
+import com.ceslab.team7_ble_meet.isValidPasswordFormat
 import java.util.regex.Pattern
 
-class DataAccount private constructor() {
+class DataAccountHandler() {
     var accountArrayList =  ArrayList<Account>()
     lateinit var signUpCallBack: SignUpCallback
     lateinit var logInCallBack: LogInCallback
 
-    companion object{
-        var accountList = DataAccount()
-    }
-
     interface SignUpCallback{
         fun resultSignUp(message: String)
+        fun onSuccess(message: String)
+        fun onFailed(message: String)
+        fun onResult(title: String, message: String)
     }
 
     interface LogInCallback{
@@ -39,52 +41,59 @@ class DataAccount private constructor() {
         logInCallBack.resultLogIn("Account does not exist")
     }
 
-    fun signUp(account: Account, rePassword: String){
-        Log.d("TAG","username: ${account.usrName}, email: ${account.email}, password: ${account.password}, repassword: $rePassword")
-        var check = checkFormatUsrName(account.usrName)
-        if(check.isNotEmpty()){
-            signUpCallBack.resultSignUp(check)
-            return
-        }
-        for(acc in accountArrayList){
-            if(account.usrName == acc.usrName){
-                signUpCallBack.resultSignUp("Username has been used")
+    fun signUp(email:String ,password: String, rePassword: String, msignUpCallback: SignUpCallback){
+        signUpCallBack = msignUpCallback
+        if(email.isEmpty() || password.isEmpty() || rePassword.isEmpty()){
+            signUpCallBack.onFailed("Empty field!")
+        }else{
+            if(!isValidEmail(email)){
+                signUpCallBack.onFailed("Wrong email format!")
                 return
             }
-            if(account.email == acc.email){
-                signUpCallBack.resultSignUp("Username has been used")
+            if(!isValidPasswordFormat(password)){
+                signUpCallBack.onFailed("Wrong password format")
                 return
             }
+            if(password != rePassword){
+                signUpCallBack.onFailed("Password and and confirm password are not the same!")
+                return
+            }
+            //create user
+            createUser(email,password)
         }
-        check = checkFormatEmail(account.email)
-        if(check.isNotEmpty()){
-            signUpCallBack.resultSignUp(check)
-            return
-        }
+    }
 
-        check = checkFormatPassword(account.email)
-        if(check.isNotEmpty()){
-            signUpCallBack.resultSignUp(check)
-            return
-        }
-        for(acc in accountArrayList){
-            if(account.usrName == acc.usrName || account.email == acc.email){
-                signUpCallBack.resultSignUp("Account has been registered!")
-                return
-            }
-        }
-        if(account.password != rePassword){
-            signUpCallBack.resultSignUp("Confirm password is not correct")
-            return
-        }
+    fun createUser(email:String, password: String){
+        var instance = UsersFireStoreHandler.instance
+        instance.mAuth.createUserWithEmailAndPassword(email,password)
+            .addOnCompleteListener{task ->
+                if (task.isSuccessful){
+                    val note = mutableMapOf<String, String>()
+                    note["EMAIL"] = email
+                    note["PASS"] = password
+                    //save uid to firestore
+                    instance.userRef.document(instance.mAuth.currentUser.uid)
+                        .set(note).addOnSuccessListener {
+                            Log.d("TAG","add new users successful")
+                            signUpCallBack.onSuccess("add new users successful!")
 
-        val temp = Account(account.usrName, account.email, account.password)
-        accountArrayList.add(temp)
-//        accountArrayList.add(Account("minh","minh@gmail.com","minhbede"))
-//        accountArrayList.add(Account("phat","phat@gmail.com","phatbede"))
-//        accountArrayList.add(Account("phuc","phuc@gmail.com","phucbede"))
-//        accountArrayList.add(Account("khang","khang@gmail.com","khangbede"))
-        signUpCallBack.resultSignUp("Sign Up Successfully")
+                        }
+                        .addOnFailureListener{
+                            //on failed add user to firestore
+                            Log.d("TAG","Fail: $it")
+                            signUpCallBack.onSuccess("add new users failed!")
+                        }
+
+                }else{
+                    task.exception?.let {
+                        //on failed create user by email and password
+                    }
+                }
+            }
+            .addOnFailureListener{
+                Log.d("TAG","Fail: $it")
+                signUpCallBack.onFailed(it.message.toString())
+            }
     }
 
     private fun checkFormatUsrName(usrname: String): String{

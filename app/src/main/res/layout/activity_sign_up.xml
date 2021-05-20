@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="signUpViewModel"
             type="com.ceslab.team7_ble_meet.signup.SignUpViewModel" />
@@ -42,7 +41,6 @@
             android:ems="10"
             android:hint="@string/username_1"
             android:inputType="textPersonName"
-            android:text="@={signUpViewModel.account.usrName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,9 +58,8 @@
             android:background="@drawable/selector_edittext"
             android:ems="10"
             android:hint="@string/email_1"
-
             android:inputType="textEmailAddress"
-            android:text="@={signUpViewModel.account.email}"
+            android:text="@={signUpViewModel.email}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -91,8 +88,8 @@
                 android:hint="@string/password_1"
                 android:paddingVertical="15dp"
                 android:inputType="textPassword"
+                android:text="@={signUpViewModel.password}"
                 android:password="true"
-                android:text="@={signUpViewModel.account.password}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -119,11 +116,11 @@
                 android:layout_height="wrap_content"
                 android:password="true"
                 android:ems="10"
+                android:text="@={signUpViewModel.rePassword}"
                 android:paddingVertical="15dp"
                 android:background="@drawable/selector_edittext"
                 android:hint="@string/confirm_password_1"
                 android:inputType="textPassword"
-                android:text="@={signUpViewModel.rePassWord}"
                 app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -134,7 +131,6 @@
             android:layout_marginTop="50dp"
             android:paddingVertical="16dp"
             android:paddingHorizontal="64dp"
-            android:onClick="@{()->signUpViewModel.signUp()}"
             android:text="@string/sign_up_2"
             android:background="@drawable/ripble_button"
             android:orientation="vertical"

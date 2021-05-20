@@ -2,7 +2,7 @@ package com.ceslab.team7_ble_meet.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ceslab.team7_ble_meet.data.DataAccount
+import com.ceslab.team7_ble_meet.data.DataAccountHandler
 
 class LogInViewModel(var usrname: String = ""): ViewModel() {
     var usrName: String = ""
@@ -13,14 +13,14 @@ class LogInViewModel(var usrname: String = ""): ViewModel() {
         password = ""
     }
     fun logIn() {
-        val listAccount = DataAccount.accountList
-        //set up login callback
-        listAccount.logInCallBack = object : DataAccount.LogInCallback{
-            override fun resultLogIn(message: String) {
-                resultLogIn.value = message
-            }
-        }
+//        val listAccount = DataAccountHandler.accountList
+//        //set up login callback
+//        listAccount.logInCallBack = object : DataAccountHandler.LogInCallback{
+//            override fun resultLogIn(message: String) {
+//                resultLogIn.value = message
+//            }
+//        }
 
-        listAccount.logIn(usrName, password)
+//        listAccount.logIn(usrName, password)
     }
 }
