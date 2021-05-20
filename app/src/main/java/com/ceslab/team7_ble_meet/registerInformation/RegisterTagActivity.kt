@@ -3,6 +3,7 @@ package com.ceslab.team7_ble_meet.registerInformation
 import android.os.Bundle
 import android.util.Log
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.ceslab.team7_ble_meet.R
@@ -12,6 +13,7 @@ import com.google.android.material.chip.ChipGroup
 class RegisterTagActivity : AppCompatActivity() {
     lateinit var chipGroup : ChipGroup
     lateinit var btnContinue : LinearLayout
+    lateinit var btnText: TextView
     private var listChip = arrayListOf<String>("Intimate Chat","Karaoke","Walking","17DTV","Sushi","Trying New Things","Swimming",
     "Esports","Chatting When I'm Bored","Photography","Instagram","Street Food"," Dancing","Outdoors","Music","Sapiosexual",
     "Art","Korean Dramas","Working out","Environentalism","BTS","Pho","PotterHead","Horror Movies","Comedy","Athlete",
@@ -20,17 +22,21 @@ class RegisterTagActivity : AppCompatActivity() {
     "Writer","Gamer","Wine","Bun cha","Dog lover","Gemini","Tea","Taurus","Aquarius","Plant-based","Nightlife","Motorcycles","Politic",
     "Soccer","Basketball","Fashion","Gardening","StreetFood")
     private var listChooser : MutableList<String> = arrayListOf("Intimate Chat")
+//    private var listChooser : MutableList<String> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_tag)
         bindView()
         setupChip()
         initData()
+        setupChipListener()
     }
 
     fun bindView(){
+        Log.d("RegisterTagActivity","list choose num: ${listChooser.size}")
         chipGroup = findViewById(R.id.chipGroup)
         btnContinue = findViewById(R.id.btn_continue)
+        btnText = findViewById(R.id.tv_btn)
     }
 
     fun initData(){
@@ -42,6 +48,7 @@ class RegisterTagActivity : AppCompatActivity() {
                 chip.setTextColor(ContextCompat.getColor(applicationContext,R.color.colororange))
             }
         }
+        updateText()
     }
 
     fun setupChip(){
@@ -52,13 +59,16 @@ class RegisterTagActivity : AppCompatActivity() {
             chip.isClickable = true
             chipGroup.addView(chip)
         }
+    }
+
+    fun setupChipListener(){
         for(index in 0 until chipGroup.childCount){
             val chip: Chip = chipGroup.getChildAt(index) as Chip
             chip.setOnCheckedChangeListener {chipGroup,isChecked ->
                 run {
                     Log.d("RegisterTagActivity","isChecked: $isChecked")
                     if (isChecked) {
-                        if(listChooser.size > 5){
+                        if(listChooser.size > 4){
                             chip.setTextColor(ContextCompat.getColor(applicationContext,R.color.colorgray400))
                             chip.isChecked = false
                         }else{
@@ -72,7 +82,12 @@ class RegisterTagActivity : AppCompatActivity() {
                         Log.d("RegisterTagActivity","listChooser: ${listChooser.size}")
                     }
                 }
+                updateText()
             }
         }
+    }
+
+    fun updateText(){
+        btnText.text = "Continue (${listChooser.size}/5)"
     }
 }
