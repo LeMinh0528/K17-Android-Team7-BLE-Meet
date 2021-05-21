@@ -64,7 +64,7 @@ class DataAccountHandler() {
     }
 
     fun createUser(email:String, password: String){
-        var instance = UsersFireStoreHandler.instance
+        var instance = UsersFireStoreHandler()
         instance.mAuth.createUserWithEmailAndPassword(email,password)
             .addOnCompleteListener{task ->
                 if (task.isSuccessful){

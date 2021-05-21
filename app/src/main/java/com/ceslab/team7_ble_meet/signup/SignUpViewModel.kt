@@ -14,7 +14,7 @@ class SignUpViewModel: ViewModel() {
     var email: String = ""
     var password: String = ""
     var rePassword: String = ""
-    private var usersFireStoreHandler = UsersFireStoreHandler.instance
+    private var usersFireStoreHandler = UsersFireStoreHandler()
     var userResp : MutableLiveData<UsersFireStoreHandler.Resp?> = usersFireStoreHandler.userResp
 
 
