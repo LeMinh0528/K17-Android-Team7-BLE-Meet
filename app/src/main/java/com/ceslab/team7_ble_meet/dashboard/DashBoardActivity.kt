@@ -27,13 +27,13 @@ class DashBoardActivity: AppCompatActivity() {
                 R.id.awesome ->{
                     viewPager.setCurrentItem(0)
                 }
-                R.id.info ->{
+                R.id.bluetooth ->{
                     viewPager.setCurrentItem(1)
                 }
                 R.id.chats ->{
                     viewPager.setCurrentItem(2)
                 }
-                R.id.bluetooth ->{
+                R.id.info ->{
                     viewPager.setCurrentItem(3)
                 }
             }
@@ -42,8 +42,8 @@ class DashBoardActivity: AppCompatActivity() {
     fun setUpViewPager(){
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPagerAdapter.addFragment(SwipeFragment(),"Swipe")
-        viewPagerAdapter.addFragment(ChatsFragment(),"Chats")
         viewPagerAdapter.addFragment(ConnectFragment(),"Bluetooth")
+        viewPagerAdapter.addFragment(ChatsFragment(),"Chats")
         viewPagerAdapter.addFragment(InfomationFragment(),"Information")
         viewPager.adapter = viewPagerAdapter
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
@@ -61,9 +61,9 @@ class DashBoardActivity: AppCompatActivity() {
                 Log.d("TAG",position.toString())
                 when(position){
                     0 -> navigationView.setItemSelected(R.id.awesome,true)
-                    1 ->  navigationView.setItemSelected(R.id.info,true)
-                    2 ->  navigationView.setItemSelected(R.id.chats,true)
-                    3 ->  navigationView.setItemSelected(R.id.bluetooth,true)
+                    1 -> navigationView.setItemSelected(R.id.bluetooth,true)
+                    2 -> navigationView.setItemSelected(R.id.chats,true)
+                    3 -> navigationView.setItemSelected(R.id.info,true)
                 }
             }
         })

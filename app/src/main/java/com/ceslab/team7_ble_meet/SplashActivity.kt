@@ -46,7 +46,7 @@ class SplashActivity : AppCompatActivity() {
                 }
                 startActivity(intent)
                 return
-            } else if (tag){
+            } else if (!tag){
                 val intent = Intent(this@SplashActivity,RegisterTagActivity::class.java ).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }
