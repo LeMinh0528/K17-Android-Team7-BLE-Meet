@@ -23,9 +23,11 @@ import androidx.core.view.isGone
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.ceslab.team7_ble_meet.*
+import com.ceslab.team7_ble_meet.Profile.ProfileActivity
 import com.ceslab.team7_ble_meet.ble.BleHandle
 import com.ceslab.team7_ble_meet.ble.Characteristic
 import com.ceslab.team7_ble_meet.databinding.FragmentConnectBinding
+import com.ceslab.team7_ble_meet.login.LogInActivity
 import kotlin.experimental.or
 
 
@@ -47,8 +49,8 @@ class ConnectFragment : Fragment() {
     private var listDataDisplay: ArrayList<String> = ArrayList()
     private lateinit var arrayAdapter: ArrayAdapter<*>
 
-    val data = listOf(1720145,22,1,1,150,60,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)
-    val filter = listOf(18, 30, 1, 2, 3, 1, 2, 3, 160, 180, 50, 80, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18)
+    val data = listOf(1720146,25,1,1,165,60,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17)
+    private val filter = listOf(18,30,1,2,3,1,2,3,160,180,50,80,1,2,3,4,5,6,7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -102,15 +104,17 @@ class ConnectFragment : Fragment() {
                 android.R.layout.simple_list_item_1,
                 listDataDisplay
             )
-            binding.listViewBleDataReceived.adapter = arrayAdapter
+            listViewBleDataDiscovered.adapter = arrayAdapter
             connect.bleDataReceived.observe(viewLifecycleOwner, {
-                requireContext().toast("Receive data")
-                if (!binding.btnFindFriend.isGone) {
-                    binding.btnFindFriend.isGone = true
-                    binding.vRipple.isGone = true
-                }
                 handleDataDiscovered(it)
             })
+            listViewBleDataDiscovered.setOnItemClickListener { parent, view, position, id ->
+                requireContext().toast("click item")
+                Log.d(TAG, "position: $position, data: ${listDataDiscovered[position][0]}")
+                val intent = Intent(activity, ProfileActivity::class.java)
+                intent.putExtra("idFromConnectFragmentToProfile", listDataDiscovered[position][0])
+                startActivity(intent)
+            }
         }
     }
 
@@ -120,17 +124,18 @@ class ConnectFragment : Fragment() {
         var posBit = 0
         var posByte = 0
         for (i in 0 until input.size) {
+            var value = input[i]
             while (sizeEachCharacter[i] > 0) {
                 val bitNeed = 8 - posBit
                 if (sizeEachCharacter[i] >= bitNeed) {
                     val bitShift = sizeEachCharacter[i] - bitNeed
-                    output[posByte] = output[posByte] or (input[i] ushr bitShift).toByte()
-                    input[i] = getLastBits(input[i], bitShift)
+                    output[posByte] = output[posByte] or (value ushr bitShift).toByte()
+                    value = getLastBits(value, bitShift)
                     posBit += bitNeed
                     sizeEachCharacter[i] -= bitNeed
                 } else {
                     val bitShift = bitNeed - sizeEachCharacter[i]
-                    output[posByte] = output[posByte] or (input[i] shl bitShift).toByte()
+                    output[posByte] = output[posByte] or (value shl bitShift).toByte()
                     posBit += sizeEachCharacter[i]
                     sizeEachCharacter[i] = 0
                 }
@@ -149,27 +154,29 @@ class ConnectFragment : Fragment() {
         var exist = false
         for (dataDiscovered in listDataDiscovered) {
             if (dataDiscovered[0] == listOfCharacteristic[0]) {
-                Log.d(TAG, "exist")
+//                Log.d(TAG, "exist")
                 exist = true
                 break
             }
         }
         if (!exist) {
-            Log.d(TAG, "do not exist")
+//            Log.d(TAG, "do not exist")
             if (checkCharacteristic(listOfCharacteristic.drop(1) as MutableList<Int>, filter as MutableList<Int>)) {
-                Log.d(TAG, "matched")
+//                Log.d(TAG, "matched")
                 listDataDiscovered.add(listOfCharacteristic)
                 listDataDisplay.add(setUpDataDisplay(listOfCharacteristic))
                 arrayAdapter.notifyDataSetChanged()
-            }
-            else{
-                Log.d(TAG, "no matched")
+                if (!binding.btnFindFriend.isGone) {
+                    binding.btnFindFriend.isGone = true
+                    binding.vRipple.isGone = true
+                }
             }
         }
     }
 
     private fun convertDataDiscovered(data: ByteArray): ArrayList<Int> {
         val rawData = ArrayList<Int>()
+        Log.d(TAG, bytesToHex(data))
         val sizeEachCharacter = mutableListOf(24, 7, 3, 3, 8, 8, 4, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7)
         var posByte = 0
         var posBit = 7
@@ -235,6 +242,7 @@ class ConnectFragment : Fragment() {
                 if (input[i] == filter[j]) score++
             }
         }
+        Log.d(TAG, "result: $score")
         return score >= 3
     }
 
