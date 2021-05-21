@@ -2,25 +2,36 @@ package com.ceslab.team7_ble_meet.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ceslab.team7_ble_meet.UsersFireStoreHandler
 import com.ceslab.team7_ble_meet.data.DataAccountHandler
+import com.ceslab.team7_ble_meet.isValidEmail
+import com.ceslab.team7_ble_meet.isValidPasswordFormat
 
-class LogInViewModel(var usrname: String = ""): ViewModel() {
-    var usrName: String = ""
-    var password: String = ""
-    var resultLogIn: MutableLiveData<String> = MutableLiveData()
-    init {
-        usrName = usrname
-        password = ""
-    }
-    fun logIn() {
-//        val listAccount = DataAccountHandler.accountList
-//        //set up login callback
-//        listAccount.logInCallBack = object : DataAccountHandler.LogInCallback{
-//            override fun resultLogIn(message: String) {
-//                resultLogIn.value = message
-//            }
-//        }
+class LogInViewModel(): ViewModel() {
+    var email = ""
+    var password = ""
+    private var instance = UsersFireStoreHandler()
+    var userResp: MutableLiveData<UsersFireStoreHandler.Resp?> = instance.userResp
 
-//        listAccount.logIn(usrName, password)
+    fun logIn(){
+        if(email.isEmpty() || password.isEmpty()) {
+            userResp.postValue(UsersFireStoreHandler.Resp("FAILED", "Empty field!"))
+            return
+        }else{
+            if (!isValidEmail(email)) {
+                userResp.postValue(UsersFireStoreHandler.Resp("FAILED", "Wrong email format!"))
+                return
+            }
+            if (!isValidPasswordFormat(password)) {
+                userResp.postValue(
+                    UsersFireStoreHandler.Resp(
+                        "FAILED",
+                        "Wrong password format, must contain /@$#._"
+                    )
+                )
+                return
+            }
+        }
+        instance.logInUser(email, password)
     }
 }

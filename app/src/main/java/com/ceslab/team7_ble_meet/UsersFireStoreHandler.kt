@@ -110,8 +110,6 @@ class UsersFireStoreHandler {
                         .set(note).addOnSuccessListener {
                             Log.d("TAG","add new users successful")
                             Log.d("TAG","add new users successful id: ${mAuth.currentUser.uid}")
-
-                            KeyValueDB.setFirstTimeRegister(true)
                             KeyValueDB.setUserId(mAuth.currentUser.uid)
                             userResp.postValue(Resp("SUCCESS","add new users successful"))
                         }
@@ -128,6 +126,21 @@ class UsersFireStoreHandler {
             .addOnFailureListener{
                 Log.d("TAG","Fail: ${it.message}")
                 userResp.postValue(it.message?.let { it1 -> Resp("FAILED", it1) })
+            }
+    }
+
+    fun logInUser(email: String, pass: String){
+        mAuth.signInWithEmailAndPassword(email,pass)
+            .addOnCompleteListener{task ->
+                if(task.isSuccessful){
+                    Log.d("UserFireStoreHandler","${mAuth.currentUser}")
+                }else if(task.isCanceled){
+                    KeyValueDB.setUserId(mAuth.currentUser.uid)
+                    userResp.postValue(Resp("SUCCESS","Login successful!"))
+                }
+            }
+            .addOnFailureListener{
+                userResp.postValue(Resp("FAILED","Login failed!"))
             }
     }
 
