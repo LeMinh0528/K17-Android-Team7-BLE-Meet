@@ -93,4 +93,10 @@ object KeyValueDB {
     fun isRegistered(): Boolean{
         return pref?.getBoolean(USER_REGISTERED,false)?: false
     }
+
+    fun clearData(){
+        val editor : SharedPreferences.Editor? = pref?.edit()
+        editor?.clear()
+        editor?.apply()
+    }
 }
