@@ -14,6 +14,11 @@ class UsersFireStoreHandler {
     var mAuth : FirebaseAuth = FirebaseAuth.getInstance()
     var userResp = MutableLiveData<Resp?>()
 
+    fun setStatus(userId: String){
+        userRef.document(userId)
+            .set(hashMapOf("Status" to 1))
+    }
+
     fun updateGender(userId: String, gender: String,inter: String){
         val note = mutableMapOf<String,String>()
         note["Gender"] = gender
