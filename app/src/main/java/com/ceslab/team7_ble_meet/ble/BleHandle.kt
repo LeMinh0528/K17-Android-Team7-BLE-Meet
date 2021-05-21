@@ -5,7 +5,6 @@ import android.bluetooth.le.*
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.ceslab.team7_ble_meet.bytesToHex
-import java.util.*
 
 
 @Suppress("NAME_SHADOWING")
@@ -53,12 +52,12 @@ class BleHandle {
             override fun onScanResult(callbackType: Int, result: ScanResult) {
                 super.onScanResult(callbackType, result)
                 val adType = result.scanRecord?.bytes?.get(1)?.toInt()
-                val manuID_upper = result.scanRecord?.bytes?.get(2)?.toInt()
-                val manuID_lower = result.scanRecord?.bytes?.get(3)?.toInt()
-                if (adType == -1 && manuID_upper == 105 && manuID_lower == 105) {
-                    Log.d(TAG, "Scan result:" + bytesToHex(result.scanRecord!!.bytes))
+                val manuidUpper = result.scanRecord?.bytes?.get(2)?.toInt()
+                val manuidLower = result.scanRecord?.bytes?.get(3)?.toInt()
+                if (adType == -1 && manuidUpper == 105 && manuidLower == 105) {
+//                    Log.d(TAG, "Scan result:" + bytesToHex(result.scanRecord!!.bytes))
                     bleDataReceived.value = result.scanRecord!!.bytes
-                    Log.d(TAG, "Scan result DATA received:" + bleDataReceived.value)
+//                    Log.d(TAG, "Scan result DATA received:" + bleDataReceived.value)
                 }
             }
 

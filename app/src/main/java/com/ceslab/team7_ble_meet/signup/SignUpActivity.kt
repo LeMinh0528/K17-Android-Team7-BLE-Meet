@@ -33,9 +33,7 @@ class SignUpActivity : AppCompatActivity() {
 
     fun setupAction(){
         binding.apply {
-            SignUpTvGoToSignIn.setOnClickListener {
-                goToLogIn()
-            }
+            
             SignUp_btnSignUp.setOnClickListener{
                 Log.d("SignUpActivity","sign up button")
                 viewModel.register()
