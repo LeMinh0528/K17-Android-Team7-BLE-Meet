@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".registerImformation.RegisterGenderActivity">
+    tools:context=".registerInformation.RegisterGenderActivity">
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -91,9 +91,10 @@
             android:paddingVertical="12dp"
             android:layout_marginHorizontal="25dp">
             <TextView
+                android:id="@+id/tv_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Continue"
+                android:text="Continue (0/5)"
                 android:textStyle="bold"
                 android:textColor="@color/colorwhite"
                 android:textSize="18dp" />

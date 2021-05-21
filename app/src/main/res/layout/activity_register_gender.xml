@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".registerImformation.RegisterGenderActivity">
+    tools:context=".registerInformation.RegisterGenderActivity">
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -21,8 +21,8 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:background="@drawable/left_arrow"
                     android:paddingTop="10dp" />
 
@@ -36,12 +36,6 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-                <Button
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/ic_baseline_info_24"
-                    android:paddingTop="10dp" />
 
 
             </LinearLayout>
