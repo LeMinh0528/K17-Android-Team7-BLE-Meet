@@ -19,11 +19,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-//        val intent = Intent(this@SplashActivity, DashBoardActivity::class.java).apply {
-//            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//        }
         Handler().postDelayed({
-//            startActivity(intent)
             checkAuth()
         }, 2200)
     }
@@ -41,7 +37,6 @@ class SplashActivity : AppCompatActivity() {
             if(userId == ""){
                 val intent = Intent(this@SplashActivity,SignUpActivity::class.java ).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
                 }
                 startActivity(intent)
             }else{
@@ -74,12 +69,7 @@ class SplashActivity : AppCompatActivity() {
                 }
                 startActivity(intent)
             }
-            //go to sign in
 
-            //go to register gender
-            //go to register birthDay
-            //go to register tag
-            //go to dash board
         }
         Log.d("TAG","Selected: $selected")
     }
