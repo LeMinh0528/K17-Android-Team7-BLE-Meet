@@ -12,11 +12,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.databinding.ActivityLogInBinding
 import com.ceslab.team7_ble_meet.signup.SignUpActivity
+import com.ceslab.team7_ble_meet.toast
 
 class LogInActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLogInBinding
     private lateinit var viewModel: LogInViewModel
-    private lateinit var viewModelFactory: LogInViewModelFactory
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setLogIn()
@@ -24,19 +24,23 @@ class LogInActivity : AppCompatActivity() {
             LogInTvGoToSignUp.setOnClickListener {
                 goToSignUp()
             }
+            LogInBtnLogIn.setOnClickListener{
+                viewModel.logIn()
+            }
         }
-        viewModel.resultLogIn.observe(this, Observer {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-        })
+
     }
 
     private fun setLogIn() {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_log_in)
-        val bundle = intent.extras
-        val usrName = bundle?.getString("UsrNameFromSignUp2LogIn").toString()
-        viewModelFactory = LogInViewModelFactory(usrName)
-        viewModel = ViewModelProvider(this,viewModelFactory).get(LogInViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(LogInViewModel::class.java)
         binding.logInViewModel = viewModel
+
+        viewModel.userResp.observe(this, Observer { response ->
+            if(response != null){
+                toast(response.message)
+            }
+        })
     }
     private fun goToSignUp(){
         val intent = Intent(this, SignUpActivity::class.java)

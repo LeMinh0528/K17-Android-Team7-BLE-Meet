@@ -28,7 +28,7 @@
             android:hint="@string/username_or_email_1"
             android:inputType="textPersonName"
             android:paddingLeft="18dp"
-            android:text="@={logInViewModel.usrName}"
+            android:text="@={logInViewModel.email}"
             android:textSize="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -77,7 +77,6 @@
             android:background="@drawable/ripble_button"
             android:clickable="true"
             android:gravity="center"
-            android:onClick="@{()->logInViewModel.logIn()}"
             android:padding="10dp"
             android:textColor="#F4F4F4"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -90,7 +89,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Continue"
+                android:text="Login"
                 android:textColor="@color/colorwhite"
                 android:textSize="18dp" />
         </LinearLayout>
@@ -140,20 +139,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.977" />
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"
-            android:text="Need Help ?"
-            android:textColor="@color/colorgray800"
-            android:textSize="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.901"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.63" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
