@@ -101,5 +101,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.6.2'
     //Country Code Picker
     implementation 'com.hbb20:ccp:2.3.1'
+    // roundedimageview
+    implementation 'com.makeramen:roundedimageview:2.3.0'
 
 }

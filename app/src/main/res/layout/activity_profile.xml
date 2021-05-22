@@ -5,226 +5,286 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/background_profileactivity"
     tools:context=".Profile.Fragment_Profile">
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="vertical"
+            android:background="@drawable/backgroundprofile">
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="33dp"
-                android:layout_gravity="center_horizontal">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/image_circle"
-                    android:layout_width="300dp"
-                    android:layout_height="300dp"
-                    android:src="@drawable/avatar_default"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" >
-                </de.hdodenhof.circleimageview.CircleImageView>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_gravity="center_horizontal">
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/imbackgroundprofile"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/image_couple"
+                    app:riv_corner_radius_bottom_left="60dp"
+                    app:riv_corner_radius_bottom_right="60dp" />
+                <RelativeLayout
+                   android:id="@+id/layout_image"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="150dp"
+                    android:layout_centerHorizontal="true">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/image_circle"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        app:civ_border_width="3dp"
+                        app:civ_border_color="#4FC3F7"
+                        android:layout_centerHorizontal="true"
+                        android:paddingBottom="10dp"
+                        android:src="@drawable/avatar_default"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_alignParentBottom="true"
+                        android:gravity="center"
+                        android:background="@drawable/shape_white"
+                        android:layout_centerHorizontal="true">
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="3dp"
+                            android:gravity="center"
+                            android:layout_marginLeft="3dp"
+                            android:layout_weight="1"
+                            android:text="22"
+                            android:textColor="@color/black"
+                            android:textSize="10dp" />
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:padding="3dp"
+                            android:layout_weight="1"
+                            android:src="@drawable/icon_gender_female" />
+                    </LinearLayout>
+                </RelativeLayout>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="220dp"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center"
+                    app:cardBackgroundColor="#FEFFEF"
+                    android:clickable="true"
+                    app:cardCornerRadius="40dp"
+                    android:layout_toEndOf="@+id/layout_image">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_messenger"/>
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="5dp">
-                <TextView
+                >
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="10dp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:fontFamily="serif"
-                    android:text="Tran Thi Nhu Nguyet"/>
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="5dp">
+                    android:orientation="vertical">
                     <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="148dp"
-                        android:layout_weight="1"
-                        android:gravity="center|right"
-                        android:paddingHorizontal="5dp"
-                        android:text="22 Age"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.533" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:layout_marginStart="12dp"
-                        android:layout_weight="1"
-                        android:src="@drawable/icon_gender_female"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/textView2"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="From: Ho Dau Tieng, Binh Duong , Ha Loi , TP Vung Tau"
-                    android:textStyle="bold"
-                    android:fontFamily="sans-serif-black"
-                    android:paddingLeft="13dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Tag:"
-                    android:textStyle="bold"
-                    android:fontFamily="sans-serif-black"
-                    android:paddingLeft="13dp"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="7dp"
-                    android:paddingHorizontal="20dp">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:paddingVertical="6dp"
-                        android:paddingHorizontal="10dp"
-                        android:clickable="true"
-                        android:background="@drawable/ripble_tag_fragmentprofile">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Alcohol"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            ></TextView>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_marginHorizontal="10dp"
-                        android:paddingVertical="6dp"
-                        android:paddingHorizontal="10dp"
-                        android:clickable="true"
-                        android:background="@drawable/ripble_tag_fragmentprofile">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Smoke"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            ></TextView>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_marginHorizontal="10dp"
-                        android:paddingVertical="6dp"
-                        android:paddingHorizontal="10dp"
-                        android:clickable="true"
-                        android:background="@drawable/ripble_tag_fragmentprofile">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Dog Love's"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            ></TextView>
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="7dp"
-                    android:paddingHorizontal="20dp">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:paddingVertical="6dp"
-                        android:paddingHorizontal="10dp"
-                        android:clickable="true"
-                        android:background="@drawable/ripble_tag_fragmentprofile">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Babyface"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            ></TextView>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_marginHorizontal="10dp"
-                        android:paddingVertical="6dp"
-                        android:paddingHorizontal="10dp"
-                        android:clickable="true"
-                        android:background="@drawable/ripble_tag_fragmentprofile">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Hot "
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            ></TextView>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_marginHorizontal="10dp"
-                        android:paddingVertical="6dp"
-                        android:paddingHorizontal="10dp"
-                        android:clickable="true"
-                        android:background="@drawable/ripble_tag_fragmentprofile">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Like play game"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            ></TextView>
-                    </LinearLayout>
-
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingVertical="10dp"
-                    android:background="@drawable/shape_option1"
-                    android:gravity="center_horizontal"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginHorizontal="40dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Em con di hoc ,anh cho em nha"
+                        android:paddingVertical="10dp"
+                        android:text="Nhu Nguyet"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:textSize="30dp" />
+
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <TextView
+                        android:paddingVertical="10dp"
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="From: Ho Dau Tieng, Binh Duong , Ha Loi , TP Vung Tau"
+                        android:textColor="@color/graysteel"
+                        android:fontFamily="@font/roboto_medium"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="15dp"
+                        android:paddingLeft="13dp"/>
+                </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@color/white"
+                        android:paddingBottom="10dp"
+                        >
+                        <TextView
+                            android:background="@color/white"
+                            android:paddingVertical="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Passions :"
+                            android:textSize="15dp"
+                            android:textColor="@color/graysteel"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingLeft="13dp"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingVertical="7dp"
+                            android:paddingHorizontal="20dp">
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:paddingVertical="6dp"
+                                android:paddingHorizontal="10dp"
+                                android:clickable="true"
+                                android:background="@drawable/ripble_tag_fragmentprofile">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Alcohol"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold"
+                                    ></TextView>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_marginHorizontal="10dp"
+                                android:paddingVertical="6dp"
+                                android:paddingHorizontal="10dp"
+                                android:clickable="true"
+                                android:background="@drawable/ripble_tag_fragmentprofile">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Smoke"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold"
+                                    ></TextView>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+
+                                android:paddingVertical="6dp"
+                                android:paddingHorizontal="10dp"
+                                android:clickable="true"
+                                android:background="@drawable/ripble_tag_fragmentprofile">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Dog Love's"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold"
+                                    ></TextView>
+                            </LinearLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingVertical="7dp"
+                            android:paddingHorizontal="20dp">
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:paddingVertical="6dp"
+                                android:paddingHorizontal="10dp"
+                                android:clickable="true"
+                                android:background="@drawable/ripble_tag_fragmentprofile">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Babyface"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold"
+                                    ></TextView>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_marginHorizontal="10dp"
+                                android:paddingVertical="6dp"
+                                android:paddingHorizontal="10dp"
+                                android:clickable="true"
+                                android:background="@drawable/ripble_tag_fragmentprofile">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Hot "
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold"></TextView>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:paddingVertical="6dp"
+                                android:paddingHorizontal="10dp"
+                                android:clickable="true"
+                                android:background="@drawable/ripble_tag_fragmentprofile">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Like play game"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold"
+                                    ></TextView>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingVertical="10dp"
+                            android:background="@drawable/shape_option1"
+                            android:gravity="center_horizontal"
+                            android:layout_marginVertical="5dp"
+                            android:layout_marginHorizontal="40dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Em con di hoc ,anh cho em nha"
+                                android:textColor="@color/black"
+                                android:textSize="15dp"
+                                android:fontFamily="@font/roboto_medium"/>
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginTop="1dp">
                 </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>
         </LinearLayout>
