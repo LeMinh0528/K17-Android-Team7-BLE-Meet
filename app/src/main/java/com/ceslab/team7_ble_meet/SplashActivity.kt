@@ -10,6 +10,7 @@ import com.ceslab.team7_ble_meet.dashboard.DashBoardActivity
 import com.ceslab.team7_ble_meet.login.LogInActivity
 import com.ceslab.team7_ble_meet.registerInformation.RegisterGenderActivity
 import com.ceslab.team7_ble_meet.registerInformation.RegisterTagActivity
+import com.ceslab.team7_ble_meet.registerInformation.RegisterUserNameActivity
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
 
 class SplashActivity : AppCompatActivity() {
@@ -45,11 +46,16 @@ class SplashActivity : AppCompatActivity() {
                 }
                 startActivity(intent)
             }else{ // if registering
-                Log.d("TAG","gender")
                 val gender = KeyValueDB.isRegisterUserGender()
-                Log.d("TAG","gender: $gender")
                 val tag = KeyValueDB.getUserTag()
-                if(!gender) {
+                val username = KeyValueDB.isRegisterUserName()
+                if(!username) {
+                    val intent = Intent(this@SplashActivity, RegisterUserNameActivity::class.java).apply {
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        }
+                    startActivity(intent)
+                    return
+                }else if(!gender) {
                     val intent = Intent(this@SplashActivity, RegisterGenderActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }

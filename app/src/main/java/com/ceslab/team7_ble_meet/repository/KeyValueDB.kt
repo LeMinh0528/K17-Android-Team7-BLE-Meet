@@ -71,10 +71,13 @@ object KeyValueDB {
         editor?.putBoolean(FIRST_TIME_REGISTER,fistTime)
         editor?.apply()
     }
-    fun setUserName(user: String){
+    fun setUserName(user: Boolean){
         val editor: SharedPreferences.Editor? = pref?.edit()
-        editor?.putString(USER_NAME,user)
+        editor?.putBoolean(USER_NAME,user)
         editor?.apply()
+    }
+    fun isRegisterUserName(): Boolean {
+        return pref?.getBoolean(USER_NAME,false)?: false
     }
     fun setEmail(email: String){
         val editor: SharedPreferences.Editor? = pref?.edit()

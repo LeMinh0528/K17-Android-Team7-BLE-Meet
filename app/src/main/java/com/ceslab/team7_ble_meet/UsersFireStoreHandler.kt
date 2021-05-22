@@ -19,6 +19,20 @@ class UsersFireStoreHandler {
             .set(hashMapOf("Status" to 1))
     }
 
+    fun updateName(name: String){
+        var note = mutableMapOf<String,String>()
+        note["Name"] = name
+        userRef.document(mAuth.currentUser.uid)
+            .set(note, SetOptions.merge())
+            .addOnSuccessListener {
+                userResp.postValue(Resp("SUCCESS","update tag successful!"))
+                KeyValueDB.setUserTag(true)
+            }
+            .addOnFailureListener{
+                userResp.postValue(Resp("FAILED","update tag failed!"))
+            }
+    }
+
     fun getGender(): String?{
         var gender : String? = null
         userRef.document(mAuth.currentUser.uid)
