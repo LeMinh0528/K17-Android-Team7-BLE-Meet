@@ -55,7 +55,8 @@ class RegisterTagActivity : AppCompatActivity() {
             if(result != null){
                 toast("result: ${result.message}")
                 if(result.type == "SUCCESS"){
-                    KeyValueDB.setFirstTimeRegister(true)
+                    KeyValueDB.setRegister(true)
+                    KeyValueDB.setUserTag(true)
                     gotoDashBoard()
                 }
             }

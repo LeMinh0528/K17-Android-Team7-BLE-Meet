@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.ceslab.team7_ble_meet.R
+import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
 class DashBoardActivity: AppCompatActivity() {
@@ -15,12 +16,9 @@ class DashBoardActivity: AppCompatActivity() {
     lateinit private var viewPagerAdapter: ViewPagerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        setContentView(R.layout.activity_dash_board)
-        viewPager = findViewById(R.id.viewPager)
-        navigationView = findViewById(R.id.navigationView)
-        setUpViewPager()
-        navigationView.setItemSelected(R.id.awesome,true)
+
+        bindView()
+
         navigationView.setOnItemSelectedListener {
             Log.d("TAG","$it")
             when(it){
@@ -38,7 +36,23 @@ class DashBoardActivity: AppCompatActivity() {
                 }
             }
         }
+
+        initData()
     }
+
+    fun bindView(){
+        setContentView(R.layout.activity_dash_board)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        viewPager = findViewById(R.id.viewPager)
+        navigationView = findViewById(R.id.navigationView)
+        setUpViewPager()
+        navigationView.setItemSelected(R.id.awesome,true)
+    }
+
+    fun initData(){
+
+    }
+
     fun setUpViewPager(){
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPagerAdapter.addFragment(SwipeFragment(),"Swipe")

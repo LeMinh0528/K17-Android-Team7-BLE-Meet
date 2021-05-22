@@ -9,11 +9,14 @@ class RegisterGenderViewModel: ViewModel() {
     private var instance = UsersFireStoreHandler()
     var userResp: MutableLiveData<UsersFireStoreHandler.Resp?> = instance.userResp
 
-    fun register(id:String,gender:String,inter:String){
+    fun register(id:String,gender:String?,inter:String){
         Log.d("RegisterGenderViewModel","id: $id")
         Log.d("RegisterGenderViewModel","gender: $gender")
         Log.d("RegisterGenderViewModel","inter: $inter")
         instance.updateGender(id,gender,inter)
 
+    }
+    fun getGender(): String?{
+        return instance.getGender()
     }
 }
