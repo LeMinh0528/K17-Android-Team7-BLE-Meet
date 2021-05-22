@@ -71,7 +71,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
-            android:id="@+id/LogIn_btnLogIn"
+            android:id="@+id/btn_login"
             android:layout_width="203dp"
             android:layout_height="41dp"
             android:background="@drawable/ripble_button"
@@ -95,7 +95,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/LogIn_tvGoToSignUp"
+            android:id="@+id/btn_signUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"

@@ -11,7 +11,6 @@ import com.ceslab.team7_ble_meet.login.LogInActivity
 import com.ceslab.team7_ble_meet.registerInformation.RegisterGenderActivity
 import com.ceslab.team7_ble_meet.registerInformation.RegisterTagActivity
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
-import com.ceslab.team7_ble_meet.signup.SignUpActivity
 
 class SplashActivity : AppCompatActivity() {
 
@@ -30,33 +29,41 @@ class SplashActivity : AppCompatActivity() {
 
     private fun checkAuth(){
         KeyValueDB.createRef(this)
-        val selected = KeyValueDB.isFirstTimeRegister()
+        val selected = KeyValueDB.isRegister()
         val uid = KeyValueDB.getUserId()
         if(uid == ""){
+            //if not registed
             val intent = Intent(this@SplashActivity,LogInActivity::class.java ).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
                 startActivity(intent)
         }else{
-            val gender = KeyValueDB.getUserGender()
-            val tag = KeyValueDB.getUserTag()
-            if(gender == "") {
-                val intent = Intent(this@SplashActivity, RegisterGenderActivity::class.java).apply {
+            //if registered
+            if(selected){
+                val intent = Intent(this@SplashActivity,DashBoardActivity::class.java ).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
                 startActivity(intent)
-                return
-            } else if (!tag){
-                val intent = Intent(this@SplashActivity,RegisterTagActivity::class.java ).apply {
+            }else{ // if registering
+                Log.d("TAG","gender")
+                val gender = KeyValueDB.isRegisterUserGender()
+                Log.d("TAG","gender: $gender")
+                val tag = KeyValueDB.getUserTag()
+                if(!gender) {
+                    val intent = Intent(this@SplashActivity, RegisterGenderActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }
                     startActivity(intent)
                     return
-            }
-            val intent = Intent(this@SplashActivity,DashBoardActivity::class.java ).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                } else if (!tag){
+                    val intent = Intent(this@SplashActivity,RegisterTagActivity::class.java ).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                    startActivity(intent)
+                    return
                 }
-                startActivity(intent)
+
+            }
         }
 //        if(!selected){
 //            //go to sign up
