@@ -9,82 +9,73 @@
             type="com.ceslab.team7_ble_meet.login.LogInViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/ic_sign_up"
         tools:context=".login.LogInActivity">
-
-        <EditText
-            android:id="@+id/LogIn_editUserNameOrEmail"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:background="@drawable/selector_edittext"
-            android:ems="10"
-            android:gravity="center_vertical"
-            android:paddingVertical="18dp"
-            android:hint="@string/username_or_email_1"
-            android:inputType="textPersonName"
-            android:paddingLeft="18dp"
-            android:text="@={logInViewModel.email}"
-            android:textSize="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.352"
-            tools:ignore="MissingConstraints" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txtInputLayoutPassword"
+        <LinearLayout
+            android:id="@+id/linelayout_signin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="25dp"
-            android:layout_marginLeft="25dp"
-            app:hintAnimationEnabled="false"
-            app:hintEnabled="false"
-            app:endIconMode="password_toggle"
-            android:gravity="center|right"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:boxBackgroundMode="none"
-            app:layout_constraintVertical_bias="0.499">
-
-            <com.google.android.material.textfield.TextInputEditText
-
-                android:id="@+id/LogIn_edtPassword"
+            android:orientation="vertical"
+            android:layout_below="@+id/LogIn_tvLogIn"
+            android:layout_marginTop="100dp">
+            <EditText
+                android:id="@+id/LogIn_editUserNameOrEmail"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
                 android:background="@drawable/selector_edittext"
+                android:ems="10"
                 android:gravity="center_vertical"
-                android:hint="@string/password_1"
-                android:inputType="textPassword"
                 android:paddingVertical="18dp"
-                android:text="@={logInViewModel.password}"
-                tools:ignore="MissingConstraints" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:hint="@string/username_or_email_1"
+                android:inputType="textPersonName"
+                android:paddingLeft="18dp"
+                android:text="@={logInViewModel.email}"
+                android:textSize="15dp"
+                />
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputLayoutPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="25dp"
+                app:hintAnimationEnabled="false"
+                app:hintEnabled="false"
+                app:endIconMode="password_toggle"
+                android:gravity="center|right">
+
+                <com.google.android.material.textfield.TextInputEditText
+
+                    android:id="@+id/LogIn_edtPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/selector_edittext"
+                    android:gravity="center_vertical"
+                    android:hint="@string/password_1"
+                    android:inputType="textPassword"
+                    android:paddingVertical="18dp"
+                    android:text="@={logInViewModel.password}"
+                    tools:ignore="MissingConstraints" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/btn_login"
             android:layout_width="203dp"
             android:layout_height="41dp"
             android:background="@drawable/ripble_button"
+            android:layout_below="@+id/linelayout_signin"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
             android:clickable="true"
             android:gravity="center"
             android:padding="10dp"
-            android:textColor="#F4F4F4"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.12"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.637">
+            android:textColor="#F4F4F4">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -100,16 +91,14 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/textView"
             android:text="Resgiter"
             android:textColor="#AE1C4FE8"
             android:textSize="16dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.54"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.977" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/LogIn_tvLogIn"
@@ -117,29 +106,19 @@
             android:layout_height="wrap_content"
             android:text="Hello There !"
             android:textColor="#AE1C4FE8"
-            android:textSize="40dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.134"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.162"
-            tools:ignore="MissingConstraints" />
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="100dp"
+            android:textSize="40dp" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Don't Have Account? "
+            android:layout_marginLeft="40dp"
+            android:layout_marginBottom="15dp"
+            android:layout_alignParentBottom="true"
             android:textColor="@color/black"
-            android:textSize="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.091"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.977" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:textSize="16dp" />
+    </RelativeLayout>
 </layout>
