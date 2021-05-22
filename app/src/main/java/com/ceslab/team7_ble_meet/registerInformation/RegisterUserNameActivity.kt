@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.dashboard.DashBoardActivity
 import com.ceslab.team7_ble_meet.databinding.ActivityRegisterUserNameBinding
+import kotlinx.android.synthetic.main.activity_register_user_name.*
 
 class RegisterUserNameActivity : AppCompatActivity() {
     lateinit var viewModel: RegisterUserNameViewModel
@@ -24,6 +25,11 @@ class RegisterUserNameActivity : AppCompatActivity() {
         binding.viewmodel = viewModel
     }
     private fun initAction(){
+        binding.apply {
+            btn_setusername.setOnClickListener{
+                viewmodel?.registerName()
+            }
+        }
         viewModel.userResp.observe(this, Observer { response ->
             if (response != null){
                 if(response.type == "SUCCESS"){
@@ -31,6 +37,7 @@ class RegisterUserNameActivity : AppCompatActivity() {
                 }
             }
         })
+
     }
     private fun gotoGender(){
         val intent = Intent(this, RegisterGenderActivity::class.java).apply {
