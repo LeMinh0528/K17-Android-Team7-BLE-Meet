@@ -6,7 +6,6 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.ceslab.team7_ble_meet.ble.Characteristic
-import com.ceslab.team7_ble_meet.ble.ListDataDiscoveredAdapter
 import com.ceslab.team7_ble_meet.databinding.ActivityMainBinding
 import kotlin.collections.ArrayList
 
@@ -31,13 +30,13 @@ class MainActivity : AppCompatActivity() {
         listDataDiscovered.add(listOf(1720146,23,0,1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20))
         listDataDiscovered.add(listOf(1720147,23,0,1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20))
 
-        arrayAdapter = ListDataDiscoveredAdapter(this,listDataDiscovered)
-        for(i in listDataDiscovered){
-            Log.d(TAG, "data: ${i}")
-        }
-        binding.apply {
-            listViewTest.adapter = arrayAdapter
-        }
+//        arrayAdapter = ListDataDiscoveredAdapter(this,listDataDiscovered)
+//        for(i in listDataDiscovered){
+//            Log.d(TAG, "data: ${i}")
+//        }
+//        binding.apply {
+//            listViewTest.adapter = arrayAdapter
+//        }
     }
 
     private fun setUpDataDisplay(raw_data: List<Int>): String {
