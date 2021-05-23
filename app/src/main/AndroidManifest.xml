@@ -60,9 +60,10 @@
             android:name=".Profile.ProfileActivity"/>
         <activity
             android:screenOrientation="portrait"
-            android:name=".setting.SettingActivity">
-
-        </activity>
+            android:name=".setting.SettingActivity"/>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".registerInformation.RegisterBirthdayActivity"/>
     </application>
 
 </manifest>

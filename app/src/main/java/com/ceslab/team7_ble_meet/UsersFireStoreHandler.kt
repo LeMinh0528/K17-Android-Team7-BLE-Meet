@@ -19,6 +19,21 @@ class UsersFireStoreHandler {
             .set(hashMapOf("Status" to 1))
     }
 
+    fun updateBirthDay(birthDay: String){
+        var note = mutableMapOf<String,String>()
+        note["DayOfBirth"] = birthDay
+        userRef.document(mAuth.currentUser.uid)
+            .set(note, SetOptions.merge())
+            .addOnSuccessListener {
+                userResp.postValue(Resp("NONE","SUCCESS","update tag successful!"))
+                KeyValueDB.setDayOfBirth(true)
+            }
+            .addOnFailureListener{
+                userResp.postValue(Resp("NONE","FAILED","update tag failed!"))
+                KeyValueDB.setDayOfBirth(false)
+            }
+    }
+
     fun updateName(name: String){
         var note = mutableMapOf<String,String>()
         note["Name"] = name
@@ -30,6 +45,7 @@ class UsersFireStoreHandler {
             }
             .addOnFailureListener{
                 userResp.postValue(Resp("NONE","FAILED","update tag failed!"))
+                KeyValueDB.setUserName(false)
             }
     }
 
@@ -58,6 +74,7 @@ class UsersFireStoreHandler {
             }
             .addOnFailureListener{
                 userResp.postValue(Resp("NONE","FAILED","update gender failed!"))
+                KeyValueDB.setRegisterUserGender(false)
 
             }
     }
@@ -73,6 +90,7 @@ class UsersFireStoreHandler {
             }
             .addOnFailureListener{
                 userResp.postValue(Resp("NONE","FAILED","update tag failed!"))
+                KeyValueDB.setUserTag(false)
             }
     }
 

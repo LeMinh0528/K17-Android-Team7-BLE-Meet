@@ -92,7 +92,7 @@ class RegisterGenderActivity : AppCompatActivity() {
             Log.d("RegisterGenderActivity","RegisterGenderActivity observer")
             if(result != null){
                 if(result.type == "NONE" && result.status == "SUCCESS"){
-                    goToTagRegister()
+                    gotoDob()
                 }
             }
         })
@@ -144,8 +144,8 @@ class RegisterGenderActivity : AppCompatActivity() {
 
     }
 
-    private fun goToTagRegister(){
-        val intent = Intent(this, RegisterTagActivity::class.java).apply {
+    private fun gotoDob(){
+        val intent = Intent(this, RegisterBirthdayActivity::class.java).apply {
         }
         startActivity(intent)
     }
