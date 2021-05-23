@@ -25,11 +25,11 @@ class UsersFireStoreHandler {
         userRef.document(mAuth.currentUser.uid)
             .set(note, SetOptions.merge())
             .addOnSuccessListener {
-                userResp.postValue(Resp("SUCCESS","update tag successful!"))
-                KeyValueDB.setUserTag(true)
+                userResp.postValue(Resp("NONE","SUCCESS","update tag successful!"))
+                KeyValueDB.setUserName(true)
             }
             .addOnFailureListener{
-                userResp.postValue(Resp("FAILED","update tag failed!"))
+                userResp.postValue(Resp("NONE","FAILED","update tag failed!"))
             }
     }
 
@@ -53,11 +53,11 @@ class UsersFireStoreHandler {
         userRef.document(userId)
             .set(note, SetOptions.merge())
             .addOnSuccessListener {
-                userResp.postValue(Resp("SUCCESS","update gender successful!"))
+                userResp.postValue(Resp("NONE","SUCCESS","update gender successful!"))
                 KeyValueDB.setRegisterUserGender(true)
             }
             .addOnFailureListener{
-                userResp.postValue(Resp("FAILED","update gender failed!"))
+                userResp.postValue(Resp("NONE","FAILED","update gender failed!"))
 
             }
     }
@@ -68,11 +68,11 @@ class UsersFireStoreHandler {
         userRef.document(userId)
             .set(note, SetOptions.merge())
             .addOnSuccessListener {
-                userResp.postValue(Resp("SUCCESS","update tag successful!"))
+                userResp.postValue(Resp("NONE","SUCCESS","update tag successful!"))
                 KeyValueDB.setUserTag(true)
             }
             .addOnFailureListener{
-                userResp.postValue(Resp("FAILED","update tag failed!"))
+                userResp.postValue(Resp("NONE","FAILED","update tag failed!"))
             }
     }
 
@@ -141,12 +141,12 @@ class UsersFireStoreHandler {
                             Log.d("TAG","add new users successful")
                             Log.d("TAG","add new users successful id: ${mAuth.currentUser.uid}")
                             KeyValueDB.setUserId(mAuth.currentUser.uid)
-                            userResp.postValue(Resp("SUCCESS","add new users successful"))
+                            userResp.postValue(Resp("NONE","SUCCESS","add new users successful"))
                         }
                         .addOnFailureListener{
                            //on failed add user to firestore
                             Log.d("TAG","Fail: ${it.message}")
-                            userResp.postValue(it.message?.let { it1 -> Resp("FAILED", it1) })
+                            userResp.postValue(it.message?.let { it1 -> Resp("NONE","FAILED", it1) })
                         }
 
                 }else if(task.isCanceled){
@@ -155,7 +155,7 @@ class UsersFireStoreHandler {
             }
             .addOnFailureListener{
                 Log.d("TAG","Fail: ${it.message}")
-                userResp.postValue(it.message?.let { it1 -> Resp("FAILED", it1) })
+                userResp.postValue(it.message?.let { it1 -> Resp("NONE","FAILED", it1) })
             }
     }
 
@@ -166,14 +166,14 @@ class UsersFireStoreHandler {
                     Log.d("UserFireStoreHandler","${mAuth.currentUser}")
                     KeyValueDB.setUserId(mAuth.currentUser.uid)
                     KeyValueDB.setRegister(true)
-                    userResp.postValue(Resp("SUCCESS","Login successful!"))
+                    userResp.postValue(Resp("NONE","SUCCESS","Login successful!"))
                 }else if(task.isCanceled){
                     KeyValueDB.setUserId(mAuth.currentUser.uid)
-                    userResp.postValue(Resp("SUCCESS","Login failed!"))
+                    userResp.postValue(Resp("NONE","SUCCESS","Login failed!"))
                 }
             }
             .addOnFailureListener{
-                userResp.postValue(Resp("FAILED","Login failed! ${it.message}"))
+                userResp.postValue(Resp("NONE","FAILED","Login failed! ${it.message}"))
             }
     }
 
@@ -195,6 +195,21 @@ class UsersFireStoreHandler {
         }
     }
 
+    fun deleteData(){
+        userRef.document(mAuth.currentUser.uid).delete()
+            .addOnSuccessListener {
+                mAuth.currentUser.delete().addOnSuccessListener {
+                    userResp.postValue(Resp("DELETE","SUCCESS",""))
+                }
+                    .addOnFailureListener{
+                        userResp.postValue(Resp("DELETE","FAILED","${it.message}"))
+                    }
+            }
+            .addOnFailureListener{
+                userResp.postValue(Resp("DELETE","FAILED",""))
+            }
+        KeyValueDB.clearData()
+    }
 
-    data class Resp(var type: String, var message: String)
+    data class Resp(var type: String,var status: String, var message: String)
 }

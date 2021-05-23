@@ -91,7 +91,7 @@ class RegisterGenderActivity : AppCompatActivity() {
         viewModel.userResp.observe(this, Observer { result ->
             Log.d("RegisterGenderActivity","RegisterGenderActivity observer")
             if(result != null){
-                if(result.type == "SUCCESS"){
+                if(result.type == "NONE" && result.status == "SUCCESS"){
                     goToTagRegister()
                 }
             }
