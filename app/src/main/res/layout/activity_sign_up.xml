@@ -45,6 +45,8 @@
                 android:hint="@string/email_1"
                 android:inputType="textEmailAddress"
                 android:text="@={signUpViewModel.email}"
+                android:drawableStart="@drawable/ic_user_20"
+                android:drawablePadding="10dp"
                 />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -62,7 +64,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/SignUp_edtPassword"
-
+                    android:drawableStart="@drawable/ic_lock"
+                    android:drawablePadding="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -90,6 +93,8 @@
                     android:id="@+id/SignUp_edtRePassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_lock"
+                    android:drawablePadding="10dp"
                     android:password="true"
                     android:ems="10"
                     android:text="@={signUpViewModel.rePassword}"
