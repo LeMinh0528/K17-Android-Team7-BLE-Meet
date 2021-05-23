@@ -25,7 +25,7 @@
                 android:layout_centerVertical="true"
                 android:clickable="true"
                 android:gravity="center">
-                <Button
+                <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:background="@drawable/left_arrow"

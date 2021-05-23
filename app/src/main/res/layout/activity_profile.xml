@@ -106,21 +106,7 @@
                         android:textSize="30dp" />
 
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
-                    <TextView
-                        android:paddingVertical="10dp"
-                        android:background="@color/white"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="From: Ho Dau Tieng, Binh Duong , Ha Loi , TP Vung Tau"
-                        android:textColor="@color/graysteel"
-                        android:fontFamily="@font/roboto_medium"
-                        android:layout_marginBottom="10dp"
-                        android:textSize="15dp"
-                        android:paddingLeft="13dp"/>
+
                 </LinearLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
