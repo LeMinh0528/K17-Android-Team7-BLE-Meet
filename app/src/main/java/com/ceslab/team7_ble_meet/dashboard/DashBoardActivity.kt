@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.ceslab.team7_ble_meet.R
+import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
 class DashBoardActivity: AppCompatActivity() {
@@ -15,35 +16,48 @@ class DashBoardActivity: AppCompatActivity() {
     lateinit private var viewPagerAdapter: ViewPagerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        setContentView(R.layout.activity_dash_board)
-        viewPager = findViewById(R.id.viewPager)
-        navigationView = findViewById(R.id.navigationView)
-        setUpViewPager()
-        navigationView.setItemSelected(R.id.awesome,true)
+
+        bindView()
+
         navigationView.setOnItemSelectedListener {
             Log.d("TAG","$it")
             when(it){
                 R.id.awesome ->{
                     viewPager.setCurrentItem(0)
                 }
-                R.id.info ->{
+                R.id.bluetooth ->{
                     viewPager.setCurrentItem(1)
                 }
                 R.id.chats ->{
                     viewPager.setCurrentItem(2)
                 }
-                R.id.bluetooth ->{
+                R.id.info ->{
                     viewPager.setCurrentItem(3)
                 }
             }
         }
+
+        initData()
     }
+
+    fun bindView(){
+        setContentView(R.layout.activity_dash_board)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        viewPager = findViewById(R.id.viewPager)
+        navigationView = findViewById(R.id.navigationView)
+        setUpViewPager()
+        navigationView.setItemSelected(R.id.awesome,true)
+    }
+
+    fun initData(){
+
+    }
+
     fun setUpViewPager(){
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPagerAdapter.addFragment(SwipeFragment(),"Swipe")
-        viewPagerAdapter.addFragment(ChatsFragment(),"Chats")
         viewPagerAdapter.addFragment(ConnectFragment(),"Bluetooth")
+        viewPagerAdapter.addFragment(ChatsFragment(),"Chats")
         viewPagerAdapter.addFragment(InfomationFragment(),"Information")
         viewPager.adapter = viewPagerAdapter
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
@@ -61,9 +75,9 @@ class DashBoardActivity: AppCompatActivity() {
                 Log.d("TAG",position.toString())
                 when(position){
                     0 -> navigationView.setItemSelected(R.id.awesome,true)
-                    1 ->  navigationView.setItemSelected(R.id.info,true)
-                    2 ->  navigationView.setItemSelected(R.id.chats,true)
-                    3 ->  navigationView.setItemSelected(R.id.bluetooth,true)
+                    1 -> navigationView.setItemSelected(R.id.bluetooth,true)
+                    2 -> navigationView.setItemSelected(R.id.chats,true)
+                    3 -> navigationView.setItemSelected(R.id.info,true)
                 }
             }
         })

@@ -12,6 +12,7 @@ import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.databinding.ActivitySignUpBinding
 import com.ceslab.team7_ble_meet.login.LogInActivity
 import com.ceslab.team7_ble_meet.registerInformation.RegisterGenderActivity
+import com.ceslab.team7_ble_meet.registerInformation.RegisterUserNameActivity
 import com.ceslab.team7_ble_meet.toast
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
@@ -33,9 +34,7 @@ class SignUpActivity : AppCompatActivity() {
 
     fun setupAction(){
         binding.apply {
-            SignUpTvGoToSignIn.setOnClickListener {
-                goToLogIn()
-            }
+            
             SignUp_btnSignUp.setOnClickListener{
                 Log.d("SignUpActivity","sign up button")
                 viewModel.register()
@@ -54,8 +53,6 @@ class SignUpActivity : AppCompatActivity() {
 
             }
         })
-
-
     }
 
     private fun goToLogIn(){
@@ -65,7 +62,7 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun goToRegisterGender(){
-        val intent = Intent(this, RegisterGenderActivity::class.java).apply {
+        val intent = Intent(this, RegisterUserNameActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         startActivity(intent)

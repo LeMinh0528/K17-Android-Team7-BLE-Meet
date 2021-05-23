@@ -38,25 +38,25 @@ object KeyValueDB {
     }
 
 
-    fun getUserGender(): String {
-        return pref?.getString(USER_GENDER,"")?: ""
+    fun isRegisterUserGender(): Boolean {
+        return pref?.getBoolean(USER_GENDER,false)?: false
     }
 
-    fun setUserGender(gender: String){
+    fun setRegisterUserGender(gender: Boolean){
         val editor: SharedPreferences.Editor? = pref?.edit()
-        editor?.putString(USER_GENDER,gender)
+        editor?.putBoolean(USER_GENDER,gender)
         editor?.apply()
     }
 
-    fun getUserInterested(): String {
-        return pref?.getString(USER_GENDER,"")?: ""
-    }
+//    fun getUserInterested(): Boolean {
+//        return pref?.getString(USER_GENDER,"")?: ""
+//    }
 
-    fun setUserInterested(gender: String){
-        val editor: SharedPreferences.Editor? = pref?.edit()
-        editor?.putString(USER_GENDER,gender)
-        editor?.apply()
-    }
+//    fun setUserInterested(gender: String){
+//        val editor: SharedPreferences.Editor? = pref?.edit()
+//        editor?.putString(USER_GENDER,gender)
+//        editor?.apply()
+//    }
 
     fun getUserId(): String {
         return pref?.getString(USER_ID,"")?: ""
@@ -66,15 +66,18 @@ object KeyValueDB {
         val editor: SharedPreferences.Editor? = pref?.edit()
         editor?.putBoolean(USER_REGISTERED,isRegistered)
     }
-    fun setFirstTimeRegister(fistTime: Boolean){
+    fun setRegister(fistTime: Boolean){
         val editor: SharedPreferences.Editor? = pref?.edit()
         editor?.putBoolean(FIRST_TIME_REGISTER,fistTime)
         editor?.apply()
     }
-    fun setUserName(user: String){
+    fun setUserName(user: Boolean){
         val editor: SharedPreferences.Editor? = pref?.edit()
-        editor?.putString(USER_NAME,user)
+        editor?.putBoolean(USER_NAME,user)
         editor?.apply()
+    }
+    fun isRegisterUserName(): Boolean {
+        return pref?.getBoolean(USER_NAME,false)?: false
     }
     fun setEmail(email: String){
         val editor: SharedPreferences.Editor? = pref?.edit()
@@ -86,11 +89,17 @@ object KeyValueDB {
         editor?.putString(PASSWORD,pass)
         editor?.apply()
     }
-    fun isFirstTimeRegister(): Boolean{
+    fun isRegister(): Boolean{
         return pref?.getBoolean(FIRST_TIME_REGISTER,false)?: false
     }
 
     fun isRegistered(): Boolean{
         return pref?.getBoolean(USER_REGISTERED,false)?: false
+    }
+
+    fun clearData(){
+        val editor : SharedPreferences.Editor? = pref?.edit()
+        editor?.clear()
+        editor?.apply()
     }
 }

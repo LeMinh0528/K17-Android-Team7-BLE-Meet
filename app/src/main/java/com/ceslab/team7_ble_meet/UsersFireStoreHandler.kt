@@ -14,16 +14,47 @@ class UsersFireStoreHandler {
     var mAuth : FirebaseAuth = FirebaseAuth.getInstance()
     var userResp = MutableLiveData<Resp?>()
 
-    fun updateGender(userId: String, gender: String,inter: String){
-        val note = mutableMapOf<String,String>()
+    fun setStatus(userId: String){
+        userRef.document(userId)
+            .set(hashMapOf("Status" to 1))
+    }
+
+    fun updateName(name: String){
+        var note = mutableMapOf<String,String>()
+        note["Name"] = name
+        userRef.document(mAuth.currentUser.uid)
+            .set(note, SetOptions.merge())
+            .addOnSuccessListener {
+                userResp.postValue(Resp("SUCCESS","update tag successful!"))
+                KeyValueDB.setUserTag(true)
+            }
+            .addOnFailureListener{
+                userResp.postValue(Resp("FAILED","update tag failed!"))
+            }
+    }
+
+    fun getGender(): String?{
+        var gender : String? = null
+        userRef.document(mAuth.currentUser.uid)
+            .get()
+            .addOnSuccessListener { query->
+                if(query != null){
+                    Log.d("UserFireStoreHandler","query: ${query.data?.get("Gender")}")
+                    gender = query.data?.get("Gender") as String?
+                }
+            }
+        return gender
+    }
+
+    fun updateGender(userId: String, gender: String?,inter: String){
+        val note = mutableMapOf<String,String?>()
         note["Gender"] = gender
         note["Interested"] = inter
         userRef.document(userId)
             .set(note, SetOptions.merge())
             .addOnSuccessListener {
                 userResp.postValue(Resp("SUCCESS","update gender successful!"))
-                KeyValueDB.setUserGender(gender)
-                KeyValueDB.setUserInterested(inter)
+                KeyValueDB.setRegisterUserGender(true)
             }
             .addOnFailureListener{
                 userResp.postValue(Resp("FAILED","update gender failed!"))
@@ -42,7 +73,6 @@ class UsersFireStoreHandler {
             }
             .addOnFailureListener{
                 userResp.postValue(Resp("FAILED","update tag failed!"))
-
             }
     }
 
@@ -134,13 +164,16 @@ class UsersFireStoreHandler {
             .addOnCompleteListener{task ->
                 if(task.isSuccessful){
                     Log.d("UserFireStoreHandler","${mAuth.currentUser}")
+                    KeyValueDB.setUserId(mAuth.currentUser.uid)
+                    KeyValueDB.setRegister(true)
+                    userResp.postValue(Resp("SUCCESS","Login successful!"))
                 }else if(task.isCanceled){
                     KeyValueDB.setUserId(mAuth.currentUser.uid)
-                    userResp.postValue(Resp("SUCCESS","Login successful!"))
+                    userResp.postValue(Resp("SUCCESS","Login failed!"))
                 }
             }
             .addOnFailureListener{
-                userResp.postValue(Resp("FAILED","Login failed!"))
+                userResp.postValue(Resp("FAILED","Login failed! ${it.message}"))
             }
     }
 

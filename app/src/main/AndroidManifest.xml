@@ -52,7 +52,16 @@
             android:name=".registerInformation.RegisterTagActivity"/>
         <activity
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+            android:name=".registerInformation.RegisterUserNameActivity"/>
+        <activity
+            android:screenOrientation="portrait"
             android:name=".Profile.ProfileActivity"/>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".setting.SettingActivity">
+
+        </activity>
     </application>
 
 </manifest>
