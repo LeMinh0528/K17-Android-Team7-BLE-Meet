@@ -15,16 +15,17 @@ class LogInViewModel(): ViewModel() {
 
     fun logIn(){
         if(email.isEmpty() || password.isEmpty()) {
-            userResp.postValue(UsersFireStoreHandler.Resp("FAILED", "Empty field!"))
+            userResp.postValue(UsersFireStoreHandler.Resp("NONE","FAILED", "Empty field!"))
             return
         }else{
             if (!isValidEmail(email)) {
-                userResp.postValue(UsersFireStoreHandler.Resp("FAILED", "Wrong email format!"))
+                userResp.postValue(UsersFireStoreHandler.Resp("NONE","FAILED", "Wrong email format!"))
                 return
             }
             if (!isValidPasswordFormat(password)) {
                 userResp.postValue(
                     UsersFireStoreHandler.Resp(
+                        "NONE",
                         "FAILED",
                         "Wrong password format, must contain /@$#._"
                     )

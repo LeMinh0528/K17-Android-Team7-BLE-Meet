@@ -31,7 +31,6 @@ class LogInActivity : AppCompatActivity() {
                 viewModel.logIn()
             }
         }
-
     }
 
     private fun setLogIn() {
@@ -41,7 +40,7 @@ class LogInActivity : AppCompatActivity() {
 
         viewModel.userResp.observe(this, Observer { response ->
             if(response != null){
-                if(response.type == "SUCCESS"){
+                if(response.type == "NONE" && response.status == "SUCCESS"){
                     gotoDashBoard()
                 }
                 toast(response.message)

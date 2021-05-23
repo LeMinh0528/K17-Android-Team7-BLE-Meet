@@ -54,7 +54,7 @@ class RegisterTagActivity : AppCompatActivity() {
             Log.d("RegisterTagActivity","registertag observer")
             if(result != null){
                 toast("result: ${result.message}")
-                if(result.type == "SUCCESS"){
+                if(result.type == "NONE" && result.status == "SUCCESS"){
                     KeyValueDB.setRegister(true)
                     KeyValueDB.setUserTag(true)
                     gotoDashBoard()

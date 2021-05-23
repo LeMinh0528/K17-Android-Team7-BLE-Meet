@@ -44,10 +44,11 @@ class SignUpActivity : AppCompatActivity() {
         viewModel.userResp.observe(this, Observer {response ->
             Log.d("SignUpActivity","signup observer")
             if (response != null) {
-                if(response.type == "SUCCESS"){
+                if(response.type == "NONE" && response.status == "SUCCESS"){
                     toast(response.message)
                     goToRegisterGender()
-                }else if(response.type == "FAILED"){
+                }
+                if(response.type == "NONE" && response.status == "FAILED"){
                     toast(response.message)
                 }
 

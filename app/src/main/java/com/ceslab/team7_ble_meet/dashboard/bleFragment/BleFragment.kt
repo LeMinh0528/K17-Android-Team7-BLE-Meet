@@ -1,4 +1,4 @@
-package com.ceslab.team7_ble_meet.dashboard
+package com.ceslab.team7_ble_meet.dashboard.bleFragment
 
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
@@ -27,12 +27,11 @@ import com.ceslab.team7_ble_meet.Profile.ProfileActivity
 import com.ceslab.team7_ble_meet.ble.BleHandle
 import com.ceslab.team7_ble_meet.ble.Characteristic
 import com.ceslab.team7_ble_meet.databinding.FragmentConnectBinding
-import com.ceslab.team7_ble_meet.login.LogInActivity
 import kotlin.experimental.or
 
 
 @Suppress("NAME_SHADOWING")
-class ConnectFragment : Fragment() {
+class BleFragment : Fragment() {
 
     companion object {
         const val PERMISSIONS_REQUEST_CODE: Int = 12

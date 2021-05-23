@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.ceslab.team7_ble_meet.R
+import com.ceslab.team7_ble_meet.dashboard.bleFragment.BleFragment
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
@@ -56,7 +57,7 @@ class DashBoardActivity: AppCompatActivity() {
     fun setUpViewPager(){
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPagerAdapter.addFragment(SwipeFragment(),"Swipe")
-        viewPagerAdapter.addFragment(ConnectFragment(),"Bluetooth")
+        viewPagerAdapter.addFragment(BleFragment(),"Bluetooth")
         viewPagerAdapter.addFragment(ChatsFragment(),"Chats")
         viewPagerAdapter.addFragment(InfomationFragment(),"Information")
         viewPager.adapter = viewPagerAdapter
