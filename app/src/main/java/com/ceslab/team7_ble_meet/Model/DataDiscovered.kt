@@ -1,8 +1,8 @@
-package com.ceslab.team7_ble_meet.dashboard.bleFragment
+package com.ceslab.team7_ble_meet.Model
 
 import com.ceslab.team7_ble_meet.ble.Characteristic
 
-class DataDiscoveredModel(listChar: List<Int>) {
+class DataDiscovered(listChar: List<Int>) {
     val ID = listChar[0]
     val description = "Age: ${listChar[1]}\n" +
             "Sex: ${Characteristic.sex[listChar[2]]}\n" +

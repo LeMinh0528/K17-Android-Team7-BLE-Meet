@@ -6,16 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.ceslab.team7_ble_meet.Model.DataDiscovered
 import com.ceslab.team7_ble_meet.R
 import kotlinx.android.synthetic.main.item_ble_data_discovered.view.*
 
 
 class ListDataDiscoveredAdapter: RecyclerView.Adapter<ListDataDiscoveredAdapter.ViewHolder>(){
-    interface ListDataDiscoveredAdapterListener{
-        fun onClickListen(dataDiscovered: DataDiscoveredModel)
+    interface IdClickedListener{
+        fun onClickListen(id: String)
     }
-    var listener : ListDataDiscoveredAdapterListener? = null
-    var data: List<DataDiscoveredModel> = listOf()
+    var listener : IdClickedListener? = null
+    var data: ArrayList<DataDiscovered> = ArrayList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -46,13 +47,16 @@ class ListDataDiscoveredAdapter: RecyclerView.Adapter<ListDataDiscoveredAdapter.
             }
         }
 
-        fun bind(item : DataDiscoveredModel, listener: ListDataDiscoveredAdapterListener){
+        fun bind(item : DataDiscovered, listener: IdClickedListener){
             tvId.text = item.ID.toString()
             tvCharacteristic.text = item.description
             itemView.setOnClickListener{
                 Log.d("MainActivity","item clicked")
                 itemView.tvCharacteristic.isSingleLine = p
                 p = !p
+            }
+            tvId.setOnClickListener {
+                listener.onClickListen(item.ID.toString())
             }
         }
     }

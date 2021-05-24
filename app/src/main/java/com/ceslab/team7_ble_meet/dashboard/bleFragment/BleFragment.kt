@@ -14,7 +14,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -23,11 +22,11 @@ import androidx.core.view.isGone
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.ceslab.team7_ble_meet.*
-import com.ceslab.team7_ble_meet.Profile.ProfileActivity
+import com.ceslab.team7_ble_meet.Model.DataDiscovered
 import com.ceslab.team7_ble_meet.ble.BleHandle
-import com.ceslab.team7_ble_meet.ble.Characteristic
 import com.ceslab.team7_ble_meet.databinding.FragmentBleBinding
 import kotlin.experimental.or
+
 
 
 @Suppress("NAME_SHADOWING")
@@ -36,7 +35,7 @@ class BleFragment : Fragment() {
     companion object {
         const val PERMISSIONS_REQUEST_CODE: Int = 12
     }
-    private val TAG = "ConnectFragment"
+    private val TAG = "BleFragment"
     private lateinit var binding: FragmentBleBinding
 
     // Initializes Bluetooth adapter.
@@ -45,11 +44,10 @@ class BleFragment : Fragment() {
     private lateinit var connect: BleHandle
 
     private var listDataDiscovered: ArrayList<List<Int>> = ArrayList()
-    private var listDataDisplay: ArrayList<String> = ArrayList()
-    private lateinit var arrayAdapter: ArrayAdapter<*>
+    private var listDataDisplay: ArrayList<DataDiscovered> = ArrayList()
 
-    val data = listOf(1720146,25,1,1,165,60,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17)
-    private val filter = listOf(18,30,1,2,3,1,2,3,160,180,50,80,1,2,3,4,5,6,7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18)
+    val data = listOf(1720146, 25, 1, 1, 165, 60, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17)
+    private val filter = listOf(18, 30, 1, 2, 3, 1, 2, 3, 160, 180, 50, 80, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 11, 12, 13, 14, 15, 16, 17, 18)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -102,18 +100,17 @@ class BleFragment : Fragment() {
                 if(vRipple.isRippleAnimationRunning) vRipple.stopRippleAnimation() else vRipple.startRippleAnimation()
             }
 
-            arrayAdapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_list_item_1,
-                listDataDisplay
-            )
-            listViewBleDataDiscovered.adapter = arrayAdapter
-            listViewBleDataDiscovered.setOnItemClickListener { parent, view, position, id ->
-                requireContext().toast("click item")
-                Log.d(TAG, "position: $position, data: ${listDataDiscovered[position][0]}")
-                val intent = Intent(activity, ProfileActivity::class.java)
-                intent.putExtra("idFromConnectFragmentToProfile", listDataDiscovered[position][0])
-                startActivity(intent)
+            val listDataDiscoveredAdapter = ListDataDiscoveredAdapter()
+            binding.rcListData.adapter = listDataDiscoveredAdapter
+            listDataDiscoveredAdapter.data = listDataDisplay
+
+            listDataDiscoveredAdapter.listener = object : ListDataDiscoveredAdapter.IdClickedListener{
+                override fun onClickListen(id: String) {
+                    Log.d(TAG,id)
+//                    val intent = Intent(activity, ProfileActivity::class.java)
+//                    intent.putExtra("idFromConnectFragmentToProfile", id)
+//                    startActivity(intent)
+                }
             }
         }
     }
@@ -154,21 +151,21 @@ class BleFragment : Fragment() {
         var exist = false
         for (dataDiscovered in listDataDiscovered) {
             if (dataDiscovered[0] == listOfCharacteristic[0]) {
-//                Log.d(TAG, "exist")
                 exist = true
                 break
             }
         }
         if (!exist) {
-//            Log.d(TAG, "do not exist")
-            if (checkCharacteristic(listOfCharacteristic.drop(1) as MutableList<Int>, filter as MutableList<Int>)) {
-//                Log.d(TAG, "matched")
+            if (checkCharacteristic(
+                    listOfCharacteristic.drop(1) as MutableList<Int>,
+                    filter as MutableList<Int>
+                )) {
                 listDataDiscovered.add(listOfCharacteristic)
-                listDataDisplay.add(setUpDataDisplay(listOfCharacteristic))
-                arrayAdapter.notifyDataSetChanged()
+                listDataDisplay.add(DataDiscovered(listOfCharacteristic))
                 if (!binding.btnFindFriend.isGone) {
                     binding.btnFindFriend.isGone = true
                     binding.vRipple.isGone = true
+                    binding.rcListData.visibility = View.VISIBLE
                 }
             }
         }
@@ -244,21 +241,6 @@ class BleFragment : Fragment() {
         }
         Log.d(TAG, "result: $score")
         return score >= 3
-    }
-
-    private fun setUpDataDisplay(raw_data: List<Int>): String {
-        return "ID: ${raw_data[0]}\n" +
-                "Age: ${raw_data[1]}\n" +
-                "Sex: ${Characteristic.sex[raw_data[2]]}\n" +
-                "Sexuality Orientation: ${Characteristic.sexualOrientation[raw_data[3]]}\n" +
-                "Tall: ${raw_data[4]}\n" +
-                "Weight: ${raw_data[5]}\n" +
-                "Zodiac: ${Characteristic.zodiac[raw_data[6]]}\n" +
-                "Outlook: ${Characteristic.outlook[raw_data[7]]} - ${Characteristic.outlook[raw_data[8]]} - ${Characteristic.outlook[raw_data[9]]}\n" +
-                "Job: ${Characteristic.job[raw_data[10]]} - ${Characteristic.job[raw_data[11]]} - ${Characteristic.job[raw_data[12]]}\n" +
-                "Character: ${Characteristic.character[raw_data[13]]} - ${Characteristic.character[raw_data[14]]} - ${Characteristic.character[raw_data[15]]}\n" +
-                "Favorite: ${Characteristic.hightlight[raw_data[16]]} - ${Characteristic.hightlight[raw_data[17]]} - ${Characteristic.hightlight[raw_data[18]]}\n" +
-                "Hightlight: ${Characteristic.hightlight[raw_data[19]]} - ${Characteristic.hightlight[raw_data[20]]} - ${Characteristic.hightlight[raw_data[21]]}\n"
     }
 
     private fun checkPermissions() {

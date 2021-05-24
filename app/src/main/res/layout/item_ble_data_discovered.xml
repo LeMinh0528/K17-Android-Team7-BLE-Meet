@@ -23,12 +23,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/image"
-                android:src="@drawable/icon_alcohol"
-                android:layout_marginLeft="10dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp" />
+<!--            <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                android:id="@+id/image"-->
+<!--                android:src="@drawable/icon_alcohol"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp" />-->
 
             <RelativeLayout
                 android:layout_gravity="center"
@@ -48,10 +48,12 @@
 
                         <TextView
                             android:text="ID"
+                            android:clickable="true"
                             android:textStyle="bold"
                             android:id="@+id/tvID"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:focusable="true" />
                     </LinearLayout>
 
                     <LinearLayout
