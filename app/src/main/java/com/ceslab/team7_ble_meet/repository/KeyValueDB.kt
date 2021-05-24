@@ -8,6 +8,7 @@ object KeyValueDB {
     private const val USER_ID = "user_id"
     private const val USER_REGISTERED = "user_registered"
     private const val FIRST_TIME_REGISTER = "first_time_register"
+    private const val DAY_OF_BIRTH = "day_of_birth"
     private const val USER_NAME = "user_name"
     private const val EMAIL = "email"
     private const val PASSWORD = "password"
@@ -46,6 +47,16 @@ object KeyValueDB {
         val editor: SharedPreferences.Editor? = pref?.edit()
         editor?.putBoolean(USER_GENDER,gender)
         editor?.apply()
+    }
+
+    fun setDayOfBirth(i: Boolean){
+        val editor: SharedPreferences.Editor? = pref?.edit()
+        editor?.putBoolean(DAY_OF_BIRTH, i)
+        editor?.apply()
+    }
+
+    fun isRegisterDOB(): Boolean{
+        return pref?.getBoolean(DAY_OF_BIRTH,false)?: false
     }
 
 //    fun getUserInterested(): Boolean {

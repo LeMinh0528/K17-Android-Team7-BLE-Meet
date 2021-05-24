@@ -4,24 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".registerInformation.RegisterPhoneActivity">
+    tools:context=".registerInformation.RegisterPictureActivity">
 
-    <TextView
-        android:id="@+id/tv_phone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="60dp"
-        android:layout_below="@+id/appBarLayout2"
-        android:text="My number is"
-        android:textColor="@color/black"
-        android:textSize="30dp" />
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-       android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true">
+
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
@@ -53,35 +44,17 @@
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="70dp"
-        android:layout_below="@+id/tv_phone"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-        <com.hbb20.CountryCodePicker
-            android:id="@+id/ccp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="5dp"
-            app:ccp_autoDetectLanguage="true"
-            app:ccp_autoFormatNumber="false"
-            app:ccp_clickable="true"
-            app:ccp_defaultLanguage="VIETNAMESE"
-            app:ccp_defaultNameCode="VN"
-            app:ccp_showPhoneCode="true"
-            app:ccp_textGravity="LEFT"
-            tools:ignore="MissingConstraints" />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:numeric="integer"
-            android:paddingHorizontal="5dp"></EditText>
-    </LinearLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/ic_user"
+        app:civ_border_color="@color/black"
+        app:civ_border_width="1dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:layout_marginTop="80dp"/>
     <LinearLayout
         android:id="@+id/btn_continue"
         android:clickable="true"
@@ -89,33 +62,20 @@
         android:layout_height="wrap_content"
         android:background="@drawable/ripble_button"
         android:layout_alignParentBottom="true"
-        android:layout_marginVertical="8dp"
+        android:layout_marginVertical="5dp"
         android:gravity="center"
         android:textColor="#F4F4F4"
         android:paddingVertical="12dp"
-        android:layout_marginHorizontal="25dp">
+        android:layout_marginHorizontal="65dp">
+
         <TextView
             android:id="@+id/tv_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Continue"
-            android:textStyle="bold"
             android:textColor="@color/colorwhite"
-            android:textSize="18dp" />
+            android:textSize="25dp"
+            android:textStyle="bold" />
     </LinearLayout>
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="match_parent"
 
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_below="@id/linearLayout2"
-        android:text="When you tap continue, App will send a text with verfication code. Message and data rates my apply"
-        android:textColor="@color/black"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        tools:ignore="MissingConstraints" />
 </RelativeLayout>

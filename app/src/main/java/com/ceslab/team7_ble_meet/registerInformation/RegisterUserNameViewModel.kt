@@ -11,10 +11,15 @@ class RegisterUserNameViewModel : ViewModel() {
 
     fun registerName(){
         if(username.isEmpty()) {
-            userResp.postValue(UsersFireStoreHandler.Resp("FAILED", "Empty field!"))
+            userResp.postValue(UsersFireStoreHandler.Resp("NONE","FAILED", "Empty field!"))
             return
         }
         instance.updateName(username)
+    }
+
+    fun deleteUser(){
+        instance.deleteData()
+
     }
 
 }
