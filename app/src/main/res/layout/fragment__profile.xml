@@ -13,303 +13,298 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="33dp"
-                android:layout_gravity="center_horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/image_circle"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    app:civ_border_width="4dp"
-                    app:civ_border_color="#4FC3F7"
-                    android:src="@drawable/avatar_default"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" >
-                </de.hdodenhof.circleimageview.CircleImageView>
-
-                <LinearLayout
-                    android:layout_width="90dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/shape_image_proflie_edit"
-                    android:clickable="true"
-                    android:gravity="center"
-                    app:layout_constraintBottom_toBottomOf="@id/image_circle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.498"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:ignore="MissingConstraints">
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/ic_pencil" />
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/shape_backprofile"
-                >
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="10dp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:fontFamily="serif"
-                    android:text="Tran Thi Nhu Nguyet"/>
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="5dp">
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="148dp"
-                        android:layout_weight="1"
-                        android:gravity="center|right"
-                        android:paddingHorizontal="5dp"
-                        android:text="22 Age"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.533" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:layout_marginStart="12dp"
-                        android:layout_weight="1"
-                        android:src="@drawable/icon_gender_female"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toEndOf="@+id/textView2"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Tag:"
-                    android:textStyle="bold"
-                    android:fontFamily="sans-serif-black"
-                    android:paddingLeft="13dp"/>
+            android:orientation="vertical"
+            android:background="@drawable/backgroundprofile">
+            <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingVertical="7dp"
-                    android:paddingHorizontal="20dp">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    android:gravity="center">
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:layout_marginRight="25dp"
                         android:gravity="center"
-                        android:paddingVertical="6dp"
-                        android:paddingHorizontal="10dp"
+                        app:cardBackgroundColor="#FEFFEF"
                         android:clickable="true"
-                        android:background="@drawable/ripble_tag_fragmentprofile">
-                        <TextView
+                        app:cardCornerRadius="40dp"
+                        android:layout_toRightOf="@+id/image_circle">
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_edit"/>
+                    </androidx.cardview.widget.CardView>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/image_circle"
+                            android:layout_width="200dp"
+                            android:layout_height="200dp"
+                            app:civ_border_width="3dp"
+                            app:civ_border_color="#4FC3F7"
+                            android:layout_centerHorizontal="true"
+                            android:paddingBottom="10dp"
+                            android:src="@drawable/avatar_default"/>
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Alcohol"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            ></TextView>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_marginHorizontal="10dp"
-                        android:paddingVertical="6dp"
-                        android:paddingHorizontal="10dp"
-                        android:clickable="true"
-                        android:background="@drawable/ripble_tag_fragmentprofile">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Smoke"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            ></TextView>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_marginHorizontal="10dp"
-                        android:paddingVertical="6dp"
-                        android:paddingHorizontal="10dp"
-                        android:clickable="true"
-                        android:background="@drawable/ripble_tag_fragmentprofile">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Dog Love's"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            ></TextView>
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="7dp"
-                    android:paddingHorizontal="20dp">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:paddingVertical="6dp"
-                        android:paddingHorizontal="10dp"
-                        android:clickable="true"
-                        android:background="@drawable/ripble_tag_fragmentprofile">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Babyface"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            ></TextView>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_marginHorizontal="10dp"
-                        android:paddingVertical="6dp"
-                        android:paddingHorizontal="10dp"
-                        android:clickable="true"
-                        android:background="@drawable/ripble_tag_fragmentprofile">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Hot "
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            ></TextView>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_marginHorizontal="10dp"
-                        android:paddingVertical="6dp"
-                        android:paddingHorizontal="10dp"
-                        android:clickable="true"
-                        android:background="@drawable/ripble_tag_fragmentprofile">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Like play game"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            ></TextView>
-                    </LinearLayout>
+                            android:orientation="horizontal"
+                            android:layout_alignParentBottom="true"
+                            android:gravity="center"
+                            android:background="@drawable/shape_white"
+                            android:layout_centerHorizontal="true">
+                            <TextView
+                                android:id="@+id/textView2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="3dp"
+                                android:gravity="center"
+                                android:layout_marginLeft="3dp"
+                                android:layout_weight="1"
+                                android:text="22"
+                                android:textColor="@color/black"
+                                android:textSize="10dp" />
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:padding="3dp"
+                                android:layout_weight="1"
+                                android:src="@drawable/icon_gender_female" />
+                        </LinearLayout>
+                    </RelativeLayout>
 
-
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:layout_marginLeft="25dp"
+                        android:gravity="center"
+                        app:cardBackgroundColor="#FEFFEF"
+                        android:clickable="true"
+                        app:cardCornerRadius="40dp"
+                        android:layout_toRightOf="@+id/image_circle">
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_settings"/>
+                    </androidx.cardview.widget.CardView>
                 </LinearLayout>
+
+             </RelativeLayout>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="15dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingVertical="10dp"
-                    android:background="@drawable/shape_option1"
-                    android:gravity="center_horizontal"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginHorizontal="40dp">
+                    android:background="#D9DADC">
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Em con di hoc,anh cho em nha"
+                        android:background="@color/white"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="30dp"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center"
+                        android:textSize="22dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Tran Thi Nhu Nguyet"
+                        android:textColor="@color/black"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="5dp"
+                        android:background="@color/white"
+                        android:layout_marginBottom="4dp"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="From:"
+                            android:paddingLeft="10dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:fontFamily="sans-serif-black" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Nga tu hang xanh phuong 5 , quan 7 , tpvung tau"
+                            android:paddingLeft="10dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:fontFamily="sans-serif-black"/>
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:text="Passions:"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-black"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:paddingVertical="5dp"
+                        android:paddingLeft="10dp"
+                        android:layout_marginBottom="5dp"/>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="20dp"
-                       android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/textView3"
+                        android:orientation="horizontal"
+                        android:paddingVertical="7dp"
+                        android:background="@color/white"
+                        android:paddingHorizontal="20dp">
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-black"
-                            android:text="Like"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:ignore="MissingConstraints" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingHorizontal="5dp"
-                            android:paddingVertical="5dp"
-                            android:text="12"
-                            android:textColor="@color/black"
-                            android:textSize="20dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView3"
-                            app:layout_constraintVertical_bias="0.0" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-black"
-                            android:text="Follow"
-                            android:textColor="@color/black"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:ignore="MissingConstraints" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
+                            android:gravity="center"
+                            android:paddingVertical="6dp"
                             android:paddingHorizontal="10dp"
-                            android:paddingVertical="5dp"
-                            android:text="60"
-                            android:textColor="@color/black"
-                            android:textSize="20dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView4"
-                            app:layout_constraintVertical_bias="0.0" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                            android:clickable="true"
+                            android:background="@drawable/ripble_tag_fragmentprofile">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Alcohol"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"
+                                ></TextView>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_marginHorizontal="10dp"
+                            android:paddingVertical="6dp"
+                            android:paddingHorizontal="10dp"
+                            android:clickable="true"
+                            android:background="@drawable/ripble_tag_fragmentprofile">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Smoke"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"
+                                ></TextView>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_marginHorizontal="10dp"
+                            android:paddingVertical="6dp"
+                            android:paddingHorizontal="10dp"
+                            android:clickable="true"
+                            android:background="@drawable/ripble_tag_fragmentprofile">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Dog Love's"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"
+                                ></TextView>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@color/white"
+                        android:paddingVertical="7dp"
+                        android:paddingHorizontal="20dp">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingVertical="6dp"
+                            android:paddingHorizontal="10dp"
+                            android:clickable="true"
+                            android:background="@drawable/ripble_tag_fragmentprofile">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Babyface"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"
+                                ></TextView>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_marginHorizontal="10dp"
+                            android:paddingVertical="6dp"
+                            android:paddingHorizontal="10dp"
+                            android:clickable="true"
+                            android:background="@drawable/ripble_tag_fragmentprofile">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Hot "
+                                android:textColor="@color/black"
+                                android:textStyle="bold"
+                                ></TextView>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_marginHorizontal="10dp"
+                            android:paddingVertical="6dp"
+                            android:paddingHorizontal="10dp"
+                            android:clickable="true"
+                            android:background="@drawable/ripble_tag_fragmentprofile">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Like play game"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"
+                                ></TextView>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:background="@color/white"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingVertical="10dp"
+                            android:background="@drawable/shape_option1"
+                            android:gravity="center_horizontal"
+                            android:layout_marginVertical="5dp"
+                            android:layout_marginHorizontal="40dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Em con di hoc,anh cho em nha"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </androidx.recyclerview.widget.RecyclerView>
-            </LinearLayout>
+                    android:layout_height="match_parent"/>
+            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

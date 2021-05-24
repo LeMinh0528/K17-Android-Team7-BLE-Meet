@@ -33,7 +33,7 @@ class RegisterUserNameActivity : AppCompatActivity() {
     }
     private fun initAction(){
         binding.apply {
-            btn_setusername.setOnClickListener{
+            btn_continue.setOnClickListener{
                 viewmodel?.registerName()
             }
         }

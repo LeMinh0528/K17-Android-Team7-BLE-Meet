@@ -14,8 +14,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_gravity="center_horizontal">
+
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/imbackgroundprofile"
                     android:layout_width="match_parent"
@@ -27,6 +27,7 @@
                     android:src="@drawable/image_couple"
                     app:riv_corner_radius_bottom_left="60dp"
                     app:riv_corner_radius_bottom_right="60dp" />
+
                 <RelativeLayout
                    android:id="@+id/layout_image"
                     android:layout_width="200dp"
@@ -89,183 +90,178 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:gravity="center"
-                        android:paddingVertical="10dp"
-                        android:text="Nhu Nguyet"
-                        android:textColor="@color/black"
-                        android:textSize="30dp" />
+                android:orientation="vertical">
+               <androidx.cardview.widget.CardView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   app:cardCornerRadius="20dp"
+                   app:cardElevation="1dp"
+                   app:cardBackgroundColor="@color/white"
+                   android:layout_marginHorizontal="8dp">
+                   <RelativeLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content">
+                       <LinearLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:orientation="vertical"
+                           android:background="@color/white"
+                           android:paddingBottom="10dp">
+                           <TextView
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:fontFamily="@font/roboto_regular"
+                               android:gravity="center"
+                               android:paddingVertical="10dp"
+                               android:text="Nhu Nguyet"
+                               android:textColor="@color/black"
+                               android:textSize="25dp" />
+                           <TextView
+                               android:background="@color/white"
+                               android:paddingVertical="10dp"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:text="Passions :"
+                               android:textSize="15dp"
+                               android:textColor="@color/graysteel"
+                               android:fontFamily="@font/roboto_medium"
+                               android:paddingLeft="13dp"/>
+                           <LinearLayout
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:orientation="horizontal"
+                               android:paddingVertical="7dp"
+                               android:paddingHorizontal="20dp">
+                               <LinearLayout
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:gravity="center"
+                                   android:paddingVertical="6dp"
+                                   android:paddingHorizontal="10dp"
+                                   android:clickable="true"
+                                   android:background="@drawable/ripble_tag_fragmentprofile">
+                                   <TextView
+                                       android:layout_width="wrap_content"
+                                       android:layout_height="wrap_content"
+                                       android:text="Alcohol"
+                                       android:textColor="@color/black"
+                                       android:textStyle="bold"
+                                       ></TextView>
+                               </LinearLayout>
+                               <LinearLayout
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:gravity="center"
+                                   android:layout_marginHorizontal="10dp"
+                                   android:paddingVertical="6dp"
+                                   android:paddingHorizontal="10dp"
+                                   android:clickable="true"
+                                   android:background="@drawable/ripble_tag_fragmentprofile">
+                                   <TextView
+                                       android:layout_width="wrap_content"
+                                       android:layout_height="wrap_content"
+                                       android:text="Smoke"
+                                       android:textColor="@color/black"
+                                       android:textStyle="bold"
+                                       ></TextView>
+                               </LinearLayout>
+                               <LinearLayout
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:gravity="center"
 
-                </LinearLayout>
+                                   android:paddingVertical="6dp"
+                                   android:paddingHorizontal="10dp"
+                                   android:clickable="true"
+                                   android:background="@drawable/ripble_tag_fragmentprofile">
+                                   <TextView
+                                       android:layout_width="wrap_content"
+                                       android:layout_height="wrap_content"
+                                       android:text="Dog Love's"
+                                       android:textColor="@color/black"
+                                       android:textStyle="bold"
+                                       ></TextView>
+                               </LinearLayout>
+                           </LinearLayout>
+                           <LinearLayout
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:orientation="horizontal"
+                               android:paddingVertical="7dp"
+                               android:paddingHorizontal="20dp">
+                               <LinearLayout
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:gravity="center"
+                                   android:paddingVertical="6dp"
+                                   android:paddingHorizontal="10dp"
+                                   android:clickable="true"
+                                   android:background="@drawable/ripble_tag_fragmentprofile">
+                                   <TextView
+                                       android:layout_width="wrap_content"
+                                       android:layout_height="wrap_content"
+                                       android:text="Babyface"
+                                       android:textColor="@color/black"
+                                       android:textStyle="bold"
+                                       ></TextView>
+                               </LinearLayout>
+                               <LinearLayout
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:gravity="center"
+                                   android:layout_marginHorizontal="10dp"
+                                   android:paddingVertical="6dp"
+                                   android:paddingHorizontal="10dp"
+                                   android:clickable="true"
+                                   android:background="@drawable/ripble_tag_fragmentprofile">
 
-                </LinearLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:background="@color/white"
-                        android:paddingBottom="10dp"
-                        >
-                        <TextView
-                            android:background="@color/white"
-                            android:paddingVertical="10dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Passions :"
-                            android:textSize="15dp"
-                            android:textColor="@color/graysteel"
-                            android:fontFamily="@font/roboto_medium"
-                            android:paddingLeft="13dp"/>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingVertical="7dp"
-                            android:paddingHorizontal="20dp">
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:paddingVertical="6dp"
-                                android:paddingHorizontal="10dp"
-                                android:clickable="true"
-                                android:background="@drawable/ripble_tag_fragmentprofile">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Alcohol"
-                                    android:textColor="@color/black"
-                                    android:textStyle="bold"
-                                    ></TextView>
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:layout_marginHorizontal="10dp"
-                                android:paddingVertical="6dp"
-                                android:paddingHorizontal="10dp"
-                                android:clickable="true"
-                                android:background="@drawable/ripble_tag_fragmentprofile">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Smoke"
-                                    android:textColor="@color/black"
-                                    android:textStyle="bold"
-                                    ></TextView>
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
+                                   <TextView
+                                       android:layout_width="wrap_content"
+                                       android:layout_height="wrap_content"
+                                       android:text="Hot "
+                                       android:textColor="@color/black"
+                                       android:textStyle="bold"></TextView>
+                               </LinearLayout>
+                               <LinearLayout
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:gravity="center"
+                                   android:paddingVertical="6dp"
+                                   android:paddingHorizontal="10dp"
+                                   android:clickable="true"
+                                   android:background="@drawable/ripble_tag_fragmentprofile">
+                                   <TextView
+                                       android:layout_width="wrap_content"
+                                       android:layout_height="wrap_content"
+                                       android:text="Like play game"
+                                       android:textColor="@color/black"
+                                       android:textStyle="bold"
+                                       ></TextView>
+                               </LinearLayout>
+                           </LinearLayout>
 
-                                android:paddingVertical="6dp"
-                                android:paddingHorizontal="10dp"
-                                android:clickable="true"
-                                android:background="@drawable/ripble_tag_fragmentprofile">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Dog Love's"
-                                    android:textColor="@color/black"
-                                    android:textStyle="bold"
-                                    ></TextView>
-                            </LinearLayout>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingVertical="7dp"
-                            android:paddingHorizontal="20dp">
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:paddingVertical="6dp"
-                                android:paddingHorizontal="10dp"
-                                android:clickable="true"
-                                android:background="@drawable/ripble_tag_fragmentprofile">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Babyface"
-                                    android:textColor="@color/black"
-                                    android:textStyle="bold"
-                                    ></TextView>
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:layout_marginHorizontal="10dp"
-                                android:paddingVertical="6dp"
-                                android:paddingHorizontal="10dp"
-                                android:clickable="true"
-                                android:background="@drawable/ripble_tag_fragmentprofile">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Hot "
-                                    android:textColor="@color/black"
-                                    android:textStyle="bold"></TextView>
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:paddingVertical="6dp"
-                                android:paddingHorizontal="10dp"
-                                android:clickable="true"
-                                android:background="@drawable/ripble_tag_fragmentprofile">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Like play game"
-                                    android:textColor="@color/black"
-                                    android:textStyle="bold"
-                                    ></TextView>
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:paddingVertical="10dp"
-                            android:background="@drawable/shape_option1"
-                            android:gravity="center_horizontal"
-                            android:layout_marginVertical="5dp"
-                            android:layout_marginHorizontal="40dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Em con di hoc ,anh cho em nha"
-                                android:textColor="@color/black"
-                                android:textSize="15dp"
-                                android:fontFamily="@font/roboto_medium"/>
-                        </LinearLayout>
+                           <LinearLayout
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:orientation="vertical"
+                               android:paddingVertical="10dp"
+                               android:background="@drawable/shape_option1"
+                               android:gravity="center_horizontal"
+                               android:layout_marginVertical="5dp"
+                               android:layout_marginHorizontal="40dp">
+                               <TextView
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:text="Em con di hoc ,anh cho em nha"
+                                   android:textColor="@color/black"
+                                   android:textSize="15dp"
+                                   android:fontFamily="@font/roboto_medium"/>
+                           </LinearLayout>
 
 
-                    </LinearLayout>
-                </RelativeLayout>
-
-
-
+                       </LinearLayout>
+                   </RelativeLayout>
+               </androidx.cardview.widget.CardView>
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
