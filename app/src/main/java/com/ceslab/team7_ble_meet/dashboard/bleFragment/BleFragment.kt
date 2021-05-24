@@ -26,7 +26,7 @@ import com.ceslab.team7_ble_meet.*
 import com.ceslab.team7_ble_meet.Profile.ProfileActivity
 import com.ceslab.team7_ble_meet.ble.BleHandle
 import com.ceslab.team7_ble_meet.ble.Characteristic
-import com.ceslab.team7_ble_meet.databinding.FragmentConnectBinding
+import com.ceslab.team7_ble_meet.databinding.FragmentBleBinding
 import kotlin.experimental.or
 
 
@@ -37,14 +37,14 @@ class BleFragment : Fragment() {
         const val PERMISSIONS_REQUEST_CODE: Int = 12
     }
     private val TAG = "ConnectFragment"
-    private lateinit var binding: FragmentConnectBinding
+    private lateinit var binding: FragmentBleBinding
 
     // Initializes Bluetooth adapter.
     private lateinit var bluetoothManager : BluetoothManager
     private lateinit var bluetoothAdapter: BluetoothAdapter
     private lateinit var connect: BleHandle
 
-    private var listDataDiscovered: ArrayList<ArrayList<Int>> = ArrayList()
+    private var listDataDiscovered: ArrayList<List<Int>> = ArrayList()
     private var listDataDisplay: ArrayList<String> = ArrayList()
     private lateinit var arrayAdapter: ArrayAdapter<*>
 
@@ -71,10 +71,14 @@ class BleFragment : Fragment() {
         bluetoothManager = activity?.let { getSystemService(it, BluetoothManager::class.java) }!!
         bluetoothAdapter = bluetoothManager.adapter
         connect = BleHandle()
+
+        connect.bleDataReceived.observe(viewLifecycleOwner, {
+            handleDataDiscovered(it)
+        })
     }
 
     private fun setUpUI(inflater: LayoutInflater, container: ViewGroup?){
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_connect, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_ble, container, false)
         binding.apply {
             if(bluetoothAdapter.isEnabled){
                 swTurnOnOffBLE.isChecked = true
@@ -104,9 +108,6 @@ class BleFragment : Fragment() {
                 listDataDisplay
             )
             listViewBleDataDiscovered.adapter = arrayAdapter
-            connect.bleDataReceived.observe(viewLifecycleOwner, {
-                handleDataDiscovered(it)
-            })
             listViewBleDataDiscovered.setOnItemClickListener { parent, view, position, id ->
                 requireContext().toast("click item")
                 Log.d(TAG, "position: $position, data: ${listDataDiscovered[position][0]}")
@@ -173,7 +174,7 @@ class BleFragment : Fragment() {
         }
     }
 
-    private fun convertDataDiscovered(data: ByteArray): ArrayList<Int> {
+    private fun convertDataDiscovered(data: ByteArray): List<Int> {
         val rawData = ArrayList<Int>()
         Log.d(TAG, bytesToHex(data))
         val sizeEachCharacter = mutableListOf(24, 7, 3, 3, 8, 8, 4, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7)
@@ -245,7 +246,7 @@ class BleFragment : Fragment() {
         return score >= 3
     }
 
-    private fun setUpDataDisplay(raw_data: ArrayList<Int>): String {
+    private fun setUpDataDisplay(raw_data: List<Int>): String {
         return "ID: ${raw_data[0]}\n" +
                 "Age: ${raw_data[1]}\n" +
                 "Sex: ${Characteristic.sex[raw_data[2]]}\n" +

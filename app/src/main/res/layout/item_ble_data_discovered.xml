@@ -62,7 +62,7 @@
                             android:id="@+id/tvCharacteristic"
                             android:singleLine="true"
                             android:ellipsize="end"
-                            android:maxLines="1"
+                            android:maxLines="10"
                             android:text="Last text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
@@ -70,12 +70,6 @@
 
                 </LinearLayout>
 
-                <RelativeLayout
-                    android:id="@+id/dots"
-                    android:background="@drawable/bg_dots"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp" />
             </RelativeLayout>
 
 
