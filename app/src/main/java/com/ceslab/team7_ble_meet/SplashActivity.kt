@@ -33,6 +33,8 @@ class SplashActivity : AppCompatActivity() {
         KeyValueDB.createRef(this)
         val selected = KeyValueDB.isRegister()
         val uid = KeyValueDB.getUserId()
+        var id = KeyValueDB.getUserShortId()
+        Log.d("SplashActivity","id: $id")
         if(uid == ""){
             //if not registed
             val intent = Intent(this@SplashActivity,LogInActivity::class.java ).apply {

@@ -8,7 +8,7 @@ class RegisterTagViewModel: ViewModel() {
     private var instance = UsersFireStoreHandler()
     var userResp: MutableLiveData<UsersFireStoreHandler.Resp?> = instance.userResp
 
-    fun register(userId: String, tag:MutableList<String>){
-        instance.updateTag(userId,tag)
+    fun register(tag:MutableList<String>){
+        instance.updateTag(tag)
     }
 }

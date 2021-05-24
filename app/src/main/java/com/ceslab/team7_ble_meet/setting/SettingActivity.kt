@@ -23,7 +23,7 @@ class SettingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_setting)
         bindView()
         bindAction()
-        Log.d("SettingActivity","userid firebase: ${instance.mAuth.currentUser.uid}")
+//        Log.d("SettingActivity","userid firebase: ${instance.mAuth.currentUser.uid}")
         Log.d("SettingActivity","userid key: ${KeyValueDB.getUserId()}")
 
     }
@@ -45,7 +45,6 @@ class SettingActivity : AppCompatActivity() {
                     }
                     override fun confirm() {
                         logoutFireBase()
-                        clearLocalData()
                         goToLogIn()
                     }
                 })
@@ -55,10 +54,6 @@ class SettingActivity : AppCompatActivity() {
     private fun logoutFireBase(){
         instance.mAuth.signOut()
         KeyValueDB.clearData()
-    }
-
-    private fun clearLocalData(){
-        KeyValueDB.setUserId("")
     }
 
     private fun goToLogIn(){

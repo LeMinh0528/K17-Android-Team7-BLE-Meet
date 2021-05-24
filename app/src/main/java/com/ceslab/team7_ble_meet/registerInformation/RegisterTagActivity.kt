@@ -48,7 +48,7 @@ class RegisterTagActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(RegisterTagViewModel::class.java)
 
         btnContinue.setOnClickListener {
-            viewModel.register(userId,listChooser)
+            viewModel.register(listChooser)
         }
         viewModel.userResp.observe(this, Observer { result ->
             Log.d("RegisterTagActivity","registertag observer")

@@ -85,7 +85,7 @@ class RegisterGenderActivity : AppCompatActivity() {
         }
 
         btnContinue.setOnClickListener {
-            viewModel.register(userId,chooseGender,chooseInterested)
+            viewModel.register(chooseGender,chooseInterested)
         }
 
         viewModel.userResp.observe(this, Observer { result ->
