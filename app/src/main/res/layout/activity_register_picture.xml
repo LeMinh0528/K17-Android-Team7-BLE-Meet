@@ -1,81 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".registerInformation.RegisterPictureActivity">
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.ceslab.team7_ble_meet.registerInformation.RegisterPictureViewModel" />
+    </data>
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout2"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_alignParentTop="true">
+        android:layout_height="match_parent"
+        tools:context=".registerInformation.RegisterPictureActivity">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout2"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_centerVertical="true"
-                    android:clickable="true"
-                    android:gravity="center">
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:background="@drawable/left_arrow"
-                        android:paddingTop="10dp" />
-                </LinearLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="35dp"
-                    android:text="Resgister Profile"
-                    android:textColor="@color/black"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_alignParentTop="true">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/ic_user"
-        app:civ_border_color="@color/black"
-        app:civ_border_width="1dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:clickable="true"
-        android:layout_marginTop="80dp"/>
-    <LinearLayout
-        android:id="@+id/btn_continue"
-        android:clickable="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ripble_button"
-        android:layout_alignParentBottom="true"
-        android:layout_marginVertical="5dp"
-        android:gravity="center"
-        android:textColor="#F4F4F4"
-        android:paddingVertical="12dp"
-        android:layout_marginHorizontal="65dp">
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:clickable="true"
+                        android:gravity="center">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/left_arrow"
+                            android:paddingTop="10dp" />
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="35dp"
+                        android:text="Resgister Profile"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <TextView
-            android:id="@+id/tv_btn"
+            android:id="@+id/title"
+            android:layout_marginTop="20dp"
+            android:text="Setting your avatar"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/appBarLayout2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Continue"
-            android:textColor="@color/colorwhite"
-            android:textSize="25dp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:fontFamily="@font/roboto_black"
+            android:textSize="26dp"
+            android:layout_height="wrap_content"/>
+        <FrameLayout
+            android:id="@+id/avatar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:layout_below="@+id/title"
+            android:background="@drawable/bg_avatar_norm"
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-</RelativeLayout>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ic"
+                android:src="@drawable/image_couple"
+                android:layout_width="120dp"
+                android:layout_height="120dp" />
+
+            <LinearLayout
+                android:id="@+id/btn_edit"
+                android:clickable="true"
+                android:layout_below="@+id/avatar"
+                android:background="@drawable/bg_brown"
+                android:layout_gravity="bottom|end"
+                android:gravity="center"
+                android:layout_width="35dp"
+                android:layout_height="34dp">
+                <ImageView
+                    android:src="@drawable/ic_pencil"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp" />
+            </LinearLayout>
+        </FrameLayout>
+        <TextView
+            android:layout_marginTop="20dp"
+            android:text="Other user can see your avatar"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/avatar"
+            android:layout_width="wrap_content"
+            android:textStyle="italic"
+            android:textSize="15dp"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:id="@+id/btn_continue"
+            android:clickable="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripble_button"
+            android:layout_alignParentBottom="true"
+            android:layout_marginVertical="5dp"
+            android:gravity="center"
+            android:textColor="#F4F4F4"
+            android:paddingVertical="12dp"
+            android:layout_marginHorizontal="65dp">
+
+            <TextView
+                android:id="@+id/tv_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Continue"
+                android:textColor="@color/colorwhite"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>
