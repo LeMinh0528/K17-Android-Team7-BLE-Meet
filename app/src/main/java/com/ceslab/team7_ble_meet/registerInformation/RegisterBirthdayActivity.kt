@@ -1,77 +1,101 @@
 package com.ceslab.team7_ble_meet.registerInformation
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
+import android.widget.DatePicker
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.ceslab.team7_ble_meet.R
+import com.ceslab.team7_ble_meet.databinding.ActivityRegisterBirthdayBinding
+import com.ceslab.team7_ble_meet.toast
+import kotlinx.android.synthetic.main.activity_register_birthday.*
 import java.util.*
 
 
 class RegisterBirthdayActivity : AppCompatActivity() {
-    lateinit var mdataPickerDialog : DatePickerDialog.OnDateSetListener
-
+    lateinit var dialogListener : DatePickerDialog.OnDateSetListener
+    lateinit var viewModel: RegisterBirthDayViewModel
+    lateinit var binding: ActivityRegisterBirthdayBinding
+    private var datePickerDialog  : DatePickerDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register_birthday)
-//        initdatapicker()
-        val bt_pickerdate = findViewById(R.id.btn_setbirthday)  as LinearLayout
-        val vv = findViewById(R.id.tv_birthday) as TextView
-        // set ondate o ngoai moi ra popup khong no ra cai tam lich
-        val mdataPickerDialog = DatePickerDialog.OnDateSetListener { view, mYear,mMonth , mDay ->
-            val mmMonth = mMonth+1
-            if (mMonth<10)
-            {
-                val stringmonth = "0$mMonth"
-                val date = "$mDay $stringmonth $mYear"
-                vv.setText(date)
+
+        onbinding()
+        setupDialog()
+
+
+
+        setAction()
+    }
+
+    fun gotoTag(){
+        val intent = Intent(this, RegisterTagActivity::class.java).apply {
+        }
+        startActivity(intent)
+    }
+
+    fun setAction(){
+        viewModel.userResp.observe(this,Observer{ response ->
+            if(response != null){
+                if(response.type == "NONE" && response.status == "SUCCESS"){
+                    gotoTag()
+                }
+                if(response.type == "NONE" && response.status == "FAILED"){
+                    toast(response.message)
+                }
             }
-            else
-            {
-                val date = "$mDay $mMonth $mYear"
-                vv.setText(date)
+
+        })
+
+        binding.apply {
+            btnDayPicker.setOnClickListener {
+                datePickerDialog!!.show()
             }
+            btnContinue.setOnClickListener{
+                viewmodel?.updateBirthDay()
+            }
+        }
+    }
+
+    fun setupDialog(){
+        val c= Calendar.getInstance()
+        val year= c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+        Log.d("RegisterBirthday","year: $year, month: $month, Day: $day")
+
+        dialogListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+            Log.d("RegisterBirthday","year: $year, month: $month, Day: $day")
+            val m = month+1
+            if(day< 10){
+                binding.tvDay.text = "0$day"
+            }else{
+                binding.tvDay.text = day.toString()
+            }
+            if(month < 10){
+                binding.tvMonth.text = "0$m"
+            }else{
+                binding.tvMonth.text = m.toString()
+            }
+            binding.tvYear.text = year.toString()
 
         }
-
-         bt_pickerdate.setOnClickListener {
-             val c= Calendar.getInstance()
-             val year= c.get(Calendar.YEAR)
-             val month = c.get(Calendar.MONTH)
-             val day = c.get(Calendar.DAY_OF_MONTH)
-             var dpd = DatePickerDialog(this,android.R.style.Theme_Holo_Light_Dialog_MinWidth,mdataPickerDialog,year,month,day)
-             dpd.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-             dpd.show()
-        }
-
-
-
-
+        datePickerDialog = DatePickerDialog(this,android.R.style.Theme_Holo_Light_Dialog_MinWidth,dialogListener,year,month,day)
+        datePickerDialog!!.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
     }
 
-//    private fun initdatapicker() {
-//        val dateSetListener =
-//            OnDateSetListener { datePicker, year, month, day ->
-//                var month = month
-//                month = month + 1
-//
-//            }
-//        val cal = Calendar.getInstance()
-//        val year = cal[Calendar.YEAR]
-//        val month = cal[Calendar.MONTH]
-//        val day = cal[Calendar.DAY_OF_MONTH]
-//
-//        val style: Int = AlertDialog.THEME_HOLO_LIGHT
-//
-//        val datePickerDialog = DatePickerDialog(this, style, dateSetListener, year, month, day)
-//
-//    }
-
-
-
+    fun onbinding(){
+        viewModel = ViewModelProvider(this).get(RegisterBirthDayViewModel::class.java)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_register_birthday)
+        binding.viewmodel = viewModel
+    }
    
 }

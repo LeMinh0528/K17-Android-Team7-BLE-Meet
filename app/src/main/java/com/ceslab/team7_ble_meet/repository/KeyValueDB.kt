@@ -6,14 +6,15 @@ import android.content.SharedPreferences
 object KeyValueDB {
 
     private const val USER_ID = "user_id"
+    private const val USER_SHORT_ID = "user_short_id"
     private const val USER_REGISTERED = "user_registered"
     private const val FIRST_TIME_REGISTER = "first_time_register"
+    private const val DAY_OF_BIRTH = "day_of_birth"
     private const val USER_NAME = "user_name"
     private const val EMAIL = "email"
     private const val PASSWORD = "password"
     private const val USER_GENDER = "user_gender"
     private const val USER_TAG = "user_tag"
-    private const val USER_INTERESTED = "user_interested"
 
     private var pref : SharedPreferences? = null
 
@@ -37,6 +38,12 @@ object KeyValueDB {
         editor?.apply()
     }
 
+    fun setUserShortId(id: String){
+        val editor: SharedPreferences.Editor? = pref?.edit()
+        editor?.putString(USER_SHORT_ID,id)
+        editor?.apply()
+    }
+
 
     fun isRegisterUserGender(): Boolean {
         return pref?.getBoolean(USER_GENDER,false)?: false
@@ -48,18 +55,22 @@ object KeyValueDB {
         editor?.apply()
     }
 
-//    fun getUserInterested(): Boolean {
-//        return pref?.getString(USER_GENDER,"")?: ""
-//    }
+    fun setDayOfBirth(i: Boolean){
+        val editor: SharedPreferences.Editor? = pref?.edit()
+        editor?.putBoolean(DAY_OF_BIRTH, i)
+        editor?.apply()
+    }
 
-//    fun setUserInterested(gender: String){
-//        val editor: SharedPreferences.Editor? = pref?.edit()
-//        editor?.putString(USER_GENDER,gender)
-//        editor?.apply()
-//    }
+    fun isRegisterDOB(): Boolean{
+        return pref?.getBoolean(DAY_OF_BIRTH,false)?: false
+    }
 
     fun getUserId(): String {
         return pref?.getString(USER_ID,"")?: ""
+    }
+
+    fun getUserShortId(): String {
+        return pref?.getString(USER_SHORT_ID,"")?: ""
     }
 
     fun saveUserStatus(isRegistered: Boolean){

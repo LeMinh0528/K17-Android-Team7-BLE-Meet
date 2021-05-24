@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.util.Patterns
 import android.widget.Toast
 import java.util.regex.Pattern
+import kotlin.random.Random
 
 fun Context.toast(message: String) = Toast.makeText(this,message,Toast.LENGTH_LONG).show()
 fun bytesToHex(value: ByteArray) : String {
@@ -61,4 +62,25 @@ fun isValidPasswordFormat(password: String): Boolean {
 }
 fun isValidEmail(email: String): Boolean {
     return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
+}
+
+fun generateUniqueID(): String{
+    var random = (0..16777215).random()
+    var result = ""
+    if(random in 1..9){
+        result = "0000000$random"
+    }else if(random in 10..99){
+        result = "000000$random"
+    }else if(random in 100..999){
+        result = "00000$random"
+    }else if(random in 1000..9999){
+        result = "0000$random"
+    }else if(random in 10000..99999){
+        result = "000$random"
+    }else if(random in 100000..999999){
+        result = "00$random"
+    }else if(random in 1000000..9999999){
+        result = "0$random"
+    }else result = "$random"
+    return result
 }
