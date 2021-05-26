@@ -66,6 +66,9 @@
             android:layout_marginHorizontal="40dp"
             android:fontFamily="@font/roboto_regular"
             android:hint="Enter user name"
+            android:singleLine="true"
+            android:minEms="1"
+            android:maxEms="30"
             android:paddingHorizontal="10dp"
             android:textColor="@color/black" />
 
