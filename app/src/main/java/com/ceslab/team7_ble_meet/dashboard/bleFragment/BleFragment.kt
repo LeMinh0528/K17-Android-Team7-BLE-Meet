@@ -22,9 +22,10 @@ import androidx.core.view.isGone
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.ceslab.team7_ble_meet.*
-import com.ceslab.team7_ble_meet.Model.DataDiscovered
+import com.ceslab.team7_ble_meet.Model.UserDiscovered
 import com.ceslab.team7_ble_meet.ble.BleHandle
 import com.ceslab.team7_ble_meet.databinding.FragmentBleBinding
+import com.ceslab.team7_ble_meet.db.UserDiscoveredDataBase
 import kotlin.experimental.or
 
 
@@ -43,11 +44,10 @@ class BleFragment : Fragment() {
     private lateinit var bluetoothAdapter: BluetoothAdapter
     private lateinit var connect: BleHandle
 
-    private var listDataDiscovered: ArrayList<List<Int>> = ArrayList()
-    private var listDataDisplay: ArrayList<DataDiscovered> = ArrayList()
+    private var listDataDiscoveredAdapter = ListDataDiscoveredAdapter()
 
-    val data = listOf(1720146, 25, 1, 1, 165, 60, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17)
-    private val filter = listOf(18, 30, 1, 2, 3, 1, 2, 3, 160, 180, 50, 80, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 11, 12, 13, 14, 15, 16, 17, 18)
+    private val characteristicUser = listOf(1720148, 25, 1, 1, 165, 60, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17)
+    private val target = listOf(18, 30, 1, 2, 3, 1, 2, 3, 160, 180, 50, 80, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 11, 12, 13, 14, 15, 16, 17, 18)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,6 +59,29 @@ class BleFragment : Fragment() {
         setUpUI(inflater, container)
 
         return binding.root
+    }
+
+    private fun checkPermissions() {
+        val reqPermissions = ArrayList<String>()
+        if (activity?.let {
+                ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION)
+            } != PackageManager.PERMISSION_GRANTED) {
+            reqPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+
+        if (Build.VERSION.SDK_INT >= 23 && activity?.let {
+                ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_COARSE_LOCATION)
+            } != PackageManager.PERMISSION_GRANTED
+        ) {
+            reqPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION)
+        }
+        if (reqPermissions.isNotEmpty()) {
+            activity?.let {
+                ActivityCompat.requestPermissions(
+                    it, reqPermissions.toTypedArray(), PERMISSIONS_REQUEST_CODE
+                )
+            }
+        }
     }
 
     private fun setUpBle(){
@@ -73,6 +96,28 @@ class BleFragment : Fragment() {
         connect.bleDataReceived.observe(viewLifecycleOwner, {
             handleDataDiscovered(it)
         })
+    }
+
+    private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val action = intent?.action
+            if (action == BluetoothAdapter.ACTION_STATE_CHANGED) {
+                val state = intent.getIntExtra(
+                    BluetoothAdapter.EXTRA_STATE,
+                    BluetoothAdapter.ERROR
+                )
+                when (state) {
+                    BluetoothAdapter.STATE_OFF -> {
+                        binding.swTurnOnOffBLE.isChecked = false
+                        Toast.makeText(requireContext(), "Bluetooth off", Toast.LENGTH_LONG).show()
+                    }
+                    BluetoothAdapter.STATE_ON -> {
+                        binding.swTurnOnOffBLE.isChecked = true
+                        Toast.makeText(requireContext(), "Bluetooth on", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
     }
 
     private fun setUpUI(inflater: LayoutInflater, container: ViewGroup?){
@@ -92,17 +137,27 @@ class BleFragment : Fragment() {
             }
             btnFindFriend.setOnClickListener {
                 if (bluetoothAdapter.isEnabled) {
-                    connect.advertise(setUpDataAdvertise(data as MutableList<Int>))
+                    connect.advertise(setUpDataAdvertise(characteristicUser as MutableList<Int>))
                     connect.discover()
                 } else {
                     Toast.makeText(activity, "Please turn on Bluetooth", Toast.LENGTH_SHORT).show()
                 }
                 if(vRipple.isRippleAnimationRunning) vRipple.stopRippleAnimation() else vRipple.startRippleAnimation()
             }
+            btnDelete.setOnClickListener{
+                deleteAllUser()
+            }
 
-            val listDataDiscoveredAdapter = ListDataDiscoveredAdapter()
-            binding.rcListData.adapter = listDataDiscoveredAdapter
-            listDataDiscoveredAdapter.data = listDataDisplay
+
+            listDataDiscoveredAdapter.data = UserDiscoveredDataBase.getDatabase(requireContext()).userDiscoveredDao().getUserDiscover() as ArrayList<UserDiscovered>
+            rcListDataDiscovered.adapter = listDataDiscoveredAdapter
+            if(UserDiscoveredDataBase.getDatabase(requireContext()).userDiscoveredDao()
+                    .getUserDiscover().isNotEmpty()
+            ){
+                binding.btnFindFriend.isGone = true
+                binding.vRipple.isGone = true
+                binding.rcListDataDiscovered.visibility = View.VISIBLE
+            }
 
             listDataDiscoveredAdapter.listener = object : ListDataDiscoveredAdapter.IdClickedListener{
                 override fun onClickListen(id: String) {
@@ -148,25 +203,12 @@ class BleFragment : Fragment() {
     private fun handleDataDiscovered(data: ByteArray) {
         val dataDiscovered = data.drop(4)
         val listOfCharacteristic = convertDataDiscovered(dataDiscovered.toByteArray())
-        var exist = false
-        for (dataDiscovered in listDataDiscovered) {
-            if (dataDiscovered[0] == listOfCharacteristic[0]) {
-                exist = true
-                break
-            }
-        }
-        if (!exist) {
-            if (checkCharacteristic(
-                    listOfCharacteristic.drop(1) as MutableList<Int>,
-                    filter as MutableList<Int>
-                )) {
-                listDataDiscovered.add(listOfCharacteristic)
-                listDataDisplay.add(DataDiscovered(listOfCharacteristic))
-                if (!binding.btnFindFriend.isGone) {
-                    binding.btnFindFriend.isGone = true
-                    binding.vRipple.isGone = true
-                    binding.rcListData.visibility = View.VISIBLE
-                }
+        if (checkCharacteristic(listOfCharacteristic.drop(1) as MutableList<Int>, target as MutableList<Int>)) {
+            addUser(listOfCharacteristic)
+            if (!binding.btnFindFriend.isGone) {
+                binding.btnFindFriend.isGone = true
+                binding.vRipple.isGone = true
+                binding.rcListDataDiscovered.visibility = View.VISIBLE
             }
         }
     }
@@ -243,27 +285,14 @@ class BleFragment : Fragment() {
         return score >= 3
     }
 
-    private fun checkPermissions() {
-        val reqPermissions = ArrayList<String>()
-        if (activity?.let {
-                ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION)
-        } != PackageManager.PERMISSION_GRANTED) {
-            reqPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
-        }
+    private fun addUser(list: List<Int>) {
+        UserDiscoveredDataBase.getDatabase(requireContext()).userDiscoveredDao().insert(UserDiscovered(list))
+        listDataDiscoveredAdapter.data = UserDiscoveredDataBase.getDatabase(requireContext()).userDiscoveredDao().getUserDiscover() as ArrayList<UserDiscovered>
+    }
 
-        if (Build.VERSION.SDK_INT >= 23 && activity?.let {
-                ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_COARSE_LOCATION)
-            } != PackageManager.PERMISSION_GRANTED
-        ) {
-            reqPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION)
-        }
-        if (reqPermissions.isNotEmpty()) {
-            activity?.let {
-                ActivityCompat.requestPermissions(
-                    it, reqPermissions.toTypedArray(), PERMISSIONS_REQUEST_CODE
-                )
-            }
-        }
+    private fun deleteAllUser(){
+        UserDiscoveredDataBase.getDatabase(requireContext()).userDiscoveredDao().deleteAll()
+        listDataDiscoveredAdapter.data = UserDiscoveredDataBase.getDatabase(requireContext()).userDiscoveredDao().getUserDiscover() as ArrayList<UserDiscovered>
     }
 
     override fun onDestroy() {
@@ -284,27 +313,6 @@ class BleFragment : Fragment() {
 //                            finish()
                             return
                         }
-                    }
-                }
-            }
-        }
-    }
-    private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            val action = intent?.action
-            if (action == BluetoothAdapter.ACTION_STATE_CHANGED) {
-                val state = intent.getIntExtra(
-                    BluetoothAdapter.EXTRA_STATE,
-                    BluetoothAdapter.ERROR
-                )
-                when (state) {
-                    BluetoothAdapter.STATE_OFF -> {
-                        binding.swTurnOnOffBLE.isChecked = false
-                        Toast.makeText(requireContext(), "Bluetooth off", Toast.LENGTH_LONG).show()
-                    }
-                    BluetoothAdapter.STATE_ON -> {
-                        binding.swTurnOnOffBLE.isChecked = true
-                        Toast.makeText(requireContext(), "Bluetooth on", Toast.LENGTH_LONG).show()
                     }
                 }
             }
