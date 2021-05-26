@@ -105,11 +105,11 @@
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
                            android:orientation="vertical"
-                           android:background="@color/white"
-                           android:paddingBottom="10dp">
+                           android:background="#DADADA">
                            <TextView
                                android:layout_width="match_parent"
                                android:layout_height="wrap_content"
+                               android:background="@color/white"
                                android:fontFamily="@font/roboto_regular"
                                android:gravity="center"
                                android:paddingVertical="10dp"
@@ -131,7 +131,8 @@
                                android:layout_height="wrap_content"
                                android:orientation="horizontal"
                                android:paddingVertical="7dp"
-                               android:paddingHorizontal="20dp">
+                               android:paddingHorizontal="20dp"
+                               android:background="@color/white">
                                <LinearLayout
                                    android:layout_width="wrap_content"
                                    android:layout_height="wrap_content"
@@ -187,6 +188,7 @@
                                android:layout_width="match_parent"
                                android:layout_height="wrap_content"
                                android:orientation="horizontal"
+                               android:background="@color/white"
                                android:paddingVertical="7dp"
                                android:paddingHorizontal="20dp">
                                <LinearLayout
@@ -239,35 +241,30 @@
                                        ></TextView>
                                </LinearLayout>
                            </LinearLayout>
-
-                           <LinearLayout
-                               android:layout_width="match_parent"
-                               android:layout_height="wrap_content"
-                               android:orientation="vertical"
-                               android:paddingVertical="10dp"
-                               android:background="@drawable/shape_option1"
-                               android:gravity="center_horizontal"
-                               android:layout_marginVertical="5dp"
-                               android:layout_marginHorizontal="40dp">
-                               <TextView
-                                   android:layout_width="wrap_content"
-                                   android:layout_height="wrap_content"
-                                   android:text="Em con di hoc ,anh cho em nha"
-                                   android:textColor="@color/black"
-                                   android:textSize="15dp"
-                                   android:fontFamily="@font/roboto_medium"/>
-                           </LinearLayout>
-
-
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:layout_marginTop="10dp">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:paddingVertical="10dp"
+                                    android:background="@drawable/shape_option1"
+                                    android:gravity="center_horizontal">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Em con di hoc ,anh cho em nha"
+                                        android:textColor="@color/black"
+                                        android:textSize="15dp"
+                                        android:fontFamily="@font/roboto_medium"/>
+                                </LinearLayout>
+                            </LinearLayout>
                        </LinearLayout>
                    </RelativeLayout>
                </androidx.cardview.widget.CardView>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:layout_marginTop="1dp">
-                </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>
         </LinearLayout>
 </ScrollView>

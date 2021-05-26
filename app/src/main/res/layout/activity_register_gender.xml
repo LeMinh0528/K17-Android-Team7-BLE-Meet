@@ -10,6 +10,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:background="@color/white">
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
@@ -18,13 +19,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginRight="18dp">
                 <LinearLayout
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:clickable="true"
-                android:gravity="center">
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:gravity="center">
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
@@ -35,6 +37,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginRight="25dp"
                     android:gravity="center"
                     android:text="Register Profile"
                     android:textColor="@color/black"
@@ -42,6 +45,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
+
     </com.google.android.material.appbar.AppBarLayout>
     <RelativeLayout
         android:layout_below="@+id/appBarLayout"
@@ -65,6 +69,7 @@
                     android:text="I'm a"
                     android:fontFamily="@font/roboto_black"
                     android:textSize="26dp"
+                    android:textColor="@color/black"
                     android:paddingVertical="10dp"/>
                 <LinearLayout
                     android:layout_marginVertical="15dp"
@@ -86,6 +91,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:text="Man"
+                            android:textColor="@color/colorgrayoption2"
                             android:textStyle="bold"/>
                         <ImageView
                             android:layout_width="100dp"
@@ -109,6 +115,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:text="Woman"
+                            android:textColor="@color/colorgrayoption2"
                             android:textStyle="bold"/>
                         <ImageView
                             android:layout_width="100dp"
@@ -126,6 +133,7 @@
                     android:textStyle="bold"
                     android:textSize="26dp"
                     android:fontFamily="@font/roboto_black"
+                    android:textColor="@color/black"
                     android:paddingVertical="10dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -146,6 +154,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:text="Man"
+                            android:textColor="@color/colorgrayoption2"
                             android:textStyle="bold"/>
                         <ImageView
                             android:layout_width="100dp"
@@ -168,6 +177,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:text="Woman"
+                            android:textColor="@color/colorgrayoption2"
                             android:textStyle="bold"/>
                         <ImageView
                             android:layout_width="100dp"
@@ -190,6 +200,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
                             android:text="Both"
+                            android:textColor="@color/colorgrayoption2"
                             android:textStyle="bold"/>
                         <ImageView
                             android:layout_width="100dp"
@@ -206,21 +217,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginHorizontal="65dp"
-            android:layout_marginVertical="5dp"
-            android:layout_marginBottom="6dp"
             android:background="@drawable/ripble_button"
             android:clickable="true"
             android:gravity="center"
+            android:layout_marginVertical="5dp"
+            android:textColor="#F4F4F4"
             android:paddingVertical="12dp"
-            android:textColor="#F4F4F4">
-
+            android:layout_marginHorizontal="65dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Continue"
                 android:textColor="@color/colorwhite"
-                android:textSize="25dp"
+                android:textSize="18dp"
                 android:textStyle="bold" />
         </LinearLayout>
     </RelativeLayout>
