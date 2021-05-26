@@ -44,6 +44,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:layout_marginRight="25dp"
                         android:text="Register Profile"
                         android:textColor="@color/black"
                         android:textSize="20dp"
@@ -61,7 +62,8 @@
             android:paddingHorizontal="15dp"
             android:text="What's your date of Birth ?"
             android:textSize="26dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
         <LinearLayout
             android:paddingRight="15dp"
             android:id="@+id/btnDayPicker"
@@ -85,12 +87,14 @@
                     android:id="@+id/tv_day"
                     android:text="@={viewmodel.day}"
                     android:textSize="40dp"
+                    android:textColor="@color/colorgrayoption1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:paddingVertical="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorgrayoption1"
                     android:text="Day"
                     android:textSize="18dp"/>
             </LinearLayout>
@@ -106,12 +110,14 @@
                     android:id="@+id/tv_month"
                     android:text="@={viewmodel.month}"
                     android:textSize="40dp"
+                    android:textColor="@color/colorgrayoption1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:paddingVertical="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorgrayoption1"
                     android:text="Month"
                     android:textSize="18dp"/>
             </LinearLayout>
@@ -126,12 +132,14 @@
                     android:id="@+id/tv_year"
                     android:text="@={viewmodel.year}"
                     android:textSize="40dp"
+                    android:textColor="@color/colorgrayoption1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:paddingVertical="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorgrayoption1"
                     android:text="Year"
                     android:textSize="18dp"/>
             </LinearLayout>
@@ -155,7 +163,7 @@
                 android:text="Continue"
                 android:textStyle="bold"
                 android:textColor="@color/colorwhite"
-                android:textSize="25dp" />
+                android:textSize="18dp" />
         </LinearLayout>
 
     </RelativeLayout>

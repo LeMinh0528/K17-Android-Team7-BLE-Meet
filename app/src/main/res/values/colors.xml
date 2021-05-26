@@ -20,4 +20,9 @@
     <color name="colorgreen300">#9900FF00</color>
     <color name="colorgreen">#44FF00</color>
     <color name="colorblue100">#4E89FF</color>
+    <color name="colorgrayoption1">#798777</color>
+    <color name="colorgrayoption2">#8E9775</color>
+    <color name="colorgrayoption3">#BFCBa8</color>
+    <color name="colorgrayoption4">#999B84</color>
+    <color name="colorgrayoption5">#f3f4ed</color>
 </resources>
