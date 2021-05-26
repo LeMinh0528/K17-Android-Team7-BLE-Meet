@@ -6,6 +6,8 @@ import android.content.SharedPreferences
 object KeyValueDB {
 
     private const val USER_ID = "user_id"
+    private const val USER_AVATAR = "user_avatar"
+    private const val USER_SHORT_ID = "user_short_id"
     private const val USER_REGISTERED = "user_registered"
     private const val FIRST_TIME_REGISTER = "first_time_register"
     private const val DAY_OF_BIRTH = "day_of_birth"
@@ -14,7 +16,6 @@ object KeyValueDB {
     private const val PASSWORD = "password"
     private const val USER_GENDER = "user_gender"
     private const val USER_TAG = "user_tag"
-    private const val USER_INTERESTED = "user_interested"
 
     private var pref : SharedPreferences? = null
 
@@ -32,9 +33,25 @@ object KeyValueDB {
         return pref?.getBoolean(USER_TAG,false)?: false
     }
 
+    fun setUserAvatar(i: Boolean){
+        val editor: SharedPreferences.Editor? = pref?.edit()
+        editor?.putBoolean(USER_AVATAR,i)
+        editor?.apply()
+    }
+
+    fun getUserAvatar(): Boolean{
+        return pref?.getBoolean(USER_AVATAR,false)?: false
+    }
+
     fun setUserId(id: String){
         val editor: SharedPreferences.Editor? = pref?.edit()
         editor?.putString(USER_ID,id)
+        editor?.apply()
+    }
+
+    fun setUserShortId(id: String){
+        val editor: SharedPreferences.Editor? = pref?.edit()
+        editor?.putString(USER_SHORT_ID,id)
         editor?.apply()
     }
 
@@ -59,18 +76,12 @@ object KeyValueDB {
         return pref?.getBoolean(DAY_OF_BIRTH,false)?: false
     }
 
-//    fun getUserInterested(): Boolean {
-//        return pref?.getString(USER_GENDER,"")?: ""
-//    }
-
-//    fun setUserInterested(gender: String){
-//        val editor: SharedPreferences.Editor? = pref?.edit()
-//        editor?.putString(USER_GENDER,gender)
-//        editor?.apply()
-//    }
-
     fun getUserId(): String {
         return pref?.getString(USER_ID,"")?: ""
+    }
+
+    fun getUserShortId(): String {
+        return pref?.getString(USER_SHORT_ID,"")?: ""
     }
 
     fun saveUserStatus(isRegistered: Boolean){
