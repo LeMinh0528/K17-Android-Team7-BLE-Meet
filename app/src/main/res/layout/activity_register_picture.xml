@@ -55,7 +55,7 @@
 
         <TextView
             android:id="@+id/title"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="60dp"
             android:text="Setting your avatar"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/appBarLayout2"
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/ic"
+                android:id="@+id/ic_avt"
                 android:src="@drawable/image_couple"
                 android:layout_width="120dp"
                 android:layout_height="120dp" />

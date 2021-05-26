@@ -37,6 +37,7 @@ class UsersFireStoreHandler {
         userRef.document(KeyValueDB.getUserShortId())
             .set(note, SetOptions.merge())
             .addOnSuccessListener {
+                uidRef.document(KeyValueDB.getUserId()).set(hashMapOf("isRegisterDoB" to true),SetOptions.merge())
                 userResp.postValue(Resp("NONE","SUCCESS","update tag successful!"))
                 KeyValueDB.setDayOfBirth(true)
             }
@@ -52,12 +53,13 @@ class UsersFireStoreHandler {
         userRef.document(KeyValueDB.getUserShortId())
             .set(note, SetOptions.merge())
             .addOnSuccessListener {
+                uidRef.document(KeyValueDB.getUserId()).set(hashMapOf("isRegisterName" to true),SetOptions.merge())
                 userResp.postValue(Resp("NONE","SUCCESS","update tag successful!"))
-                KeyValueDB.setUserName(true)
+//                KeyValueDB.setUserName(true)
             }
             .addOnFailureListener{
                 userResp.postValue(Resp("NONE","FAILED","update tag failed!"))
-                KeyValueDB.setUserName(false)
+//                KeyValueDB.setUserName(false)
             }
     }
 
@@ -81,12 +83,13 @@ class UsersFireStoreHandler {
         userRef.document(KeyValueDB.getUserShortId())
             .set(note, SetOptions.merge())
             .addOnSuccessListener {
+                uidRef.document(KeyValueDB.getUserId()).set(hashMapOf("isRegisterGender" to true),SetOptions.merge())
                 userResp.postValue(Resp("NONE","SUCCESS","update gender successful!"))
-                KeyValueDB.setRegisterUserGender(true)
+//                KeyValueDB.setRegisterUserGender(true)
             }
             .addOnFailureListener{
                 userResp.postValue(Resp("NONE","FAILED","update gender failed!"))
-                KeyValueDB.setRegisterUserGender(false)
+//                KeyValueDB.setRegisterUserGender(false)
 
             }
     }
@@ -97,12 +100,14 @@ class UsersFireStoreHandler {
         userRef.document(KeyValueDB.getUserShortId())
             .set(note, SetOptions.merge())
             .addOnSuccessListener {
+                uidRef.document(KeyValueDB.getUserId()).set(hashMapOf("isRegisterTag" to true),SetOptions.merge())
                 userResp.postValue(Resp("NONE","SUCCESS","update tag successful!"))
-                KeyValueDB.setUserTag(true)
+//                KeyValueDB.setUserTag(true)
+                KeyValueDB.setRegister(true)
             }
             .addOnFailureListener{
                 userResp.postValue(Resp("NONE","FAILED","update tag failed!"))
-                KeyValueDB.setUserTag(false)
+//                KeyValueDB.setUserTag(false)
             }
     }
 
@@ -182,52 +187,105 @@ class UsersFireStoreHandler {
         return id
     }
 
+    fun getUserSetting(){
+        uidRef.document(mAuth.currentUser.uid)
+            .get()
+            .addOnSuccessListener {
+                if(it!= null){
+                    Log.d("UserFireStoreHandler","it: ${it["shortID"]}")
+                    KeyValueDB.setUserShortId(it["shortID"] as String)
+                    KeyValueDB.setUserId(mAuth.currentUser.uid)
+                    if(!(it["isRegisterName"] as Boolean)){
+                        userResp.postValue(Resp("LOGIN","SUCCESS","USERNAME"))
+                    }else if(!(it["isRegisterGender"] as Boolean)){
+                        userResp.postValue(Resp("LOGIN","SUCCESS","GENDER"))
+                    }else if(!(it["isRegisterDoB"] as Boolean)){
+                        userResp.postValue(Resp("LOGIN","SUCCESS","DOB"))
+                    }else if(!(it["isRegisterTag"] as Boolean)){
+                        userResp.postValue(Resp("LOGIN","SUCCESS","TAG"))
+                    }else{
+                        KeyValueDB.setRegister(true)
+                        userResp.postValue(Resp("LOGIN","SUCCESS","DASHBOARD"))
+                    }
+                }
+            }
+    }
+
+    fun randomUId():String{
+        var uid : String = generateUniqueID()
+        var list : MutableList<String> = getListUserShortId()
+        if(list.isEmpty()){
+            return uid
+        }else{
+            while(list.indexOf(uid) != -1){
+                uid = generateUniqueID()
+            }
+            return uid
+        }
+    }
+
     fun createUser(email: String, pass: String){
         //get userAll uniqueid
-        var list : MutableList<String> = getListUserShortId()
+        var uid = randomUId()
         mAuth.createUserWithEmailAndPassword(email,pass)
             .addOnCompleteListener{task ->
                 if (task.isSuccessful){
                     var note = mutableMapOf<String, String>()
                     note["EMAIL"] = email
                     note["PASS"] = pass
-                    //check user short Id
-                    if(list.isEmpty()){
-                        var random = generateUniqueID()
-                        userRef.document(random)
-                            .set(note).addOnSuccessListener {
-                                Log.d("TAG","add new users successful id: ${mAuth.currentUser.uid}")
-                                KeyValueDB.setUserId(mAuth.currentUser.uid)
-                                KeyValueDB.setUserShortId(random)
-                                uidRef.document(mAuth.currentUser.uid)
-                                    .set(hashMapOf("shortID" to random))
-                                userResp.postValue(Resp("NONE","SUCCESS","add new users successful"))
-                            }
-                            .addOnFailureListener{
-                                //on failed add user to firestore
-                                Log.d("TAG","Fail: ${it.message}")
-                                userResp.postValue(it.message?.let { it1 -> Resp("NONE","FAILED", it1) })
-                            }
-                    }else{
-                        var random = generateUniqueID()
-                        while(list.indexOf(random) != -1){
-                            random = generateUniqueID()
+
+                    userRef.document(uid)
+                        .set(note).addOnSuccessListener {
+                            KeyValueDB.setUserId(mAuth.currentUser.uid)
+                            KeyValueDB.setUserShortId(uid)
+                            uidRef.document(mAuth.currentUser.uid)
+                                .set(hashMapOf("shortID" to uid
+                                    ,"isRegisterName" to false
+                                    ,"isRegisterDoB" to false
+                                    ,"isRegisterTag" to false
+                                    ,"isRegisterGender" to false))
+                            userResp.postValue(Resp("NONE","SUCCESS","add new users successful"))
                         }
-                        userRef.document(random)
-                            .set(note).addOnSuccessListener {
-                                KeyValueDB.setUserId(mAuth.currentUser.uid)
-                                KeyValueDB.setUserShortId(random)
-                                uidRef.document(mAuth.currentUser.uid)
-                                    .set(hashMapOf("shortID" to random))
-                                userResp.postValue(Resp("NONE","SUCCESS","add new users successful"))
-                            }
-                            .addOnFailureListener{
-                                userResp.postValue(it.message?.let { it1 -> Resp("NONE","FAILED", it1) })
-                            }
-                    }
+                        .addOnFailureListener{
+                            userResp.postValue(it.message?.let { it1 -> Resp("NONE","FAILED", it1) })
+                        }
+
+//                    if(list.isEmpty()){
+//                        var random = generateUniqueID()
+//                        userRef.document(random)
+//                            .set(note).addOnSuccessListener {
+//                                Log.d("TAG","add new users successful id: ${mAuth.currentUser.uid}")
+//                                KeyValueDB.setUserId(mAuth.currentUser.uid)
+//                                KeyValueDB.setUserShortId(random)
+//                                uidRef.document(mAuth.currentUser.uid)
+//                                    .set(hashMapOf("shortID" to random))
+//                                userResp.postValue(Resp("NONE","SUCCESS","add new users successful"))
+//                            }
+//                            .addOnFailureListener{
+//                                //on failed add user to firestore
+//                                Log.d("TAG","Fail: ${it.message}")
+//                                userResp.postValue(it.message?.let { it1 -> Resp("NONE","FAILED", it1) })
+//                            }
+//                    }else{
+//                        var random = generateUniqueID()
+//                        while(list.indexOf(random) != -1){
+//                            random = generateUniqueID()
+//                        }
+//                        userRef.document(random)
+//                            .set(note).addOnSuccessListener {
+//                                KeyValueDB.setUserId(mAuth.currentUser.uid)
+//                                KeyValueDB.setUserShortId(random)
+//                                uidRef.document(mAuth.currentUser.uid)
+//                                    .set(hashMapOf("shortID" to random))
+//                                userResp.postValue(Resp("NONE","SUCCESS","add new users successful"))
+//                            }
+//                            .addOnFailureListener{
+//                                userResp.postValue(it.message?.let { it1 -> Resp("NONE","FAILED", it1) })
+//                            }
+//                    }
 
                 }else if(task.isCanceled){
-                    userResp.postValue(null)
+                    userResp.postValue(Resp("NONE","FAILED","ERROR"))
                 }
             }
             .addOnFailureListener{
@@ -241,10 +299,11 @@ class UsersFireStoreHandler {
             .addOnCompleteListener{task ->
                 if(task.isSuccessful){
                     Log.d("UserFireStoreHandler","${mAuth.currentUser}")
-                    KeyValueDB.setUserId(mAuth.currentUser.uid)
-                    KeyValueDB.setUserShortId(getUserShortId())
-                    KeyValueDB.setRegister(true)
-                    userResp.postValue(Resp("NONE","SUCCESS","Login successful!"))
+                    getUserSetting()
+//                    KeyValueDB.setUserId(mAuth.currentUser.uid)
+//                    KeyValueDB.setUserShortId(getUserShortId())
+//                    KeyValueDB.setRegister(true)
+//                    userResp.postValue(Resp("NONE","SUCCESS","Login successful!"))
                 }else if(task.isCanceled){
                     KeyValueDB.setUserId(mAuth.currentUser.uid)
                     userResp.postValue(Resp("NONE","SUCCESS","Login failed!"))

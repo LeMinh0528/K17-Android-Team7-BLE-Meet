@@ -35,52 +35,53 @@ class SplashActivity : AppCompatActivity() {
         val uid = KeyValueDB.getUserId()
         var id = KeyValueDB.getUserShortId()
         Log.d("SplashActivity","id: $id")
-        if(uid == ""){
+        if(uid == "" || !selected){
             //if not registed
             val intent = Intent(this@SplashActivity,LogInActivity::class.java ).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
                 startActivity(intent)
         }else{
-            //if registered
-            if(selected){
-                val intent = Intent(this@SplashActivity,DashBoardActivity::class.java ).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                }
-                startActivity(intent)
-            }else{ // if registering
-                val gender = KeyValueDB.isRegisterUserGender()
-                val tag = KeyValueDB.getUserTag()
-                val username = KeyValueDB.isRegisterUserName()
-                val dob = KeyValueDB.isRegisterDOB()
-                if(!username) {
-                    val intent = Intent(this@SplashActivity, RegisterUserNameActivity::class.java).apply {
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        }
-                    startActivity(intent)
-                    return
-                }else if(!gender) {
-                    val intent = Intent(this@SplashActivity, RegisterGenderActivity::class.java).apply {
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    }
-                    startActivity(intent)
-                    return
-                }else if(!dob){
-                    val intent = Intent(this@SplashActivity, RegisterBirthdayActivity::class.java).apply {
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    }
-                    startActivity(intent)
-                    return
-                }
-                else if (!tag){
-                    val intent = Intent(this@SplashActivity,RegisterTagActivity::class.java ).apply {
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    }
-                    startActivity(intent)
-                    return
-                }
-
+            val intent = Intent(this@SplashActivity,DashBoardActivity::class.java ).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
+            startActivity(intent)
+            //if registered
+//            if(selected){
+
+//            }else{ // if registering
+//                val gender = KeyValueDB.isRegisterUserGender()
+//                val tag = KeyValueDB.getUserTag()
+//                val username = KeyValueDB.isRegisterUserName()
+//                val dob = KeyValueDB.isRegisterDOB()
+//                if(!username) {
+//                    val intent = Intent(this@SplashActivity, RegisterUserNameActivity::class.java).apply {
+//                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                        }
+//                    startActivity(intent)
+//                    return
+//                }else if(!gender) {
+//                    val intent = Intent(this@SplashActivity, RegisterGenderActivity::class.java).apply {
+//                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                    }
+//                    startActivity(intent)
+//                    return
+//                }else if(!dob){
+//                    val intent = Intent(this@SplashActivity, RegisterBirthdayActivity::class.java).apply {
+//                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                    }
+//                    startActivity(intent)
+//                    return
+//                }
+//                else if (!tag){
+//                    val intent = Intent(this@SplashActivity,RegisterTagActivity::class.java ).apply {
+//                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                    }
+//                    startActivity(intent)
+//                    return
+//                }
+
+//            }
         }
 //        if(!selected){
 //            //go to sign up
