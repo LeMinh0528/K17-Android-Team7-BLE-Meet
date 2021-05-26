@@ -80,9 +80,6 @@ dependencies {
     //cropimage
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 
-    //compressor
-    implementation 'id.zelory:compressor:1.0.1'
-
     implementation "com.yuyakaido.android:card-stack-view:2.3.4"
     // View
     implementation 'com.makeramen:roundedimageview:2.3.0'
@@ -106,9 +103,12 @@ dependencies {
     // roundedimageview
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
-    implementation 'com.google.firebase:firebase-storage:16.0.1'
+    implementation 'com.google.firebase:firebase-storage:20.0.0'
 
     implementation 'me.shouheng.compressor:compressor:1.0.0'
+
+    //compressor
+    implementation 'id.zelory:compressor:3.0.0'
 
 
 }

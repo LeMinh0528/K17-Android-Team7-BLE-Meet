@@ -68,7 +68,12 @@
             android:name=".setting.SettingActivity"/>
         <activity android:name=".registerInformation.RegisterPictureActivity"
             android:screenOrientation="portrait">
+
         </activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"/>
     </application>
 
 </manifest>

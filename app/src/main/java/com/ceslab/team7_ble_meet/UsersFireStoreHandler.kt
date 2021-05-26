@@ -1,16 +1,19 @@
 package com.ceslab.team7_ble_meet
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.storage.FirebaseStorage
 
 class UsersFireStoreHandler {
 
     var userRef = FirebaseFirestore.getInstance().collection("Users")
     var uidRef = FirebaseFirestore.getInstance().collection("UUID")
+    var imageRef = FirebaseStorage.getInstance().reference.child("images")
     var mAuth : FirebaseAuth = FirebaseAuth.getInstance()
     var userResp = MutableLiveData<Resp?>()
 
@@ -103,11 +106,29 @@ class UsersFireStoreHandler {
                 uidRef.document(KeyValueDB.getUserId()).set(hashMapOf("isRegisterTag" to true),SetOptions.merge())
                 userResp.postValue(Resp("NONE","SUCCESS","update tag successful!"))
 //                KeyValueDB.setUserTag(true)
-                KeyValueDB.setRegister(true)
+//                KeyValueDB.setRegister(true)
+                KeyValueDB.setUserTag(true)
             }
             .addOnFailureListener{
                 userResp.postValue(Resp("NONE","FAILED","update tag failed!"))
 //                KeyValueDB.setUserTag(false)
+            }
+    }
+
+    fun updateAvatar(uri: Uri){
+        Log.d("UserFireStoreHandler","shortId: ${getUserShortId()}")
+
+        imageRef.child(KeyValueDB.getUserShortId()).child("avatar")
+//        imageRef.child("/${shortId}/avatar")
+            .putFile(uri)
+            .addOnSuccessListener {
+                userResp.postValue(Resp("NONE","SUCCESS","update avatar successful!"))
+                uidRef.document(KeyValueDB.getUserId()).set(hashMapOf("isRegisterAvatar" to true),SetOptions.merge())
+                KeyValueDB.setUserAvatar(true)
+                KeyValueDB.setRegister(true)
+            }
+            .addOnFailureListener{
+                userResp.postValue(Resp("NONE","FAILED","update avatar failed!"))
             }
     }
 
@@ -177,6 +198,7 @@ class UsersFireStoreHandler {
 
     fun getUserShortId(): String{
         var id = ""
+        Log.d("UserFireStoreHandler","shortId: ${mAuth.currentUser.uid}")
         uidRef.document(mAuth.currentUser.uid)
             .get()
             .addOnSuccessListener {
@@ -203,7 +225,9 @@ class UsersFireStoreHandler {
                         userResp.postValue(Resp("LOGIN","SUCCESS","DOB"))
                     }else if(!(it["isRegisterTag"] as Boolean)){
                         userResp.postValue(Resp("LOGIN","SUCCESS","TAG"))
-                    }else{
+                    }else if(!(it["isRegisterAvatar"] as Boolean)){
+                        userResp.postValue(Resp("LOGIN","SUCCESS","IMAGE"))
+                    }else {
                         KeyValueDB.setRegister(true)
                         userResp.postValue(Resp("LOGIN","SUCCESS","DASHBOARD"))
                     }
@@ -243,7 +267,8 @@ class UsersFireStoreHandler {
                                     ,"isRegisterName" to false
                                     ,"isRegisterDoB" to false
                                     ,"isRegisterTag" to false
-                                    ,"isRegisterGender" to false))
+                                    ,"isRegisterGender" to false
+                                    ,"isRegisterAvatar" to false ))
                             userResp.postValue(Resp("NONE","SUCCESS","add new users successful"))
                         }
                         .addOnFailureListener{

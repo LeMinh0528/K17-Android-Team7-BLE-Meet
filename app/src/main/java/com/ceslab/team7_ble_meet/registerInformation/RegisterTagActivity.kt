@@ -55,12 +55,17 @@ class RegisterTagActivity : AppCompatActivity() {
             if(result != null){
                 toast("result: ${result.message}")
                 if(result.type == "NONE" && result.status == "SUCCESS"){
-                    KeyValueDB.setRegister(true)
-                    KeyValueDB.setUserTag(true)
-                    gotoDashBoard()
+                    gotoRegisterPicture()
+//                    gotoDashBoard()
                 }
             }
         })
+    }
+
+    fun gotoRegisterPicture(){
+        val intent = Intent(this, RegisterPictureActivity::class.java).apply {
+        }
+        startActivity(intent)
     }
 
     fun initData(){
@@ -115,11 +120,5 @@ class RegisterTagActivity : AppCompatActivity() {
         btnContinue.isEnabled = listChooser.size > 4
     }
 
-    private fun gotoDashBoard(){
-        val intent = Intent(this, DashBoardActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-        startActivity(intent)
 
-    }
 }

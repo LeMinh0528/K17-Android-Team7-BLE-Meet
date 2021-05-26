@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 object KeyValueDB {
 
     private const val USER_ID = "user_id"
+    private const val USER_AVATAR = "user_avatar"
     private const val USER_SHORT_ID = "user_short_id"
     private const val USER_REGISTERED = "user_registered"
     private const val FIRST_TIME_REGISTER = "first_time_register"
@@ -30,6 +31,16 @@ object KeyValueDB {
 
     fun getUserTag(): Boolean{
         return pref?.getBoolean(USER_TAG,false)?: false
+    }
+
+    fun setUserAvatar(i: Boolean){
+        val editor: SharedPreferences.Editor? = pref?.edit()
+        editor?.putBoolean(USER_AVATAR,i)
+        editor?.apply()
+    }
+
+    fun getUserAvatar(): Boolean{
+        return pref?.getBoolean(USER_AVATAR,false)?: false
     }
 
     fun setUserId(id: String){

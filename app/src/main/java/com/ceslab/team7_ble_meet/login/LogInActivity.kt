@@ -12,10 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.dashboard.DashBoardActivity
 import com.ceslab.team7_ble_meet.databinding.ActivityLogInBinding
-import com.ceslab.team7_ble_meet.registerInformation.RegisterBirthdayActivity
-import com.ceslab.team7_ble_meet.registerInformation.RegisterGenderActivity
-import com.ceslab.team7_ble_meet.registerInformation.RegisterTagActivity
-import com.ceslab.team7_ble_meet.registerInformation.RegisterUserNameActivity
+import com.ceslab.team7_ble_meet.registerInformation.*
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ceslab.team7_ble_meet.signup.SignUpActivity
 import com.ceslab.team7_ble_meet.toast
@@ -55,7 +52,9 @@ class LogInActivity : AppCompatActivity() {
                 }else
                 if(response.type == "LOGIN" && response.status == "SUCCESS"&& response.message == "TAG"){
                     goToRegisterTag()
-                }else
+                }else if(response.type == "LOGIN" && response.status == "SUCCESS"&& response.message == "IMAGE") {
+                    goToRegisterPicture()
+                } else
                 if(response.type == "LOGIN" && response.status == "SUCCESS"&& response.message == "DASHBOARD"){
                     goToDashBoard()
                 }
@@ -63,6 +62,13 @@ class LogInActivity : AppCompatActivity() {
                 toast(response.message)
             }
         })
+    }
+
+    private fun goToRegisterPicture(){
+        val intent = Intent(this, RegisterPictureActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(intent)
     }
 
     private fun goToRegisterName(){
