@@ -25,76 +25,76 @@ class DataAccountHandler() {
         fun resultLogIn(message: String)
     }
 
-    fun logIn(usrNameOrEmail: String, password: String){
-        Log.d("TAG","here")
-        for(acc in accountArrayList){
-            if(usrNameOrEmail == acc.usrName || usrNameOrEmail == acc.email){
-                if(password == acc.password){
-                    logInCallBack.resultLogIn("Log In Successfully")
-                }
-                else{
-                    logInCallBack.resultLogIn("Password is incorrect")
-                }
-                return
-            }
-        }
-        logInCallBack.resultLogIn("Account does not exist")
-    }
+//    fun logIn(usrNameOrEmail: String, password: String){
+//        Log.d("TAG","here")
+//        for(acc in accountArrayList){
+//            if(usrNameOrEmail == acc.usrName || usrNameOrEmail == acc.email){
+//                if(password == acc.password){
+//                    logInCallBack.resultLogIn("Log In Successfully")
+//                }
+//                else{
+//                    logInCallBack.resultLogIn("Password is incorrect")
+//                }
+//                return
+//            }
+//        }
+//        logInCallBack.resultLogIn("Account does not exist")
+//    }
 
-    fun signUp(email:String ,password: String, rePassword: String, msignUpCallback: SignUpCallback){
-        signUpCallBack = msignUpCallback
-        if(email.isEmpty() || password.isEmpty() || rePassword.isEmpty()){
-            signUpCallBack.onFailed("Empty field!")
-        }else{
-            if(!isValidEmail(email)){
-                signUpCallBack.onFailed("Wrong email format!")
-                return
-            }
-            if(!isValidPasswordFormat(password)){
-                signUpCallBack.onFailed("Wrong password format")
-                return
-            }
-            if(password != rePassword){
-                signUpCallBack.onFailed("Password and and confirm password are not the same!")
-                return
-            }
-            //create user
-            createUser(email,password)
-        }
-    }
+//    fun signUp(email:String ,password: String, rePassword: String, msignUpCallback: SignUpCallback){
+//        signUpCallBack = msignUpCallback
+//        if(email.isEmpty() || password.isEmpty() || rePassword.isEmpty()){
+//            signUpCallBack.onFailed("Empty field!")
+//        }else{
+//            if(!isValidEmail(email)){
+//                signUpCallBack.onFailed("Wrong email format!")
+//                return
+//            }
+//            if(!isValidPasswordFormat(password)){
+//                signUpCallBack.onFailed("Wrong password format")
+//                return
+//            }
+//            if(password != rePassword){
+//                signUpCallBack.onFailed("Password and and confirm password are not the same!")
+//                return
+//            }
+//            //create user
+//            createUser(email,password)
+//        }
+//    }
 
-    fun createUser(email:String, password: String){
-        var instance = UsersFireStoreHandler()
-        instance.mAuth.createUserWithEmailAndPassword(email,password)
-            .addOnCompleteListener{task ->
-                if (task.isSuccessful){
-                    val note = mutableMapOf<String, String>()
-                    note["EMAIL"] = email
-                    note["PASS"] = password
-                    //save uid to firestore
-                    instance.userRef.document(instance.mAuth.currentUser.uid)
-                        .set(note).addOnSuccessListener {
-                            Log.d("TAG","add new users successful")
-                            signUpCallBack.onSuccess("add new users successful!")
-
-                        }
-                        .addOnFailureListener{
-                            //on failed add user to firestore
-                            Log.d("TAG","Fail: $it")
-                            signUpCallBack.onSuccess("add new users failed!")
-                        }
-
-                }else{
-                    task.exception?.let {
-                        //on failed create user by email and password
-                    }
-                }
-            }
-            .addOnFailureListener{
-                Log.d("TAG","Fail: $it")
-                signUpCallBack.onFailed(it.message.toString())
-            }
-    }
+//    fun createUser(email:String, password: String){
+//        var instance = UsersFireStoreHandler()
+//        instance.mAuth.createUserWithEmailAndPassword(email,password)
+//            .addOnCompleteListener{task ->
+//                if (task.isSuccessful){
+//                    val note = mutableMapOf<String, String>()
+//                    note["EMAIL"] = email
+//                    note["PASS"] = password
+//                    //save uid to firestore
+//                    instance.userRef.document(instance.mAuth.currentUser.uid)
+//                        .set(note).addOnSuccessListener {
+//                            Log.d("TAG","add new users successful")
+//                            signUpCallBack.onSuccess("add new users successful!")
+//
+//                        }
+//                        .addOnFailureListener{
+//                            //on failed add user to firestore
+//                            Log.d("TAG","Fail: $it")
+//                            signUpCallBack.onSuccess("add new users failed!")
+//                        }
+//
+//                }else{
+//                    task.exception?.let {
+//                        //on failed create user by email and password
+//                    }
+//                }
+//            }
+//            .addOnFailureListener{
+//                Log.d("TAG","Fail: $it")
+//                signUpCallBack.onFailed(it.message.toString())
+//            }
+//    }
 
     private fun checkFormatUsrName(usrname: String): String{
         if(usrname.isEmpty()) return "Empty Username!"
