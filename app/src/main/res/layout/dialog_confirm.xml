@@ -15,6 +15,7 @@
             android:layout_marginTop="24dp"
             android:text="Comfirm"
             android:textSize="16sp"
+            android:textColor="@color/black"
             android:textStyle="bold"
             android:textAllCaps="true"
             android:gravity="center_horizontal"
@@ -25,6 +26,7 @@
             android:text="Are you sure you want to cancel?"
             android:gravity="center"
             android:textSize="16sp"
+            android:textColor="#2C2C2C"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>
@@ -49,6 +51,7 @@
                 android:id="@+id/tv_cancel"
                 android:text="Cancel"
                 android:textSize="18sp"
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
