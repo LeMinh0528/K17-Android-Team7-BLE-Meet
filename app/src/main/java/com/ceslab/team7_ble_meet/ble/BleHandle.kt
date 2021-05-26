@@ -4,14 +4,13 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.le.*
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.ceslab.team7_ble_meet.bytesToHex
 
 
 @Suppress("NAME_SHADOWING")
 class BleHandle {
 
     val TAG = "BLE_Handler"
-    private val manu_id: Int = 0x6969
+    private val manuId: Int = 0x6969
 
     var bleDataReceived: MutableLiveData<ByteArray> = MutableLiveData()
 
@@ -26,7 +25,7 @@ class BleHandle {
             .build()
         val data: AdvertiseData = AdvertiseData.Builder()
             .setIncludeDeviceName(false)
-            .addManufacturerData(manu_id, data)
+            .addManufacturerData(manuId, data)
             .build()
 
         val advertisingCallback: AdvertiseCallback = object : AdvertiseCallback() {
@@ -52,9 +51,9 @@ class BleHandle {
             override fun onScanResult(callbackType: Int, result: ScanResult) {
                 super.onScanResult(callbackType, result)
                 val adType = result.scanRecord?.bytes?.get(1)?.toInt()
-                val manuidUpper = result.scanRecord?.bytes?.get(2)?.toInt()
-                val manuidLower = result.scanRecord?.bytes?.get(3)?.toInt()
-                if (adType == -1 && manuidUpper == 105 && manuidLower == 105) {
+                val manuIdUpper = result.scanRecord?.bytes?.get(2)?.toInt()
+                val manuIdLower = result.scanRecord?.bytes?.get(3)?.toInt()
+                if (adType == -1 && manuIdUpper == 105 && manuIdLower == 105) {
 //                    Log.d(TAG, "Scan result:" + bytesToHex(result.scanRecord!!.bytes))
                     bleDataReceived.value = result.scanRecord!!.bytes
 //                    Log.d(TAG, "Scan result DATA received:" + bleDataReceived.value)
@@ -74,6 +73,6 @@ class BleHandle {
         val filter = ScanFilter.Builder().build()
         val filters = listOf(filter)
         val settings = ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_BALANCED).build()
-        mBluetoothLeScanner.startScan(filters, settings, mScanCallback);
+        mBluetoothLeScanner.startScan(filters, settings, mScanCallback)
     }
 }
