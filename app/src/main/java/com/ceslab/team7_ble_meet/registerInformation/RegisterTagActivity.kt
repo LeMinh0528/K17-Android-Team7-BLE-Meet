@@ -3,7 +3,9 @@ package com.ceslab.team7_ble_meet.registerInformation
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -15,10 +17,13 @@ import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ceslab.team7_ble_meet.toast
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import kotlinx.android.synthetic.main.activity_register_birthday.*
 
 class RegisterTagActivity : AppCompatActivity() {
     lateinit var chipGroup : ChipGroup
     lateinit var btnContinue : LinearLayout
+    lateinit var progressbar : ProgressBar
+    lateinit var tv_btn : TextView
     lateinit var btnText: TextView
     lateinit var viewModel: RegisterTagViewModel
     private var userId =  KeyValueDB.getUserId()
@@ -45,12 +50,21 @@ class RegisterTagActivity : AppCompatActivity() {
         chipGroup = findViewById(R.id.chipGroup)
         btnContinue = findViewById(R.id.btn_continue)
         btnText = findViewById(R.id.tv_btn)
+        progressbar = findViewById(R.id.progressbar)
+        tv_btn = findViewById(R.id.tv_btn)
         viewModel = ViewModelProvider(this).get(RegisterTagViewModel::class.java)
 
         btnContinue.setOnClickListener {
+            btn_continue.isEnabled = false
+            progressbar.visibility = View.VISIBLE
+            tv_btn.visibility = View.GONE
             viewModel.register(listChooser)
         }
         viewModel.userResp.observe(this, Observer { result ->
+            btn_continue.isEnabled = true
+            progressbar.visibility = View.GONE
+            tv_btn.visibility = View.VISIBLE
+
             Log.d("RegisterTagActivity","registertag observer")
             if(result != null){
                 toast("result: ${result.message}")

@@ -43,7 +43,7 @@ class RegisterUserNameActivity : AppCompatActivity() {
         }
         viewModel.userResp.observe(this, Observer { response ->
             btn_continue.isEnabled = true
-            progressbar.visibility = View.GONE
+            binding.progressbar.visibility = View.GONE
             tv_btn.visibility = View.VISIBLE
             if (response != null){
                 if(response.type == "NONE" && response.status =="SUCCESS"){

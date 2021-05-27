@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.DatePicker
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,9 @@ import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.databinding.ActivityRegisterBirthdayBinding
 import com.ceslab.team7_ble_meet.toast
 import kotlinx.android.synthetic.main.activity_register_birthday.*
+import kotlinx.android.synthetic.main.activity_register_birthday.btn_continue
+import kotlinx.android.synthetic.main.activity_register_birthday.tv_btn
+import kotlinx.android.synthetic.main.activity_register_user_name.*
 import java.util.*
 
 
@@ -26,12 +30,8 @@ class RegisterBirthdayActivity : AppCompatActivity() {
     private var datePickerDialog  : DatePickerDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         onbinding()
         setupDialog()
-
-
-
         setAction()
     }
 
@@ -43,6 +43,9 @@ class RegisterBirthdayActivity : AppCompatActivity() {
 
     fun setAction(){
         viewModel.userResp.observe(this,Observer{ response ->
+            btn_continue.isEnabled = true
+            binding.progressbar.visibility = View.GONE
+            tv_btn.visibility = View.VISIBLE
             if(response != null){
                 if(response.type == "NONE" && response.status == "SUCCESS"){
                     gotoTag()
@@ -59,9 +62,14 @@ class RegisterBirthdayActivity : AppCompatActivity() {
                 datePickerDialog!!.show()
             }
             btnContinue.setOnClickListener{
+                btn_continue.isEnabled = false
+                progressbar.visibility = View.VISIBLE
+                tv_btn.visibility = View.GONE
                 viewmodel?.updateBirthDay()
             }
         }
+
+
     }
 
     fun setupDialog(){
@@ -85,7 +93,6 @@ class RegisterBirthdayActivity : AppCompatActivity() {
                 binding.tvMonth.text = m.toString()
             }
             binding.tvYear.text = year.toString()
-
         }
         datePickerDialog = DatePickerDialog(this,android.R.style.Theme_Holo_Light_Dialog_MinWidth,dialogListener,year,month,day)
         datePickerDialog!!.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

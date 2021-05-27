@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -26,7 +27,10 @@ import com.ceslab.team7_ble_meet.toast
 import com.google.firebase.storage.FirebaseStorage
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import kotlinx.android.synthetic.main.activity_register_birthday.*
 import kotlinx.android.synthetic.main.activity_register_picture.*
+import kotlinx.android.synthetic.main.activity_register_picture.btn_continue
+import kotlinx.android.synthetic.main.activity_register_picture.tv_btn
 import java.io.File
 
 
@@ -68,10 +72,17 @@ class RegisterPictureActivity : AppCompatActivity() {
                 startActivityForResult(Intent.createChooser(gallery, "chon hinh anh"), PICK_IMAGE)
             }
             btn_continue.setOnClickListener{
+                btn_continue.isEnabled = false
+                progressbar.visibility = View.VISIBLE
+                tv_btn.visibility = View.GONE
                 viewmodel?.uploadImage()
             }
         }
         viewModel.userResp.observe(this, Observer { response ->
+            btn_continue.isEnabled = true
+            binding.progressbar.visibility = View.GONE
+            tv_btn.visibility = View.VISIBLE
+
             if(response != null){
                 if(response.type == "NONE" && response.status == "SUCCESS"){
                     gotoDashBoard()
