@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -34,10 +35,16 @@ class RegisterUserNameActivity : AppCompatActivity() {
     private fun initAction(){
         binding.apply {
             btn_continue.setOnClickListener{
+                btn_continue.isEnabled = false
+                progressbar.visibility = View.VISIBLE
+                tv_btn.visibility = View.GONE
                 viewmodel?.registerName()
             }
         }
         viewModel.userResp.observe(this, Observer { response ->
+            btn_continue.isEnabled = true
+            progressbar.visibility = View.GONE
+            tv_btn.visibility = View.VISIBLE
             if (response != null){
                 if(response.type == "NONE" && response.status =="SUCCESS"){
                     gotoGender()
