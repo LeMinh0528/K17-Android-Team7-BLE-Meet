@@ -12,11 +12,12 @@ class BleHandle {
     val TAG = "BLE_Handler"
     private val manuId: Int = 0x6969
 
-    var bleDataReceived: MutableLiveData<ByteArray> = MutableLiveData()
+    private val advertiser = BluetoothAdapter.getDefaultAdapter().bluetoothLeAdvertiser
+    private val scanner = BluetoothAdapter.getDefaultAdapter().bluetoothLeScanner
+    var bleDataScanned: MutableLiveData<ByteArray> = MutableLiveData()
 
     fun advertise(data: ByteArray) {
         Log.d(TAG, "Advertise function called")
-        val advertiser = BluetoothAdapter.getDefaultAdapter().bluetoothLeAdvertiser
         val settings = AdvertiseSettings.Builder()
             .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_BALANCED)
             .setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_MEDIUM)
@@ -44,10 +45,25 @@ class BleHandle {
         advertiser.startAdvertising(settings, data, advertisingCallback)
     }
 
-    fun discover() {
-        Log.d(TAG, "Discover function called")
-        val mBluetoothLeScanner = BluetoothAdapter.getDefaultAdapter().bluetoothLeScanner
-        val mScanCallback: ScanCallback = object : ScanCallback() {
+    fun stopAdvertise(){
+        Log.d(TAG, "Stop advertise function called")
+        val stopAdvertisingCallback: AdvertiseCallback = object : AdvertiseCallback() {
+            override fun onStartSuccess(settingsInEffect: AdvertiseSettings) {
+                Log.d(TAG, "Stop Advertise Successfully")
+                super.onStartSuccess(settingsInEffect)
+            }
+
+            override fun onStartFailure(errorCode: Int) {
+                Log.e(TAG, "Stop Advertise Failed $errorCode")
+                super.onStartFailure(errorCode)
+            }
+        }
+        advertiser.stopAdvertising(stopAdvertisingCallback)
+    }
+
+    fun scan() {
+        Log.d(TAG, "Scan function called")
+        val scanCallback: ScanCallback = object : ScanCallback() {
             override fun onScanResult(callbackType: Int, result: ScanResult) {
                 super.onScanResult(callbackType, result)
                 val adType = result.scanRecord?.bytes?.get(1)?.toInt()
@@ -55,7 +71,7 @@ class BleHandle {
                 val manuIdLower = result.scanRecord?.bytes?.get(3)?.toInt()
                 if (adType == -1 && manuIdUpper == 105 && manuIdLower == 105) {
 //                    Log.d(TAG, "Scan result:" + bytesToHex(result.scanRecord!!.bytes))
-                    bleDataReceived.value = result.scanRecord!!.bytes
+                    bleDataScanned.value = result.scanRecord!!.bytes
 //                    Log.d(TAG, "Scan result DATA received:" + bleDataReceived.value)
                 }
             }
@@ -65,7 +81,7 @@ class BleHandle {
             }
 
             override fun onScanFailed(errorCode: Int) {
-                Log.e(TAG, "Discovery onScanFailed: $errorCode")
+                Log.e(TAG, "Scan failed: $errorCode")
                 super.onScanFailed(errorCode)
             }
         }
@@ -73,6 +89,25 @@ class BleHandle {
         val filter = ScanFilter.Builder().build()
         val filters = listOf(filter)
         val settings = ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_BALANCED).build()
-        mBluetoothLeScanner.startScan(filters, settings, mScanCallback)
+        scanner.startScan(filters, settings, scanCallback)
+    }
+
+    fun stopScan(){
+        Log.d(TAG, "Stop scan function called")
+        val stopScanCallback: ScanCallback = object : ScanCallback() {
+            override fun onScanResult(callbackType: Int, result: ScanResult) {
+                Log.d(TAG, "Stop scan successfully")
+            }
+
+            override fun onBatchScanResults(results: List<ScanResult?>?) {
+                super.onBatchScanResults(results)
+            }
+
+            override fun onScanFailed(errorCode: Int) {
+                Log.e(TAG, "Stop scan failed: $errorCode")
+                super.onScanFailed(errorCode)
+            }
+        }
+        scanner.stopScan(stopScanCallback)
     }
 }
