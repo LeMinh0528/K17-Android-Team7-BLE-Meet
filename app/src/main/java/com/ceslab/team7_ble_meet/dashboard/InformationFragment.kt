@@ -1,5 +1,6 @@
 package com.ceslab.team7_ble_meet.dashboard
 
+import Activity.EditProfileActivity
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -44,6 +45,9 @@ class InformationFragment: Fragment() {
 //                gotoSetting()
 //            }
             btnSetting.setOnClickListener{
+                gotoSetting()
+            }
+            btnEdit.setOnClickListener {
                 gotoEdit()
             }
         }
@@ -56,7 +60,7 @@ class InformationFragment: Fragment() {
     }
 
     private fun gotoEdit(){
-        val intent = Intent(activity, SettingActivity::class.java)
+        val intent = Intent(activity, EditProfileActivity::class.java)
         startActivity(intent)
     }
 
