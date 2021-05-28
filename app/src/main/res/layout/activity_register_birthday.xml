@@ -86,7 +86,7 @@
                 <TextView
                     android:id="@+id/tv_day"
                     android:text="@={viewmodel.day}"
-                    android:textSize="40dp"
+                    android:textSize="35dp"
                     android:textColor="@color/colorgrayoption1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -109,7 +109,7 @@
                 <TextView
                     android:id="@+id/tv_month"
                     android:text="@={viewmodel.month}"
-                    android:textSize="40dp"
+                    android:textSize="35dp"
                     android:textColor="@color/colorgrayoption1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -131,7 +131,7 @@
                 <TextView
                     android:id="@+id/tv_year"
                     android:text="@={viewmodel.year}"
-                    android:textSize="40dp"
+                    android:textSize="35dp"
                     android:textColor="@color/colorgrayoption1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>

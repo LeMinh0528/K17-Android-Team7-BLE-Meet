@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.databinding.ActivitySignUpBinding
+import com.ceslab.team7_ble_meet.dialog.LoadingDialog
 import com.ceslab.team7_ble_meet.login.LogInActivity
 import com.ceslab.team7_ble_meet.registerInformation.RegisterGenderActivity
 import com.ceslab.team7_ble_meet.registerInformation.RegisterUserNameActivity
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_sign_up.*
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var viewModel: SignUpViewModel
+    private var loadingDialog = LoadingDialog()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUpSignUpActivity()
@@ -36,12 +38,14 @@ class SignUpActivity : AppCompatActivity() {
         binding.apply {
             
             SignUp_btnSignUp.setOnClickListener{
+                loadingDialog.show(supportFragmentManager,"loading")
                 Log.d("SignUpActivity","sign up button")
                 viewModel.register()
             }
         }
 
         viewModel.userResp.observe(this, Observer {response ->
+            loadingDialog.dismiss()
             Log.d("SignUpActivity","signup observer")
             if (response != null) {
                 if(response.type == "NONE" && response.status == "SUCCESS"){

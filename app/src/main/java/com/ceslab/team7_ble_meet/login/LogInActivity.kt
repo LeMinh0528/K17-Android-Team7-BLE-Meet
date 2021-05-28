@@ -7,11 +7,13 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.dashboard.DashBoardActivity
 import com.ceslab.team7_ble_meet.databinding.ActivityLogInBinding
+import com.ceslab.team7_ble_meet.dialog.LoadingDialog
 import com.ceslab.team7_ble_meet.registerInformation.*
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ceslab.team7_ble_meet.signup.SignUpActivity
@@ -20,7 +22,7 @@ import com.ceslab.team7_ble_meet.toast
 class LogInActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLogInBinding
     private lateinit var viewModel: LogInViewModel
-
+    private var loadingDialog = LoadingDialog()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setLogIn()
@@ -29,6 +31,7 @@ class LogInActivity : AppCompatActivity() {
                 goToSignUp()
             }
             btnLogin.setOnClickListener{
+                loadingDialog.show(supportFragmentManager,"loading")
                 viewModel.logIn()
             }
         }
@@ -40,6 +43,7 @@ class LogInActivity : AppCompatActivity() {
         binding.logInViewModel = viewModel
 
         viewModel.userResp.observe(this, Observer { response ->
+            loadingDialog.dismiss()
             if(response != null){
                 if(response.type == "LOGIN" && response.status == "SUCCESS" && response.message == "USERNAME"){
                     goToRegisterName()
