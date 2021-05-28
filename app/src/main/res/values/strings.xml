@@ -39,4 +39,7 @@
     <string name="confirmation">Confirmation</string>
     <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
+    <string name="delete_3">Delete</string>
+    <string name="todo_3">TODO</string>
+    <string name="stop_3">STOP</string>
 </resources>

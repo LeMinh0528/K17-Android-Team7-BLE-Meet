@@ -9,7 +9,8 @@ import androidx.lifecycle.MutableLiveData
 @Suppress("NAME_SHADOWING")
 class BleHandle {
 
-    val TAG = "BLE_Handler"
+    val TAG = "Ble_service"
+//    val TAG = "BLE_Handler"
     private val manuId: Int = 0x6969
 
     private val advertiser = BluetoothAdapter.getDefaultAdapter().bluetoothLeAdvertiser
@@ -45,22 +46,6 @@ class BleHandle {
         advertiser.startAdvertising(settings, data, advertisingCallback)
     }
 
-    fun stopAdvertise(){
-        Log.d(TAG, "Stop advertise function called")
-        val stopAdvertisingCallback: AdvertiseCallback = object : AdvertiseCallback() {
-            override fun onStartSuccess(settingsInEffect: AdvertiseSettings) {
-                Log.d(TAG, "Stop Advertise Successfully")
-                super.onStartSuccess(settingsInEffect)
-            }
-
-            override fun onStartFailure(errorCode: Int) {
-                Log.e(TAG, "Stop Advertise Failed $errorCode")
-                super.onStartFailure(errorCode)
-            }
-        }
-        advertiser.stopAdvertising(stopAdvertisingCallback)
-    }
-
     fun scan() {
         Log.d(TAG, "Scan function called")
         val scanCallback: ScanCallback = object : ScanCallback() {
@@ -90,24 +75,5 @@ class BleHandle {
         val filters = listOf(filter)
         val settings = ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_BALANCED).build()
         scanner.startScan(filters, settings, scanCallback)
-    }
-
-    fun stopScan(){
-        Log.d(TAG, "Stop scan function called")
-        val stopScanCallback: ScanCallback = object : ScanCallback() {
-            override fun onScanResult(callbackType: Int, result: ScanResult) {
-                Log.d(TAG, "Stop scan successfully")
-            }
-
-            override fun onBatchScanResults(results: List<ScanResult?>?) {
-                super.onBatchScanResults(results)
-            }
-
-            override fun onScanFailed(errorCode: Int) {
-                Log.e(TAG, "Stop scan failed: $errorCode")
-                super.onScanFailed(errorCode)
-            }
-        }
-        scanner.stopScan(stopScanCallback)
     }
 }
