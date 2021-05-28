@@ -2,16 +2,20 @@ package com.ceslab.team7_ble_meet.registerInformation
 
 import android.Manifest
 import android.R.attr
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -24,6 +28,7 @@ import com.ceslab.team7_ble_meet.UsersFireStoreHandler
 import com.ceslab.team7_ble_meet.dashboard.DashBoardActivity
 import com.ceslab.team7_ble_meet.databinding.ActivityRegisterPictureBinding
 import com.ceslab.team7_ble_meet.toast
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.storage.FirebaseStorage
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -35,6 +40,7 @@ import java.io.File
 
 
 class RegisterPictureActivity : AppCompatActivity() {
+    private  var  REQUEST_CODE =42
     val PICK_IMAGE = 1
     private val PERMISSION_REQUEST = 10
     lateinit var viewModel: RegisterPictureViewModel
@@ -66,10 +72,33 @@ class RegisterPictureActivity : AppCompatActivity() {
     fun setAction(){
         binding.apply{
             btn_edit.setOnClickListener{
-                val gallery = Intent()
-                gallery.type = "image/*"
-                gallery.action = Intent.ACTION_GET_CONTENT
-                startActivityForResult(Intent.createChooser(gallery, "chon hinh anh"), PICK_IMAGE)
+                val bottomdialog = BottomSheetDialog(this@RegisterPictureActivity,R.style.BottomSheetTheme)
+                val sheetview = LayoutInflater.from(applicationContext).inflate(R.layout.custom_bottomdialog,
+                    findViewById(R.id.layoubottomsheetdialog))
+                bottomdialog.setContentView(sheetview)
+                bottomdialog.show()
+                val camera = sheetview.findViewById(R.id.Opcamera) as LinearLayout
+                val gallery = sheetview.findViewById(R.id.Opgallery) as LinearLayout
+                camera.setOnClickListener {
+                    Toast.makeText(applicationContext, "Hello", Toast.LENGTH_LONG).show()
+                    val takePictureintent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    if (takePictureintent.resolveActivity(packageManager)!= null){
+                        startActivityForResult(takePictureintent,REQUEST_CODE)
+                    }else{
+
+                    }
+                    bottomdialog.dismiss()
+                }
+                gallery.setOnClickListener {
+                    Toast.makeText(applicationContext, "Hiiiiiiiiiiiiiiiiiiii", Toast.LENGTH_LONG).show()
+                    val gallery1 = Intent()
+                    gallery1.type = "image/*"
+                    gallery1.action = Intent.ACTION_GET_CONTENT
+                    startActivityForResult(Intent.createChooser(gallery1, "chon hinh anh"), PICK_IMAGE)
+                    bottomdialog.dismiss()
+                }
+
+
             }
             btn_continue.setOnClickListener{
                 btn_continue.isEnabled = false
@@ -122,6 +151,16 @@ class RegisterPictureActivity : AppCompatActivity() {
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .start(this);
         }
+        //camera
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK)
+        {
+            val image = data?.extras?.get("data") as Bitmap
+            Glide.with(this)
+                .load(image)
+                .into(binding.icAvt)
+        }
+
+        //camera
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
             val result = CropImage.getActivityResult(data)
             if(resultCode == RESULT_OK){
