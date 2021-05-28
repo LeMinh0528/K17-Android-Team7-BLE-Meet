@@ -50,7 +50,7 @@
             android:name=".registerInformation.RegisterUserNameActivity"/>
         <activity
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
             android:name=".dashboard.DashBoardActivity" />
         <activity android:name=".registerInformation.RegisterGenderActivity"/>
         <activity

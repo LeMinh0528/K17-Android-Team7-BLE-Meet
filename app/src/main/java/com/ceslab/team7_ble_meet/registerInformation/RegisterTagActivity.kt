@@ -74,7 +74,7 @@ class RegisterTagActivity : AppCompatActivity() {
                 var pos = listChip.indexOf(i)
                 val chip: Chip = chipGroup.getChildAt(pos) as Chip
                 chip.isChecked = true
-                chip.setTextColor(ContextCompat.getColor(applicationContext,R.color.colororange))
+                chip.setTextColor(ContextCompat.getColor(applicationContext,R.color.colorblue100))
             }
         }
         updateText()
@@ -100,7 +100,7 @@ class RegisterTagActivity : AppCompatActivity() {
                             chip.setTextColor(ContextCompat.getColor(applicationContext,R.color.colorgray400))
                             chip.isChecked = false
                         }else{
-                            chip.setTextColor(ContextCompat.getColor(applicationContext,R.color.colororange))
+                            chip.setTextColor(ContextCompat.getColor(applicationContext,R.color.colorblue100))
                             listChooser.add(chipGroup.text.toString())
                             Log.d("RegisterTagActivity","listChooser: ${listChooser.size}")
                         }
