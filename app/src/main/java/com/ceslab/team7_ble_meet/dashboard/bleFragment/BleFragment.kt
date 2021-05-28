@@ -28,9 +28,6 @@ import com.ceslab.team7_ble_meet.databinding.FragmentBleBinding
 import com.ceslab.team7_ble_meet.db.BleDataScannedDataBase
 import kotlin.experimental.or
 
-
-
-@Suppress("NAME_SHADOWING")
 class BleFragment : Fragment() {
 
     companion object {
@@ -110,8 +107,6 @@ class BleFragment : Fragment() {
                     BluetoothAdapter.STATE_OFF -> {
                         binding.swTurnOnOffBLE.isChecked = false
                         if(binding.vRipple.isRippleAnimationRunning) binding.vRipple.stopRippleAnimation()
-//                        connect.stopAdvertise()
-//                        connect.stopScan()
                         Toast.makeText(requireContext(), "Bluetooth off", Toast.LENGTH_LONG).show()
                     }
                     BluetoothAdapter.STATE_ON -> {
@@ -153,19 +148,31 @@ class BleFragment : Fragment() {
                     Toast.makeText(activity, "Please turn on Bluetooth", Toast.LENGTH_SHORT).show()
                 }
             }
+            btnStopFindFriend.setOnClickListener {
+                vRipple.stopRippleAnimation()
+                if (bluetoothAdapter.isEnabled) {
+                    bleHandle.stopAdvertise()
+                    bleHandle.stopScan()
+                }
+            }
             btnDelete.setOnClickListener{
                 deleteAllUser()
+                btnFindFriend.isGone = false
+                vRipple.isGone = false
+                rcListDataDiscovered.isGone = true
             }
 
 
             listDataDiscoveredAdapter.data = BleDataScannedDataBase.getDatabase(requireContext()).bleDataScannedDao().getUserDiscover() as ArrayList<BleDataScanned>
             rcListDataDiscovered.adapter = listDataDiscoveredAdapter
-            if(BleDataScannedDataBase.getDatabase(requireContext()).bleDataScannedDao()
-                    .getUserDiscover().isNotEmpty()
+            if(BleDataScannedDataBase.getDatabase(requireContext())
+                    .bleDataScannedDao()
+                    .getUserDiscover()
+                    .isNotEmpty()
             ){
-                binding.btnFindFriend.isGone = true
-                binding.vRipple.isGone = true
-                binding.rcListDataDiscovered.visibility = View.VISIBLE
+                btnFindFriend.isGone = true
+                vRipple.isGone = true
+                rcListDataDiscovered.visibility = View.VISIBLE
             }
 
             listDataDiscoveredAdapter.listener = object : ListBleDataScanedAdapter.IdClickedListener{
@@ -304,11 +311,6 @@ class BleFragment : Fragment() {
         listDataDiscoveredAdapter.data = BleDataScannedDataBase.getDatabase(requireContext()).bleDataScannedDao().getUserDiscover() as ArrayList<BleDataScanned>
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        requireContext().unregisterReceiver(broadcastReceiver)
-    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -326,5 +328,10 @@ class BleFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        requireContext().unregisterReceiver(broadcastReceiver)
     }
 }

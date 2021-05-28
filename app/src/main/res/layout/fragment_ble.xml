@@ -29,15 +29,18 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="250dp"
                 android:id="@+id/btnFindFriend"
-                android:src="@drawable/heart" />
+                android:src="@drawable/heart"
+                android:contentDescription="@string/todo_3" />
         </com.skyfishjy.library.RippleBackground>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_below="@+id/swTurnOnOffBLE"
             android:id="@+id/rcListDataDiscovered"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/swTurnOnOffBLE"
+            android:layout_alignParentBottom="true"
             android:layout_marginTop="32dp"
+            android:layout_marginBottom="100dp"
             android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
@@ -53,9 +56,21 @@
             android:id="@+id/btnDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="43dp"
-            android:text="Delete" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="50dp"
+            android:layout_marginBottom="27dp"
+            android:text="@string/delete_3" />
+
+        <Button
+            android:id="@+id/btnStopFindFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="27dp"
+            android:text="@string/stop_3" />
 
     </RelativeLayout>
 </layout>
