@@ -4,11 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
+import kotlinx.android.synthetic.main.activity_register_birthday.*
 
 class RegisterGenderActivity : AppCompatActivity() {
     lateinit var gender_man : LinearLayout
@@ -22,6 +26,8 @@ class RegisterGenderActivity : AppCompatActivity() {
     private var chooseGender : String? = ""
     private var chooseInterested : String = ""
     lateinit var viewModel: RegisterGenderViewModel
+    lateinit var progressbar : ProgressBar
+    lateinit var tv_btn : TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_gender)
@@ -35,7 +41,8 @@ class RegisterGenderActivity : AppCompatActivity() {
         inter_woman = findViewById(R.id.inter_woman)
         inter_both = findViewById(R.id.inter_both)
         btnContinue = findViewById(R.id.btn_continue)
-
+        progressbar = findViewById(R.id.progressbar)
+        tv_btn = findViewById(R.id.tv_btn)
         setupViewModel()
         setupView()
         init()
@@ -85,10 +92,17 @@ class RegisterGenderActivity : AppCompatActivity() {
         }
 
         btnContinue.setOnClickListener {
+            btn_continue.isEnabled = false
+            progressbar.visibility = View.VISIBLE
+            tv_btn.visibility = View.GONE
             viewModel.register(chooseGender,chooseInterested)
         }
 
         viewModel.userResp.observe(this, Observer { result ->
+            btn_continue.isEnabled = true
+            progressbar.visibility = View.GONE
+            tv_btn.visibility = View.VISIBLE
+
             Log.d("RegisterGenderActivity","RegisterGenderActivity observer")
             if(result != null){
                 if(result.type == "NONE" && result.status == "SUCCESS"){

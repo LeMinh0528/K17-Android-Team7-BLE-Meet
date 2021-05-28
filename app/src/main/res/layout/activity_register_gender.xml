@@ -228,9 +228,11 @@
                 android:id="@+id/progressbar"
                 android:visibility="gone"
                 android:layout_centerInParent="true"
-                android:layout_width="48dp"
-                android:layout_height="48dp"/>
+                android:paddingVertical="-5dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"/>
             <TextView
+                android:id="@+id/tv_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Continue"
