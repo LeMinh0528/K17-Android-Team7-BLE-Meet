@@ -4,22 +4,22 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.ceslab.team7_ble_meet.Model.UserDiscovered
+import com.ceslab.team7_ble_meet.Model.BleDataScanned
 
-@Database(entities = [UserDiscovered::class], version = 1, exportSchema = false)
-public abstract class UserDiscoveredDataBase : RoomDatabase() {
+@Database(entities = [BleDataScanned::class], version = 1, exportSchema = false)
+public abstract class BleDataScannedDataBase : RoomDatabase() {
 
-    abstract fun userDiscoveredDao(): UserDiscoveredDao
+    abstract fun bleDataScannedDao(): BleDataScannedDao
 
     companion object {
         @Volatile
-        private var INSTANCE: UserDiscoveredDataBase? = null
+        private var INSTANCE: BleDataScannedDataBase? = null
 
-        fun getDatabase(context: Context): UserDiscoveredDataBase {
+        fun getDatabase(context: Context): BleDataScannedDataBase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    UserDiscoveredDataBase::class.java, "users_discovered_database"
+                    BleDataScannedDataBase::class.java, "ble_data_scanned_database"
                 )
                     .allowMainThreadQueries()
                     .build()

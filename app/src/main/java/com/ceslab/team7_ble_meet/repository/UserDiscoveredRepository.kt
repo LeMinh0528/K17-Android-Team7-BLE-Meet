@@ -1,20 +1,20 @@
 package com.ceslab.team7_ble_meet.repository
 
 import androidx.annotation.WorkerThread
-import com.ceslab.team7_ble_meet.Model.UserDiscovered
-import com.ceslab.team7_ble_meet.db.UserDiscoveredDao
+import com.ceslab.team7_ble_meet.Model.BleDataScanned
+import com.ceslab.team7_ble_meet.db.BleDataScannedDao
 
-class UserDiscoveredRepository(private val userDiscoveredDao: UserDiscoveredDao) {
+class UserDiscoveredRepository(private val bleDataScannedDao: BleDataScannedDao) {
     //Room executes all queries on a separate thread.
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getAllWord(): List<UserDiscovered>{
-        return userDiscoveredDao.getUserDiscover()
+    suspend fun getAllWord(): List<BleDataScanned>{
+        return bleDataScannedDao.getUserDiscover()
     }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insert(userDiscovered: UserDiscovered){
-        userDiscoveredDao.insert(userDiscovered)
+    suspend fun insert(bleDataScanned: BleDataScanned){
+        bleDataScannedDao.insert(bleDataScanned)
     }
 }

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.ceslab.team7_ble_meet.ble.Characteristic
 
 @Entity(tableName = "users_discovered")
-class UserDiscovered(
+class BleDataScanned(
     @PrimaryKey val ID: Int,
     @ColumnInfo(name = "data_discovered") val description: String
 ) {
