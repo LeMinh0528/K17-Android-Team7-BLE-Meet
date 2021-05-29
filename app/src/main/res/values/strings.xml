@@ -42,4 +42,5 @@
     <string name="delete_3">Delete</string>
     <string name="todo_3">TODO</string>
     <string name="stop_3">STOP</string>
+    <string name="start_3">START</string>
 </resources>

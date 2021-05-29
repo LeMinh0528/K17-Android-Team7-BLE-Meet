@@ -2,6 +2,7 @@ package com.ceslab.team7_ble_meet.db
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Database
 import androidx.room.Room
@@ -14,7 +15,7 @@ public abstract class BleDataScannedDataBase : RoomDatabase() {
     val TAG = "Ble_service"
 
     abstract fun bleDataScannedDao(): BleDataScannedDao
-    var isDataChanged: MutableLiveData<Boolean> = MutableLiveData()
+    var isDataChanged: MutableLiveData<Boolean> = MutableLiveData(false)
 
     companion object {
         @Volatile

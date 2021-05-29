@@ -15,7 +15,7 @@ import kotlin.experimental.or
 
 
 class BleService: LifecycleService() {
-    val TAG = "Ble_service"
+    val TAG = "Ble_ViewModel"
     val CHANNEL_ID = "channel_ble"
 
     private lateinit var bleHandle: BleHandle
@@ -164,5 +164,6 @@ class BleService: LifecycleService() {
 
     override fun onDestroy() {
         super.onDestroy()
+        Log.d(TAG, "stop ble service")
     }
 }
