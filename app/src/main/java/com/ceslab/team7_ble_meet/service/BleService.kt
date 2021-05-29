@@ -1,19 +1,13 @@
 package com.ceslab.team7_ble_meet.service
 
-import android.app.Service
 import android.content.Intent
-import android.os.IBinder
 import android.util.Log
-import android.view.View
 import androidx.core.app.NotificationCompat
-import androidx.core.view.isGone
 import androidx.lifecycle.LifecycleService
-import androidx.lifecycle.MutableLiveData
 import com.ceslab.team7_ble_meet.Model.BleDataScanned
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.ble.BleHandle
 import com.ceslab.team7_ble_meet.bytesToHex
-import com.ceslab.team7_ble_meet.dashboard.bleFragment.ListBleDataScanedAdapter
 import com.ceslab.team7_ble_meet.db.BleDataScannedDataBase
 import com.ceslab.team7_ble_meet.getBitsFromPos
 import com.ceslab.team7_ble_meet.getLastBits
@@ -83,10 +77,6 @@ class BleService: LifecycleService() {
         startForeground(1, bleNotification)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     private fun handleDataDiscovered(data: ByteArray) {
         val dataDiscovered = data.drop(4)
         val listOfCharacteristic = convertDataDiscovered(dataDiscovered.toByteArray())
@@ -99,7 +89,7 @@ class BleService: LifecycleService() {
         BleDataScannedDataBase.getDatabase(this).bleDataScannedDao().insert(
             BleDataScanned(list)
         )
-        BleDataScannedDataBase.getDatabase(this).setAddData()
+        BleDataScannedDataBase.getDatabase(this).dataChanged()
     }
 
     private fun convertDataDiscovered(data: ByteArray): List<Int> {
@@ -170,5 +160,9 @@ class BleService: LifecycleService() {
             }
         }
         return score >= 3
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

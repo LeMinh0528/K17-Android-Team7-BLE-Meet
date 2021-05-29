@@ -14,7 +14,7 @@ public abstract class BleDataScannedDataBase : RoomDatabase() {
     val TAG = "Ble_service"
 
     abstract fun bleDataScannedDao(): BleDataScannedDao
-    var addData: MutableLiveData<Boolean> = MutableLiveData()
+    var isDataChanged: MutableLiveData<Boolean> = MutableLiveData()
 
     companion object {
         @Volatile
@@ -33,12 +33,9 @@ public abstract class BleDataScannedDataBase : RoomDatabase() {
             }
         }
     }
-    fun setAddData(){
-        addData.value = true
-        Log.d(TAG, "add Data value: ${addData.value}")
-    }
-    fun setNonAddData(){
-        addData.value = false
-        Log.d(TAG, "add Data value: ${addData.value}")
+
+    fun dataChanged() {
+        isDataChanged.value = true
+        Log.d(TAG, "add Data value: ${isDataChanged.value}")
     }
 }
