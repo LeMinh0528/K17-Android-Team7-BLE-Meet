@@ -99,6 +99,11 @@ class InformationFragment: Fragment() {
                         binding.icGender.setImageResource(R.drawable.ic_baseline_female)
                     }
 
+                    //set bio
+                    if(data["bio"].toString() != "" || data["bio"] != null){
+                        binding.tvBio.text = data["bio"].toString()
+                    }
+
                     //set image
                     if(data["avatar"].toString() != "" || data["avatar"] != null){
                         Glide.with(this)

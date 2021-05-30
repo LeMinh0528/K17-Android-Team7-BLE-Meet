@@ -126,12 +126,14 @@ class UsersFireStoreHandler {
             .addOnSuccessListener {
                 ref.downloadUrl.addOnSuccessListener {
                     userRef.document(KeyValueDB.getUserShortId()).set(hashMapOf("avatar" to it.toString()), SetOptions.merge())
+                        .addOnSuccessListener {
+                            userResp.postValue(Resp("NONE", "SUCCESS", "update avatar successful!"))
+                            uidRef.document(KeyValueDB.getUserId())
+                                .set(hashMapOf("isRegisterAvatar" to true), SetOptions.merge())
+                            KeyValueDB.setUserAvatar(true)
+                            KeyValueDB.setRegister(true)
+                        }
                 }
-                userResp.postValue(Resp("NONE", "SUCCESS", "update avatar successful!"))
-                uidRef.document(KeyValueDB.getUserId())
-                    .set(hashMapOf("isRegisterAvatar" to true), SetOptions.merge())
-                KeyValueDB.setUserAvatar(true)
-                KeyValueDB.setRegister(true)
             }
             .addOnFailureListener {
                 userResp.postValue(Resp("NONE", "FAILED", "update avatar failed!"))

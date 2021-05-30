@@ -72,11 +72,22 @@
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"/>
                             </LinearLayout>
+                            <TextView
+                                android:textColor="#2C2C2C"
+                                android:id="@+id/tv_bio"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text=""
+                                android:textSize="15dp"
+                                android:textStyle="normal"
+                                app:layout_constraintTop_toBottomOf="@+id/ln_age"
+                                tools:layout_editor_absoluteX="0dp" />
                             <View
                                 android:layout_marginTop="5dp"
                                 android:background="@color/colorgray200"
                                 android:id="@+id/stroke_age"
-                                app:layout_constraintTop_toBottomOf="@+id/ln_age"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_bio"
                                 android:layout_width="match_parent"
                                 android:layout_height="2dp"/>
                             <LinearLayout
