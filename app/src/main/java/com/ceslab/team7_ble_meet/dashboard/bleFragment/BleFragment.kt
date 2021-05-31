@@ -21,7 +21,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ceslab.team7_ble_meet.*
-import com.ceslab.team7_ble_meet.Model.BleDataScanned
+import com.ceslab.team7_ble_meet.model.BleDataScanned
 import com.ceslab.team7_ble_meet.databinding.FragmentBleBinding
 import com.ceslab.team7_ble_meet.db.BleDataScannedDataBase
 

@@ -1,4 +1,4 @@
-package com.ceslab.team7_ble_meet.Model
+package com.ceslab.team7_ble_meet.model
 
 data class UserResp(
     val page: Long? = null,

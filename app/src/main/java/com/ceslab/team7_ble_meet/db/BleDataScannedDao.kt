@@ -1,7 +1,7 @@
 package com.ceslab.team7_ble_meet.db
 
 import androidx.room.*
-import com.ceslab.team7_ble_meet.Model.BleDataScanned
+import com.ceslab.team7_ble_meet.model.BleDataScanned
 
 @Dao
 interface BleDataScannedDao {

@@ -19,7 +19,6 @@ import com.ceslab.team7_ble_meet.databinding.FragmentInformationBinding
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ceslab.team7_ble_meet.setting.SettingActivity
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.fragment_information.*
 import java.io.File
 import java.util.*
 

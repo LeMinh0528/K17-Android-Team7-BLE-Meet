@@ -3,10 +3,7 @@ package com.ceslab.team7_ble_meet.data
 
 import android.util.Log
 import android.util.Patterns
-import com.ceslab.team7_ble_meet.Model.Account
-import com.ceslab.team7_ble_meet.UsersFireStoreHandler
-import com.ceslab.team7_ble_meet.isValidEmail
-import com.ceslab.team7_ble_meet.isValidPasswordFormat
+import com.ceslab.team7_ble_meet.model.Account
 import java.util.regex.Pattern
 
 class DataAccountHandler() {

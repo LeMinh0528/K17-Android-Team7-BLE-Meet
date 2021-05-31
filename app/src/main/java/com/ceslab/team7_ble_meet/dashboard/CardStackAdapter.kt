@@ -9,7 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.ceslab.team7_ble_meet.Model.User
+import com.ceslab.team7_ble_meet.model.User
 import com.ceslab.team7_ble_meet.R
 
 class CardStackAdapter(

@@ -2,12 +2,11 @@ package com.ceslab.team7_ble_meet.db
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.ceslab.team7_ble_meet.Model.BleDataScanned
+import com.ceslab.team7_ble_meet.model.BleDataScanned
 
 @Database(entities = [BleDataScanned::class], version = 1, exportSchema = false)
 public abstract class BleDataScannedDataBase : RoomDatabase() {

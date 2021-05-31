@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.ceslab.team7_ble_meet.Model.BleDataScanned
+import com.ceslab.team7_ble_meet.model.BleDataScanned
 import com.ceslab.team7_ble_meet.dashboard.bleFragment.ListBleDataScannedAdapter
 import com.ceslab.team7_ble_meet.databinding.ActivityMainBinding
 import com.ceslab.team7_ble_meet.db.BleDataScannedDataBase
