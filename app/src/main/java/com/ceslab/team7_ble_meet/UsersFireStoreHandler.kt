@@ -111,28 +111,29 @@ class UsersFireStoreHandler {
                 uidRef.document(KeyValueDB.getUserId())
                     .set(hashMapOf("isRegisterTag" to true), SetOptions.merge())
                 userResp.postValue(Resp("NONE", "SUCCESS", "update tag successful!"))
-//                KeyValueDB.setUserTag(true)
-//                KeyValueDB.setRegister(true)
                 KeyValueDB.setUserTag(true)
             }
             .addOnFailureListener {
                 userResp.postValue(Resp("NONE", "FAILED", "update tag failed!"))
-//                KeyValueDB.setUserTag(false)
             }
     }
 
     fun updateAvatar(uri: Uri) {
         Log.d("UserFireStoreHandler", "shortId: ${getUserShortId()}")
 
-        imageRef.child(KeyValueDB.getUserShortId()).child("avatar")
-//        imageRef.child("/${shortId}/avatar")
-            .putFile(uri)
+        var ref = imageRef.child(KeyValueDB.getUserShortId()).child("avatar")
+            ref.putFile(uri)
             .addOnSuccessListener {
-                userResp.postValue(Resp("NONE", "SUCCESS", "update avatar successful!"))
-                uidRef.document(KeyValueDB.getUserId())
-                    .set(hashMapOf("isRegisterAvatar" to true), SetOptions.merge())
-                KeyValueDB.setUserAvatar(true)
-                KeyValueDB.setRegister(true)
+                ref.downloadUrl.addOnSuccessListener {
+                    userRef.document(KeyValueDB.getUserShortId()).set(hashMapOf("avatar" to it.toString()), SetOptions.merge())
+                        .addOnSuccessListener {
+                            userResp.postValue(Resp("NONE", "SUCCESS", "update avatar successful!"))
+                            uidRef.document(KeyValueDB.getUserId())
+                                .set(hashMapOf("isRegisterAvatar" to true), SetOptions.merge())
+                            KeyValueDB.setUserAvatar(true)
+                            KeyValueDB.setRegister(true)
+                        }
+                }
             }
             .addOnFailureListener {
                 userResp.postValue(Resp("NONE", "FAILED", "update avatar failed!"))

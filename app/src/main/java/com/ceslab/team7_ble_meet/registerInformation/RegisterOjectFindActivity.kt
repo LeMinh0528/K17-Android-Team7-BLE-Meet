@@ -17,11 +17,7 @@ class RegisterOjectFindActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_oject_find)
         CheckLongRelationship = findViewById(R.id.check_LongTermRelationship) as ImageView
-        CheckFriends = findViewById(R.id.check_FriendRelationship) as ImageView
-        CheckFun = findViewById(R.id.check_FunRelationship) as ImageView
-        btn_LongTermRelationship = findViewById(R.id.btn_LongTermRelationship) as CardView
-        btn_Friend = findViewById(R.id.btn_FriendRelationship) as CardView
-        btn_Fun = findViewById(R.id.btn_FunRelationship) as CardView
+
         setupView()
 
 
@@ -38,15 +34,6 @@ class RegisterOjectFindActivity : AppCompatActivity() {
             CheckFriends.setImageResource(R.drawable.ic_baseline_radio_button_unchecked_24)
             CheckFun.setImageResource(R.drawable.ic_baseline_radio_button_unchecked_24)
         }
-        btn_Friend.setOnClickListener {
-            CheckLongRelationship.setImageResource(R.drawable.ic_baseline_radio_button_unchecked_24)
-            CheckFriends.setImageResource(R.drawable.ic_baseline_check_circle_outline_24)
-            CheckFun.setImageResource(R.drawable.ic_baseline_radio_button_unchecked_24)
-        }
-        btn_Fun.setOnClickListener {
-            CheckLongRelationship.setImageResource(R.drawable.ic_baseline_radio_button_unchecked_24)
-            CheckFriends.setImageResource(R.drawable.ic_baseline_radio_button_unchecked_24)
-            CheckFun.setImageResource(R.drawable.ic_baseline_check_circle_outline_24)
-        }
+
     }
 }

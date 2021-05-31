@@ -12,6 +12,7 @@ import android.widget.Button
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.UsersFireStoreHandler
 import com.ceslab.team7_ble_meet.databinding.FragmentInformationBinding
@@ -77,6 +78,7 @@ class InformationFragment: Fragment() {
             .get()
             .addOnSuccessListener { data ->
                 if(data != null){
+                    //set tag
                     var list: List<String> = data["Tag"] as List<String>
                     listChip.addAll(data["Tag"] as List<String>)
 
@@ -95,6 +97,18 @@ class InformationFragment: Fragment() {
                         binding.icGender.setImageResource(R.drawable.ic_baseline_male)
                     }else{
                         binding.icGender.setImageResource(R.drawable.ic_baseline_female)
+                    }
+
+                    //set bio
+                    if(data["bio"].toString() != "" || data["bio"] != null){
+                        binding.tvBio.text = data["bio"].toString()
+                    }
+
+                    //set image
+                    if(data["avatar"].toString() != "" || data["avatar"] != null){
+                        Glide.with(this)
+                            .load(data["avatar"].toString())
+                            .into(binding.icAvatar)
                     }
                 }
 

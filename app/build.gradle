@@ -121,6 +121,6 @@ dependencies {
     implementation 'me.shouheng.compressor:compressor:1.0.0'
 
     //compressor
-    implementation 'id.zelory:compressor:3.0.0'
+    implementation 'id.zelory:compressor:1.0.4'
 
 }

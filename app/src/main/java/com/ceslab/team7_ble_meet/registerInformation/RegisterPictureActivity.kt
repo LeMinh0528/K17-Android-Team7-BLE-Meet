@@ -1,8 +1,6 @@
 package com.ceslab.team7_ble_meet.registerInformation
 
 import android.Manifest
-import android.R.attr
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -24,7 +22,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.ceslab.team7_ble_meet.R
-import com.ceslab.team7_ble_meet.UsersFireStoreHandler
 import com.ceslab.team7_ble_meet.dashboard.DashBoardActivity
 import com.ceslab.team7_ble_meet.databinding.ActivityRegisterPictureBinding
 import com.ceslab.team7_ble_meet.toast
@@ -36,15 +33,18 @@ import kotlinx.android.synthetic.main.activity_register_birthday.*
 import kotlinx.android.synthetic.main.activity_register_picture.*
 import kotlinx.android.synthetic.main.activity_register_picture.btn_continue
 import kotlinx.android.synthetic.main.activity_register_picture.tv_btn
+import java.io.ByteArrayOutputStream
 import java.io.File
 
 
 class RegisterPictureActivity : AppCompatActivity() {
-    private  var  REQUEST_CODE =42
+    private val TAG = "RegisterPictureActivity"
+    private  var  REQUEST_CAMERA =2
     val PICK_IMAGE = 1
     private val PERMISSION_REQUEST = 10
     lateinit var viewModel: RegisterPictureViewModel
     lateinit var binding: ActivityRegisterPictureBinding
+    private var bottomdialog : BottomSheetDialog? = null
     private var permission = arrayOf(
         Manifest.permission.CAMERA,
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -60,6 +60,7 @@ class RegisterPictureActivity : AppCompatActivity() {
         if(!checkPermission(this, permission)){
             requestPermissions(permission, PERMISSION_REQUEST)
         }
+        setUpBottomSheet()
         setAction()
     }
 
@@ -72,33 +73,7 @@ class RegisterPictureActivity : AppCompatActivity() {
     fun setAction(){
         binding.apply{
             btn_edit.setOnClickListener{
-                val bottomdialog = BottomSheetDialog(this@RegisterPictureActivity,R.style.BottomSheetTheme)
-                val sheetview = LayoutInflater.from(applicationContext).inflate(R.layout.custom_bottomdialog,
-                    findViewById(R.id.layoubottomsheetdialog))
-                bottomdialog.setContentView(sheetview)
-                bottomdialog.show()
-                val camera = sheetview.findViewById(R.id.Opcamera) as LinearLayout
-                val gallery = sheetview.findViewById(R.id.Opgallery) as LinearLayout
-                camera.setOnClickListener {
-                    Toast.makeText(applicationContext, "Hello", Toast.LENGTH_LONG).show()
-                    val takePictureintent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    if (takePictureintent.resolveActivity(packageManager)!= null){
-                        startActivityForResult(takePictureintent,REQUEST_CODE)
-                    }else{
-
-                    }
-                    bottomdialog.dismiss()
-                }
-                gallery.setOnClickListener {
-                    Toast.makeText(applicationContext, "Hiiiiiiiiiiiiiiiiiiii", Toast.LENGTH_LONG).show()
-                    val gallery1 = Intent()
-                    gallery1.type = "image/*"
-                    gallery1.action = Intent.ACTION_GET_CONTENT
-                    startActivityForResult(Intent.createChooser(gallery1, "chon hinh anh"), PICK_IMAGE)
-                    bottomdialog.dismiss()
-                }
-
-
+                bottomdialog?.show()
             }
             btn_continue.setOnClickListener{
                 btn_continue.isEnabled = false
@@ -112,15 +87,43 @@ class RegisterPictureActivity : AppCompatActivity() {
             binding.progressbar.visibility = View.GONE
             tv_btn.visibility = View.VISIBLE
 
-            if(response != null){
-                if(response.type == "NONE" && response.status == "SUCCESS"){
+            if (response != null) {
+                if (response.type == "NONE" && response.status == "SUCCESS") {
                     gotoDashBoard()
                 }
-                if(response.type == "NONE" && response.status == "FAILED"){
-
+                if (response.type == "NONE" && response.status == "FAILED") {
+                    toast(response.message)
                 }
             }
         })
+    }
+
+    private fun setUpBottomSheet(){
+        bottomdialog = BottomSheetDialog(this@RegisterPictureActivity, R.style.BottomSheetTheme)
+        val sheetView = LayoutInflater.from(applicationContext).inflate(
+            R.layout.custom_bottomdialog,
+            findViewById(R.id.layoubottomsheetdialog)
+        )
+        bottomdialog!!.setContentView(sheetView)
+
+        val camera = sheetView.findViewById(R.id.Opcamera) as LinearLayout
+        val gallery = sheetView.findViewById(R.id.Opgallery) as LinearLayout
+        camera.setOnClickListener {
+            val takePictureintent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            if (takePictureintent.resolveActivity(packageManager)!= null){
+                startActivityForResult(takePictureintent, REQUEST_CAMERA)
+            }else{
+
+            }
+            bottomdialog!!.dismiss()
+        }
+        gallery.setOnClickListener {
+            val gallery1 = Intent()
+            gallery1.type = "image/*"
+            gallery1.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(gallery1, "chon hinh anh"), PICK_IMAGE)
+            bottomdialog!!.dismiss()
+        }
     }
 
     private fun gotoDashBoard(){
@@ -134,41 +137,40 @@ class RegisterPictureActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         //if press to choose image
-        if (data != null) {
-            Log.d("TAG", "Pick image: ${data.data}")
+        if(resultCode == RESULT_OK){
+            if(requestCode == PICK_IMAGE && data != null){
+                Log.d("TAG", "Pick image: ${data.data}")
+                val uri: Uri? = data.data
+                CropImage.activity(uri)
+                    .setAspectRatio(1, 1)
+                    .setMinCropWindowSize(500, 500)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .start(this);
+            }
+            if(requestCode == REQUEST_CAMERA && data != null){
+                val image = data.extras?.get("data") as Bitmap
+                var uri = getImageUri(this,image)
+                if(uri != null){
+                    Log.d(TAG, "image: ${uri.path}")
+                    CropImage.activity(uri)
+                        .setAspectRatio(1, 1)
+                        .setMinCropWindowSize(500, 500)
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .start(this);
+                }else{
+                    Log.d(TAG, "image null: ")
+                }
+                Log.d(TAG, "image: $image")
+            }
+            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+                val result = CropImage.getActivityResult(data)
+                if(resultCode == RESULT_OK){
+                    var uri = result.uri
+                    viewModel.selectedImage = uri
+                    Glide.with(this)
+                        .load(uri)
+                        .into(binding.icAvt)
         }
-        if(requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
-            Log.d("TAG", "Pick image: ${data.data}")
-            val uri: Uri? = data.data
-            val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
-            val bitmapDrawable  = BitmapDrawable(bitmap)
-//            binding.icAvt.setBackgroundDrawable(bitmapDrawable)
-
-            var file = File(uri?.path)
-            CropImage.activity(uri)
-                .setAspectRatio(1, 1)
-                .setMinCropWindowSize(500, 500)
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(this);
-        }
-        //camera
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK)
-        {
-            val image = data?.extras?.get("data") as Bitmap
-            Glide.with(this)
-                .load(image)
-                .into(binding.icAvt)
-        }
-
-        //camera
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
-            val result = CropImage.getActivityResult(data)
-            if(resultCode == RESULT_OK){
-                var uri = result.uri
-                viewModel.selectedImage = uri
-                Glide.with(this)
-                    .load(uri)
-                    .into(binding.icAvt)
 
 //                upload to firestore
 //                var random = "10837606"
@@ -184,9 +186,16 @@ class RegisterPictureActivity : AppCompatActivity() {
 //                    .addOnFailureListener{
 //                        Log.d("RegisterPictureActivity","${it.message}")
 //                    }
-
+//
             }
         }
+    }
+
+    fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, inImage.toString(), null)
+        return Uri.parse(path)
     }
 
     fun checkPermission(context: Context, permissionArray: Array<String>): Boolean{
