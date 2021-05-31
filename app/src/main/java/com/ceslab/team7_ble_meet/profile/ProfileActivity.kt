@@ -1,4 +1,4 @@
-package com.ceslab.team7_ble_meet.Profile
+package com.ceslab.team7_ble_meet.profile
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

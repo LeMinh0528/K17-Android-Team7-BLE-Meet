@@ -32,14 +32,14 @@ class BleHandle {
 
         val advertisingCallback: AdvertiseCallback = object : AdvertiseCallback() {
             override fun onStartSuccess(settingsInEffect: AdvertiseSettings) {
+                super.onStartSuccess(settingsInEffect)
                 Log.d(TAG, "BleHandler: Advertise Successfully")
                 Log.d(TAG, "BLEHandler: $data")
-                super.onStartSuccess(settingsInEffect)
             }
 
             override fun onStartFailure(errorCode: Int) {
-                Log.e(TAG, "BleHandler: Advertise Failed $errorCode")
                 super.onStartFailure(errorCode)
+                Log.e(TAG, "BleHandler: Advertise Failed $errorCode")
             }
         }
         Log.d(TAG, "BleHandler: advertise callback: $advertisingCallback")
@@ -66,8 +66,8 @@ class BleHandle {
             }
 
             override fun onScanFailed(errorCode: Int) {
-                Log.e(TAG, "Scan failed: $errorCode")
                 super.onScanFailed(errorCode)
+                Log.e(TAG, "Scan failed: $errorCode")
             }
         }
 

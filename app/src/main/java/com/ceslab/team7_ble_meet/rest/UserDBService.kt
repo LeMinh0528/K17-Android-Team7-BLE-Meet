@@ -1,6 +1,6 @@
 package com.ceslab.team7_ble_meet.rest
 
-import com.ceslab.team7_ble_meet.Model.UserResp
+import com.ceslab.team7_ble_meet.model.UserResp
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

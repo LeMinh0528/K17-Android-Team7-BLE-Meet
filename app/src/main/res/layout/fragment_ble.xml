@@ -35,7 +35,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_below="@+id/swTurnOnOffBLE"
-            android:id="@+id/rcListDataDiscovered"
+            android:id="@+id/rcListBleDataScanned"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
@@ -56,21 +56,33 @@
             android:id="@+id/btnDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="50dp"
-            android:layout_marginBottom="27dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
             android:text="@string/delete_3" />
 
         <Button
             android:id="@+id/btnStopFindFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="27dp"
+            android:layout_marginStart="161.5dp"
+            android:layout_marginEnd="161.5dp"
+            android:layout_marginBottom="32dp"
             android:text="@string/stop_3" />
+
+        <Button
+            android:id="@+id/btnStartFindFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="32dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/start_3" />
 
     </RelativeLayout>
 </layout>

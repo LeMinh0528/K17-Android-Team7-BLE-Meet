@@ -2,7 +2,6 @@ package com.ceslab.team7_ble_meet.dashboard.bleFragment
 
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -17,16 +16,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isGone
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.ceslab.team7_ble_meet.*
-import com.ceslab.team7_ble_meet.Model.BleDataScanned
-import com.ceslab.team7_ble_meet.ble.BleHandle
+import com.ceslab.team7_ble_meet.model.BleDataScanned
 import com.ceslab.team7_ble_meet.databinding.FragmentBleBinding
 import com.ceslab.team7_ble_meet.db.BleDataScannedDataBase
-import com.ceslab.team7_ble_meet.service.BleService
 
 class BleFragment : Fragment() {
 
@@ -34,18 +31,16 @@ class BleFragment : Fragment() {
         const val PERMISSIONS_REQUEST_CODE: Int = 12
     }
 
-    private val TAG = "BleFragment"
+    private val TAG = "Ble_Fragment"
 
     private lateinit var bleFragmentBinding: FragmentBleBinding
     private lateinit var bleFragmentViewModel: BleFragmentViewModel
 
     // Initializes Bluetooth adapter.
-    private lateinit var bluetoothManager: BluetoothManager
     private lateinit var bluetoothAdapter: BluetoothAdapter
-    private lateinit var bleHandle: BleHandle
 
     //adapter for recycler view
-    private var listDataDiscoveredAdapter = ListBleDataScanedAdapter()
+    private var listDataDiscoveredAdapter = ListBleDataScannedAdapter()
 
     private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -59,11 +54,19 @@ class BleFragment : Fragment() {
                     BluetoothAdapter.STATE_OFF -> {
                         bleFragmentBinding.swTurnOnOffBLE.isChecked = false
                         bleFragmentBinding.vRipple.stopRippleAnimation()
-                        Toast.makeText(requireContext(), "Bluetooth off", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "Broadcast Receiver: Bluetooth off",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                     BluetoothAdapter.STATE_ON -> {
                         bleFragmentBinding.swTurnOnOffBLE.isChecked = true
-                        Toast.makeText(requireContext(), "Bluetooth on", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "Broadcast Receiver: Bluetooth on",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
             }
@@ -76,6 +79,8 @@ class BleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         checkPermissions()
+        bleFragmentViewModel =
+            ViewModelProvider(requireActivity()).get(BleFragmentViewModel::class.java)
         setUpBle()
         setUpUI(inflater, container)
 
@@ -111,80 +116,65 @@ class BleFragment : Fragment() {
         requireContext().registerReceiver(broadcastReceiver, filter)
 
         // state of bluetooth
-        bluetoothManager = activity?.let { getSystemService(it, BluetoothManager::class.java) }!!
-        bluetoothAdapter = bluetoothManager.adapter
-
-        bleHandle = BleHandle()
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
     }
 
     private fun setUpUI(inflater: LayoutInflater, container: ViewGroup?) {
-        bleFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_ble, container, false)
+        bleFragmentBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_ble, container, false)
         bleFragmentBinding.apply {
             if (bluetoothAdapter.isEnabled) {
                 swTurnOnOffBLE.isChecked = true
             }
             swTurnOnOffBLE.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    bluetoothAdapter.enable()
-                    Log.d(TAG, "BLE is enable")
-                } else {
-                    bluetoothAdapter.disable()
-                    Log.d(TAG, "BLE is disable")
-                }
+                bleFragmentViewModel.changeBluetoothStatus(isChecked)
             }
+
             btnFindFriend.setOnClickListener {
-                if (bluetoothAdapter.isEnabled) {
-                    if (!vRipple.isRippleAnimationRunning) {
-                        startBleService()
-                        vRipple.startRippleAnimation()
-                    } else {
-                        stopBleService()
-                        vRipple.stopRippleAnimation()
-                    }
+                bleFragmentViewModel.findFriend(requireContext())
+            }
+
+            bleFragmentViewModel.isRunning.observe(requireActivity(), {
+                if (it) {
+                    vRipple.startRippleAnimation()
                 } else {
-                    Toast.makeText(activity, "Please turn on Bluetooth", Toast.LENGTH_SHORT).show()
+                    vRipple.stopRippleAnimation()
                 }
+            })
+
+            btnStartFindFriend.setOnClickListener {
+                bleFragmentViewModel.startFindFriend(requireContext())
             }
+
             btnStopFindFriend.setOnClickListener {
-                vRipple.stopRippleAnimation()
-                if (bluetoothAdapter.isEnabled) {
-                    stopBleService()
-                }
+                bleFragmentViewModel.stopFindFriend(requireContext())
             }
+
             btnDelete.setOnClickListener {
-                deleteAllUser()
-                btnFindFriend.isGone = false
-                vRipple.isGone = false
-                rcListDataDiscovered.isGone = true
+                bleFragmentViewModel.deleteBleDataScanned(requireContext())
             }
 
-            listDataDiscoveredAdapter.data =
-                BleDataScannedDataBase.getDatabase(requireContext()).bleDataScannedDao()
-                    .getUserDiscover() as ArrayList<BleDataScanned>
-            rcListDataDiscovered.adapter = listDataDiscoveredAdapter
-            if (BleDataScannedDataBase.getDatabase(requireContext())
-                    .bleDataScannedDao()
-                    .getUserDiscover()
-                    .isNotEmpty()
-            ) {
-                btnFindFriend.isGone = true
-                vRipple.isGone = true
-                rcListDataDiscovered.visibility = View.VISIBLE
-            }
-
-            BleDataScannedDataBase.getDatabase(requireContext()).isDataChanged.observe(
-                requireActivity(),
-                {
-                    if (it) {
-                        Log.d(TAG, "add data changed")
-                        btnFindFriend.isGone = true
-                        vRipple.isGone = true
-                        rcListDataDiscovered.visibility = View.VISIBLE
-                    }
-                })
+            bleFragmentViewModel.setUpListDataScanned(requireContext(),requireActivity())
+            rcListBleDataScanned.adapter = listDataDiscoveredAdapter
+            bleFragmentViewModel.isBleDataScannedDisplay.observe(requireActivity(), {
+                if (it) {
+                    btnFindFriend.isGone = true
+                    vRipple.isGone = true
+                    rcListBleDataScanned.visibility = View.VISIBLE
+                    listDataDiscoveredAdapter.data = BleDataScannedDataBase
+                        .getDatabase(requireActivity())
+                        .bleDataScannedDao()
+                        .getUserDiscover() as ArrayList<BleDataScanned>
+                } else {
+                    Log.d(TAG, "hide the list")
+                    btnFindFriend.isGone = false
+                    vRipple.isGone = false
+                    rcListBleDataScanned.visibility = View.GONE
+                }
+            })
 
             listDataDiscoveredAdapter.listener =
-                object : ListBleDataScanedAdapter.IdClickedListener {
+                object : ListBleDataScannedAdapter.IdClickedListener {
                     override fun onClickListen(id: String) {
                         Log.d(TAG, id)
 //                    val intent = Intent(activity, ProfileActivity::class.java)
@@ -193,21 +183,6 @@ class BleFragment : Fragment() {
                     }
                 }
         }
-    }
-
-    private fun deleteAllUser() {
-        BleDataScannedDataBase.getDatabase(requireContext()).bleDataScannedDao().deleteAll()
-        BleDataScannedDataBase.getDatabase(requireContext()).dataChanged()
-    }
-
-    private fun startBleService() {
-        val intent = Intent(activity, BleService::class.java)
-        activity?.startService(intent)
-    }
-
-    private fun stopBleService() {
-        val intent = Intent(activity, BleService::class.java)
-        activity?.stopService(intent)
     }
 
     override fun onRequestPermissionsResult(

@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.ceslab.team7_ble_meet.Model.BleDataScanned
+import com.ceslab.team7_ble_meet.model.BleDataScanned
 
 @Database(entities = [BleDataScanned::class], version = 1, exportSchema = false)
 public abstract class BleDataScannedDataBase : RoomDatabase() {
@@ -14,7 +14,7 @@ public abstract class BleDataScannedDataBase : RoomDatabase() {
     val TAG = "Ble_service"
 
     abstract fun bleDataScannedDao(): BleDataScannedDao
-    var isDataChanged: MutableLiveData<Boolean> = MutableLiveData()
+    var isDataChanged: MutableLiveData<Boolean> = MutableLiveData(false)
 
     companion object {
         @Volatile
