@@ -40,7 +40,7 @@ class BleFragment : Fragment() {
     private lateinit var bluetoothAdapter: BluetoothAdapter
 
     //adapter for recycler view
-    private var listDataDiscoveredAdapter = ListBleDataScanedAdapter()
+    private var listDataDiscoveredAdapter = ListBleDataScannedAdapter()
 
     private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -174,7 +174,7 @@ class BleFragment : Fragment() {
             })
 
             listDataDiscoveredAdapter.listener =
-                object : ListBleDataScanedAdapter.IdClickedListener {
+                object : ListBleDataScannedAdapter.IdClickedListener {
                     override fun onClickListen(id: String) {
                         Log.d(TAG, id)
 //                    val intent = Intent(activity, ProfileActivity::class.java)

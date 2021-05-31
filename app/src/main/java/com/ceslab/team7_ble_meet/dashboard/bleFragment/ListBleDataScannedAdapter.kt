@@ -11,7 +11,7 @@ import com.ceslab.team7_ble_meet.R
 import kotlinx.android.synthetic.main.item_ble_data_discovered.view.*
 
 
-class ListBleDataScanedAdapter: RecyclerView.Adapter<ListBleDataScanedAdapter.ViewHolder>(){
+class ListBleDataScannedAdapter: RecyclerView.Adapter<ListBleDataScannedAdapter.ViewHolder>(){
     interface IdClickedListener{
         fun onClickListen(id: String)
     }

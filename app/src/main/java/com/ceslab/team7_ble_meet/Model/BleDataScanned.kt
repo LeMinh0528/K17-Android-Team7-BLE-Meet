@@ -11,7 +11,8 @@ class BleDataScanned(
     @ColumnInfo(name = "data_discovered") val description: String
 ) {
     constructor(listChar: List<Int>) : this(
-        listChar[0], "Age: ${listChar[1]}\n" +
+        listChar[0],
+        "Age: ${listChar[1]}\n" +
                 "Sex: ${Characteristic.sex[listChar[2]]}\n" +
                 "Sexuality Orientation: ${Characteristic.sexualOrientation[listChar[3]]}\n" +
                 "Tall: ${listChar[4]}\n" +

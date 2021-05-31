@@ -9,14 +9,14 @@ interface BleDataScannedDao {
     fun getUserDiscover(): List<BleDataScanned>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(bleData: BleDataScanned)
+    fun insert(bleDataScanned: BleDataScanned)
 
     @Query("DELETE FROM users_discovered")
     fun deleteAll()
 
     @Delete
-    suspend fun delete(bleData: BleDataScanned)
+    suspend fun delete(bleDataScanned: BleDataScanned)
 
     @Update
-    suspend fun update(bleData: BleDataScanned)
+    suspend fun update(bleDataScanned: BleDataScanned)
 }
