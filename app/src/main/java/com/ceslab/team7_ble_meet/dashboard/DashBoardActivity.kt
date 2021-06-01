@@ -56,7 +56,7 @@ class DashBoardActivity: AppCompatActivity() {
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPagerAdapter.addFragment(SwipeFragment(),"Swipe")
         viewPagerAdapter.addFragment(BleFragment(),"Bluetooth")
-        viewPagerAdapter.addFragment(ChatsFragment(),"Chats")
+        viewPagerAdapter.addFragment(PeoplesFragment(),"Chats")
         viewPagerAdapter.addFragment(InformationFragment(),"Information")
         viewPager.adapter = viewPagerAdapter
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{

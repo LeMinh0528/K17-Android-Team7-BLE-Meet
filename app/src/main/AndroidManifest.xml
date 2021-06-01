@@ -76,7 +76,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"/>
-
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".chat.ChatActivity"/>
         <service android:name=".service.BleService"
             android:enabled="true"
             android:exported="false">

@@ -1,17 +1,9 @@
 package com.ceslab.team7_ble_meet.Model
 
-import com.google.gson.annotations.SerializedName
-
-data class User(
-    @SerializedName("profile_path")
-    val profilePath: String? = null,
-    val adult: Boolean? = null,
-    val id: Long? = null,
-    val name: String? = null,
-    val popularity: Double? = null
-
-){
-    fun getImagePath(): String{
-        return "https://image.tmdb.org/t/p/w300$profilePath"
-    }
+data class User(val Name: String,
+                val bio: String,
+                val dob: String,
+                val gender: String,
+                val avatar: String?) {
+    constructor(): this("", "","", "",null)
 }

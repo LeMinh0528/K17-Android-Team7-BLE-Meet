@@ -67,7 +67,7 @@ fun isValidEmail(email: String): Boolean {
 fun generateUniqueID(): String{
     var random = (0..16777215).random()
     var result = ""
-    if(random in 1..9){
+    if(random in 0..9){
         result = "0000000$random"
     }else if(random in 10..99){
         result = "000000$random"
