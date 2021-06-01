@@ -31,7 +31,7 @@ class BleFragment : Fragment() {
         const val PERMISSIONS_REQUEST_CODE: Int = 12
     }
 
-    private val TAG = "Ble_Fragment"
+    private val TAG = "Ble_Lifecycle"
 
     private lateinit var bleFragmentBinding: FragmentBleBinding
     private lateinit var bleFragmentViewModel: BleFragmentViewModel
@@ -59,6 +59,7 @@ class BleFragment : Fragment() {
                             "Broadcast Receiver: Bluetooth off",
                             Toast.LENGTH_LONG
                         ).show()
+                        bleFragmentViewModel.stopFindFriend(requireContext())
                     }
                     BluetoothAdapter.STATE_ON -> {
                         bleFragmentBinding.swTurnOnOffBLE.isChecked = true
@@ -78,12 +79,11 @@ class BleFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d(TAG,"BleFragment on Create View 1")
         checkPermissions()
-        bleFragmentViewModel =
-            ViewModelProvider(requireActivity()).get(BleFragmentViewModel::class.java)
+        bleFragmentViewModel = ViewModelProvider(requireActivity()).get(BleFragmentViewModel::class.java)
         setUpBle()
         setUpUI(inflater, container)
-
         return bleFragmentBinding.root
     }
 

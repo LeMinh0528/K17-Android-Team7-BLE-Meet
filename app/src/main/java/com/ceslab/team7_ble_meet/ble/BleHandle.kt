@@ -9,8 +9,8 @@ import androidx.lifecycle.MutableLiveData
 @Suppress("NAME_SHADOWING")
 class BleHandle {
 
-    val TAG = "Ble_service"
-//    val TAG = "BLE_Handler"
+
+    private val TAG = "Ble_Lifecycle"
     private val manuId: Int = 0x6969
 
     private val advertiser = BluetoothAdapter.getDefaultAdapter().bluetoothLeAdvertiser
