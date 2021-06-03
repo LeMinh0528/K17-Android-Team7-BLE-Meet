@@ -34,9 +34,8 @@ class ListBleDataScannedAdapter: RecyclerView.Adapter<ListBleDataScannedAdapter.
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
-        listener?.let { holder.bind(item, it) }
-        nextlistener?.let{
-            it.onClick(item.ID.toString())
+        if(nextlistener != null && listener != null) {
+            holder.bind(item, listener!!, nextlistener!!)
         }
     }
 
@@ -57,7 +56,7 @@ class ListBleDataScannedAdapter: RecyclerView.Adapter<ListBleDataScannedAdapter.
             }
         }
 
-        fun bind(item : BleDataScanned, listener: IdClickedListener){
+        fun bind(item : BleDataScanned, listener: ListBleDataScannedAdapter.IdClickedListener,clickNextListender: ListBleDataScannedAdapter.onClickNextListender){
             tvId.text = item.ID.toString()
             tvCharacteristic.text = item.description
             itemView.setOnClickListener{
@@ -69,7 +68,7 @@ class ListBleDataScannedAdapter: RecyclerView.Adapter<ListBleDataScannedAdapter.
                 listener.onClickListen(item.ID.toString())
             }
             tvBtnNext.setOnClickListener {
-
+                clickNextListender.onClick(item.ID.toString())
             }
         }
     }

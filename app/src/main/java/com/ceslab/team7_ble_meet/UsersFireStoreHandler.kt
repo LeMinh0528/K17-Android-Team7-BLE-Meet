@@ -330,6 +330,7 @@ class UsersFireStoreHandler {
                                         )
                                     )
                             }
+//                            userRef.document(uid).collection("engagedChatChannel")
                             userResp.postValue(Resp("NONE", "SUCCESS", "add new users successful"))
                         }
                         .addOnFailureListener {
@@ -448,11 +449,16 @@ class UsersFireStoreHandler {
         context: Context,
         onListen: (List<PersonItem>) -> Unit
     ): ListenerRegistration {
+//        if(userRef.document(KeyValueDB.getUserShortId()).collection("engagedChatChannel"))
         return userRef.document(KeyValueDB.getUserShortId())
             .collection("engagedChatChannel")
             .addSnapshotListener { querySnapshot, exception ->
                 if (exception != null) {
                     Log.d("UserFireStoreHandler", "error: ${exception.message}")
+                    return@addSnapshotListener
+                }
+                if(querySnapshot == null){
+                    Log.d("UserFireStoreHandler", "collection hasn't created")
                     return@addSnapshotListener
                 }
                 val items = mutableListOf<PersonItem>()
@@ -515,12 +521,12 @@ class UsersFireStoreHandler {
                     userRef.document(KeyValueDB.getUserShortId())
                         .collection("engagedChatChannel")
                         .document(otherUserId)
-                        .set("channelId" to newChannel.id,SetOptions.merge())
+                        .set(hashMapOf("channelId" to newChannel.id),SetOptions.merge())
                     //set new channel in engagedChatChannel in other user
                     userRef.document(otherUserId)
                         .collection("engagedChatChannel")
                         .document(KeyValueDB.getUserShortId())
-                        .set("channelId" to newChannel.id,SetOptions.merge())
+                        .set(hashMapOf("channelId" to newChannel.id),SetOptions.merge())
                     onComplete(newChannel.id)
                     //set new channel in endgagedChatChannel in current user
 //                    userRef.document(KeyValueDB.getUserShortId())
@@ -584,7 +590,7 @@ class UsersFireStoreHandler {
             }
     }
 
-    fun sendMessage(message: Message, otherUserId: String,channelId: String) {
+    fun sendMessage(message: Message, otherUserId: String, channelId: String) {
         chatChannelRef.document(channelId)
             .collection("messages")
             .add(message)

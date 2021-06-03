@@ -25,6 +25,7 @@ import com.ceslab.team7_ble_meet.chat.ChatActivity
 import com.ceslab.team7_ble_meet.model.BleDataScanned
 import com.ceslab.team7_ble_meet.databinding.FragmentBleBinding
 import com.ceslab.team7_ble_meet.db.BleDataScannedDataBase
+import com.ceslab.team7_ble_meet.profile.ProfileActivity
 
 class BleFragment : Fragment() {
 
@@ -178,14 +179,15 @@ class BleFragment : Fragment() {
                 object : ListBleDataScannedAdapter.IdClickedListener {
                     override fun onClickListen(id: String) {
                         Log.d(TAG, id)
-//                    val intent = Intent(activity, ProfileActivity::class.java)
-//                    intent.putExtra("idFromConnectFragmentToProfile", id)
-//                    startActivity(intent)
+//                        val intent = Intent(activity, ProfileActivity::class.java)
+//                        intent.putExtra("idFromConnectFragmentToProfile", id)
+//                        startActivity(intent)
                     }
                 }
             listDataDiscoveredAdapter.nextlistener =
                 object : ListBleDataScannedAdapter.onClickNextListender{
                     override fun onClick(id: String) {
+                        Log.d(TAG,"id: $id")
                         val intent = Intent(activity, ChatActivity::class.java)
                         intent.putExtra(AppConstants.USER_ID, id)
                         startActivity(intent)

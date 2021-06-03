@@ -52,11 +52,11 @@ class BleFragmentViewModel() : ViewModel() {
                     }
 
                     val list: List<String> = data["Tag"] as List<String>
-                    val a: Int? = Characteristic.Tag[list[0]]
-                    val b: Int? = Characteristic.Tag[list[1]]
-                    val c: Int? = Characteristic.Tag[list[2]]
-                    val d: Int? = Characteristic.Tag[list[3]]
-                    val e: Int? = Characteristic.Tag[list[4]]
+                    val a: Int = Characteristic.Tag.filterValues { it == list[0]}.keys.first()
+                    val b: Int? = Characteristic.Tag.filterValues { it == list[1]}.keys.first()
+                    val c: Int? = Characteristic.Tag.filterValues { it == list[2]}.keys.first()
+                    val d: Int? = Characteristic.Tag.filterValues { it == list[3]}.keys.first()
+                    val e: Int? = Characteristic.Tag.filterValues { it == list[4]}.keys.first()
 
                     if (a != null && b != null && c != null&& d != null&& e != null) {
                         characteristicUser = listOf(KeyValueDB.getUserShortId().toInt(), age, sex, genderOrientation, a.toInt(), b.toInt(), c.toInt(), d.toInt(), e.toInt())
