@@ -209,7 +209,8 @@ class ChatActivity : AppCompatActivity() {
                     if(message.type == MessageType.IMAGE){
                         data.put("message", currentUser.Name+" send an image. ")
                     }else{
-                        data.put("message", message)
+                        val mes = message as TextMessage
+                        data.put("message", mes.text)
                     }
                     to.put("to", token)
                     to.put("data", data)

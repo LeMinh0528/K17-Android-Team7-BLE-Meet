@@ -32,6 +32,7 @@ class MessagingService : FirebaseMessagingService() {
     }
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
+        Log.d("MessagingService","message  ${message.data}")
         if(message.data.isNotEmpty()){
             val map: Map<String, String> = message.data
 
