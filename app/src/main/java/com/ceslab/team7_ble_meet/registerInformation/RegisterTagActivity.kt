@@ -110,7 +110,7 @@ class RegisterTagActivity : AppCompatActivity() {
                 run {
                     Log.d("RegisterTagActivity","isChecked: $isChecked")
                     if (isChecked) {
-                        if(listChooser.size > 4){
+                        if(listChooser.size > 9){
                             chip.setTextColor(ContextCompat.getColor(applicationContext,R.color.colorgray400))
                             chip.isChecked = false
                         }else{
@@ -130,7 +130,7 @@ class RegisterTagActivity : AppCompatActivity() {
     }
 
     private fun updateText(){
-        btnText.text = "Continue (${listChooser.size}/5)"
+        btnText.text = "Continue (${listChooser.size}/10)"
         btnContinue.isEnabled = listChooser.size > 4
     }
 
