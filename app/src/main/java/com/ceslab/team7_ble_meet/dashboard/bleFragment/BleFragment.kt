@@ -21,6 +21,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ceslab.team7_ble_meet.*
+import com.ceslab.team7_ble_meet.chat.ChatActivity
 import com.ceslab.team7_ble_meet.model.BleDataScanned
 import com.ceslab.team7_ble_meet.databinding.FragmentBleBinding
 import com.ceslab.team7_ble_meet.db.BleDataScannedDataBase
@@ -180,6 +181,14 @@ class BleFragment : Fragment() {
 //                    val intent = Intent(activity, ProfileActivity::class.java)
 //                    intent.putExtra("idFromConnectFragmentToProfile", id)
 //                    startActivity(intent)
+                    }
+                }
+            listDataDiscoveredAdapter.nextlistener =
+                object : ListBleDataScannedAdapter.onClickNextListender{
+                    override fun onClick(id: String) {
+                        val intent = Intent(activity, ChatActivity::class.java)
+                        intent.putExtra(AppConstants.USER_ID, id)
+                        startActivity(intent)
                     }
                 }
         }

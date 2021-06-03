@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ceslab.team7_ble_meet.model.BleDataScanned
@@ -15,6 +16,11 @@ class ListBleDataScannedAdapter: RecyclerView.Adapter<ListBleDataScannedAdapter.
     interface IdClickedListener{
         fun onClickListen(id: String)
     }
+    interface onClickNextListender{
+        fun onClick(id:String)
+    }
+
+    var nextlistener: onClickNextListender? = null
     var listener : IdClickedListener? = null
     var data: ArrayList<BleDataScanned> = ArrayList()
         set(value) {
@@ -29,6 +35,9 @@ class ListBleDataScannedAdapter: RecyclerView.Adapter<ListBleDataScannedAdapter.
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
         listener?.let { holder.bind(item, it) }
+        nextlistener?.let{
+            it.onClick(item.ID.toString())
+        }
     }
 
     override fun getItemCount(): Int {
@@ -38,6 +47,7 @@ class ListBleDataScannedAdapter: RecyclerView.Adapter<ListBleDataScannedAdapter.
     class ViewHolder private constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvId = itemView.findViewById<TextView>(R.id.tvID)
         private val tvCharacteristic = itemView.findViewById<TextView>(R.id.tvCharacteristic)
+        private val tvBtnNext = itemView.findViewById<LinearLayout>(R.id.btn_next)
         private var p = true
         companion object{
             fun from(parent: ViewGroup) : ViewHolder{
@@ -57,6 +67,9 @@ class ListBleDataScannedAdapter: RecyclerView.Adapter<ListBleDataScannedAdapter.
             }
             tvId.setOnClickListener {
                 listener.onClickListen(item.ID.toString())
+            }
+            tvBtnNext.setOnClickListener {
+
             }
         }
     }
