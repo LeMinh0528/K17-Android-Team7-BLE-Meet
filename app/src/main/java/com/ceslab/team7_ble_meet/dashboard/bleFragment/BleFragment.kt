@@ -188,8 +188,9 @@ class BleFragment : Fragment() {
                 object : ListBleDataScannedAdapter.onClickNextListender{
                     override fun onClick(id: String) {
                         Log.d(TAG,"id: $id")
+                        val num = addZeroNum(id.toInt())
                         val intent = Intent(activity, ChatActivity::class.java)
-                        intent.putExtra(AppConstants.USER_ID, id)
+                        intent.putExtra(AppConstants.USER_ID, num)
                         startActivity(intent)
                     }
                 }
