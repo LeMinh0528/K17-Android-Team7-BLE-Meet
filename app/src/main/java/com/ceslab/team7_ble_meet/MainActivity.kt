@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.ceslab.team7_ble_meet.Model.BleDataScanned
-import com.ceslab.team7_ble_meet.dashboard.bleFragment.ListBleDataScanedAdapter
+import com.ceslab.team7_ble_meet.model.BleDataScanned
+import com.ceslab.team7_ble_meet.dashboard.bleFragment.ListBleDataScannedAdapter
 import com.ceslab.team7_ble_meet.databinding.ActivityMainBinding
 import com.ceslab.team7_ble_meet.db.BleDataScannedDataBase
 import kotlin.collections.ArrayList
@@ -14,7 +14,7 @@ import kotlin.collections.ArrayList
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
 
-    private var listDataAdapter = ListBleDataScanedAdapter()
+    private var listDataAdapter = ListBleDataScannedAdapter()
 
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         listDataAdapter.data = BleDataScannedDataBase.getDatabase(this).bleDataScannedDao().getUserDiscover() as ArrayList<BleDataScanned>
         binding.apply {
             rcList.adapter = listDataAdapter
-            listDataAdapter.listener = object : ListBleDataScanedAdapter.IdClickedListener {
+            listDataAdapter.listener = object : ListBleDataScannedAdapter.IdClickedListener {
                 override fun onClickListen(id: String) {
                     Log.d(TAG, id)
                 }

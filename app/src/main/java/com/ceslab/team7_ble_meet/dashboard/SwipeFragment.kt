@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ceslab.team7_ble_meet.Model.UserAPI
-import com.ceslab.team7_ble_meet.Model.UserResp
+import com.ceslab.team7_ble_meet.model.UserResp
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.rest.RestClient
 import com.yuyakaido.android.cardstackview.*

@@ -1,4 +1,6 @@
-package com.ceslab.team7_ble_meet.Model
+package com.ceslab.team7_ble_meet.model
+
+import com.ceslab.team7_ble_meet.Model.UserAPI
 
 data class UserResp(
     val page: Long? = null,

@@ -1,4 +1,4 @@
-package com.ceslab.team7_ble_meet.Profile
+package com.ceslab.team7_ble_meet.profile
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

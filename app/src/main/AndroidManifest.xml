@@ -64,13 +64,13 @@
             android:name=".registerInformation.RegisterTagActivity"/>
         <activity
             android:screenOrientation="portrait"
-            android:name=".Profile.ProfileActivity"/>
+            android:name=".profile.ProfileActivity"/>
         <activity
             android:screenOrientation="portrait"
             android:name=".setting.SettingActivity"/>
-        <activity android:name=".registerInformation.RegisterPictureActivity"
+        <activity
+            android:name=".registerInformation.RegisterPictureActivity"
             android:screenOrientation="portrait">
-
         </activity>
         <activity
             android:screenOrientation="portrait"
@@ -83,7 +83,6 @@
             android:enabled="true"
             android:exported="false">
         </service>
-        <activity android:name="Activity.EditProfileActivity"/>
     </application>
 
 </manifest>

@@ -1,12 +1,27 @@
-byte 0:length: 1 byte
-byte 1:AD type: 1 byte
-byte 2,3: Manufacture: 2 bytes
+length: 1 byte (byte 0)
+AD type: 1 byte (byte 1)
+Manufacture: 2 bytes (byte 2,3)
 
-
-byte 4,5,6: id: 3 bytes
+id: 3 bytes (byte 4,5,6)
 	0 - 16777216
-age: 7 bit
-	18 - 273
+age: 1 byte (byte 7)
+	0 - 255
+sex: 1 bits (byte 8 - bit 0) 
+	Male - Female
+gender-orientation: 2 bits (byte 8 - bit 1)
+	Male - Femal - Both - Non
+TAG: 1 byte (byte 8 - bit 2)
+TAG: 1 byte (byte 9 - bit 2)
+TAG: 1 byte (byte 10 - bit 2)
+TAG: 1 byte (byte 11 - bit 2)
+TAG: 1 byte (byte 12 - bit 2) - (byte 13 bit 1)
+
+
+--------------------------------------------------------------------------------------------------------------------------
+phuc@gmail.com
+Vippro@123
+
+
 sex: 3 bits
 	Male
 	Female
@@ -28,6 +43,7 @@ height: 8 bit
 weight: 8 bit
 	- 1 -> 255 kg
 	
+	
 zodiac: 4 bits
 
 outlook: 7 bits x 3
@@ -35,8 +51,6 @@ professorial: 7 bits x 3
 character: 7 bits x 3
 favorite: 7 bits x 3
 hightlight: 7 bits x3
-
-
 
 Filter discover:
 Age: Min Max
@@ -51,5 +65,6 @@ character: 3 types
 favorite: 3 types
 hightlight: 3 types
 
-phuc@gmail.com
-Vippro@123
+
+
+

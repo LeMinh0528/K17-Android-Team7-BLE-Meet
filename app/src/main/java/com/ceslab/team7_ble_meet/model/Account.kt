@@ -1,4 +1,4 @@
-package com.ceslab.team7_ble_meet.Model
+package com.ceslab.team7_ble_meet.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

@@ -16,7 +16,6 @@ import com.ceslab.team7_ble_meet.AppConstants
 import com.ceslab.team7_ble_meet.Model.ImageMessage
 import com.ceslab.team7_ble_meet.Model.MessageType
 import com.ceslab.team7_ble_meet.Model.TextMessage
-import com.ceslab.team7_ble_meet.Model.User
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.UsersFireStoreHandler
 import com.ceslab.team7_ble_meet.databinding.ActivityChatBinding
@@ -39,7 +38,6 @@ class ChatActivity : AppCompatActivity() {
     private var TAG = "ChatActivity"
     lateinit var  viewmodel : ChatActivityViewModel
     lateinit var binding : ActivityChatBinding
-    private lateinit var currentUser: User
     private  var otherUserId: String? = ""
     private lateinit var messageListenerRegistration : ListenerRegistration
     private var shouldInitRecyclerView = true
