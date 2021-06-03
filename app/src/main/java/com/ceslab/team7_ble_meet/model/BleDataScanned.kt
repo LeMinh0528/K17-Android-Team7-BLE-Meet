@@ -15,8 +15,11 @@ class BleDataScanned(
         "Age: ${listChar[1]}\n" +
                 "Sex: ${Characteristic.sex[listChar[2]]}\n" +
                 "Sexuality Orientation: ${Characteristic.sexualOrientation[listChar[3]]}\n" +
-                "Tall: ${listChar[4]}\n" +
-                "Weight: ${listChar[5]}\n"
+                "TAG: " + Characteristic.Tag_2[listChar[4]] + " - " +
+                Characteristic.Tag_2[listChar[5]] + " - " +
+                Characteristic.Tag_2[listChar[6]] + " - " +
+                Characteristic.Tag_2[listChar[7]] + " - " +
+                Characteristic.Tag_2[listChar[8]]
     )
 }
 

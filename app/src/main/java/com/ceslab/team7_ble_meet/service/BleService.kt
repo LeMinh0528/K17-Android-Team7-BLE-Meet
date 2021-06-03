@@ -27,6 +27,7 @@ class BleService: LifecycleService() {
         Log.d(TAG, "BleService on create")
         bleHandle = BleHandle()
         bleHandle.bleDataScanned.observe(this, {
+            Log.d(TAG, "BleService ble data scanned")
             handleDataDiscovered(it)
         })
     }
@@ -60,6 +61,7 @@ class BleService: LifecycleService() {
     }
 
     private fun handleDataDiscovered(data: ByteArray) {
+        Log.d(TAG, bytesToHex(data))
         val dataDiscovered = data.drop(4)
         val listOfCharacteristic = convertDataDiscovered(dataDiscovered.toByteArray())
         if (checkCharacteristic(listOfCharacteristic, target)) {
