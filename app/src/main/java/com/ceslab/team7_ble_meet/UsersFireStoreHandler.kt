@@ -4,17 +4,27 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.ceslab.team7_ble_meet.Model.*
 import com.ceslab.team7_ble_meet.dashboard.recyclerview.ImageMessageItem
 import com.ceslab.team7_ble_meet.dashboard.recyclerview.PersonItem
 import com.ceslab.team7_ble_meet.dashboard.recyclerview.TextMessageItem
+import com.ceslab.team7_ble_meet.model.User
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
+import com.ceslab.team7_ble_meet.service.MessagingService
 import com.ceslab.team7_ble_meet.utils.ImagesStorageUtils
 import com.firebase.ui.auth.AuthUI
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import com.xwray.groupie.kotlinandroidextensions.Item
+import org.json.JSONObject
+import java.security.Key
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -283,11 +293,29 @@ class UsersFireStoreHandler {
                             userResp.postValue(Resp("LOGIN", "SUCCESS", "IMAGE"))
                         } else {
                             KeyValueDB.setRegister(true)
+                            getCurrentToken()
+
                             userResp.postValue(Resp("LOGIN", "SUCCESS", "DASHBOARD"))
                         }
                     }
                 }
         }
+    }
+
+    fun getCurrentToken(){
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.d("UserFireStoreHandler", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+            Log.d("UserFireStoreHandler", "Fetching FCM registration token $token")
+            if (token != null) {
+                MessagingService.updateToken(token)
+            }
+        })
     }
 
     fun randomUId(): String {
@@ -310,9 +338,9 @@ class UsersFireStoreHandler {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     var note = mutableMapOf<String, String>()
+                    getCurrentToken()
                     note["EMAIL"] = email
                     note["PASS"] = pass
-
                     userRef.document(uid)
                         .set(note).addOnSuccessListener {
                             mAuth.currentUser?.let { it1 -> KeyValueDB.setUserId(it1.uid) }
@@ -384,6 +412,13 @@ class UsersFireStoreHandler {
             .addOnFailureListener {
                 Log.d("TAG", "Fail: ${it.message}")
                 userResp.postValue(it.message?.let { it1 -> Resp("NONE", "FAILED", it1) })
+            }
+    }
+
+    fun getCurrentUser(id: String,onComplete: (User) -> Unit) {
+        userRef.document(id).get()
+            .addOnSuccessListener {
+                onComplete(it.toObject(User::class.java)!!)
             }
     }
 
@@ -604,6 +639,26 @@ class UsersFireStoreHandler {
 //            .document(KeyValueDB.getUserShortId())
 //            .collection("lastMessage")
 //            .add(message)
+    }
+
+
+
+
+    fun getUserToken(onListen: (MutableList<String>) -> Unit){
+        userRef.document(KeyValueDB.getUserShortId())
+            .get()
+            .addOnSuccessListener {
+                if (it != null) {
+                    if (it["token"] != null) {
+                        onListen(it["token"] as MutableList<String>)
+                    }else onListen(mutableListOf())
+                }
+            }
+    }
+
+    fun setUserToken(newToken: MutableList<String>){
+        userRef.document(KeyValueDB.getUserShortId())
+            .set(hashMapOf("token" to newToken),SetOptions.merge())
     }
 
 
