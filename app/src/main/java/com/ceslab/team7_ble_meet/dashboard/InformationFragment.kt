@@ -12,12 +12,13 @@ import android.widget.Button
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.UsersFireStoreHandler
 import com.ceslab.team7_ble_meet.databinding.FragmentInformationBinding
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ceslab.team7_ble_meet.setting.SettingActivity
+import com.ceslab.team7_ble_meet.utils.GlideApp
+import com.ceslab.team7_ble_meet.utils.ImagesStorageUtils
 import com.google.android.material.chip.Chip
 import java.io.File
 import java.util.*
@@ -76,6 +77,7 @@ class InformationFragment: Fragment() {
         instance.userRef.document(KeyValueDB.getUserShortId())
             .get()
             .addOnSuccessListener { data ->
+                Log.d("InformationFragment","it = $data")
                 if(data != null){
                     //set tag
                     var list: List<String> = data["Tag"] as List<String>
@@ -99,14 +101,18 @@ class InformationFragment: Fragment() {
                     }
 
                     //set bio
-                    if(data["bio"].toString() != "" || data["bio"] != null){
+                    if(data["bio"].toString() != "null"){
                         binding.tvBio.text = data["bio"].toString()
+                    }else{
+                        binding.tvBio.text = ""
                     }
 
                     //set image
                     if(data["avatar"].toString() != "" || data["avatar"] != null){
-                        Glide.with(this)
-                            .load(data["avatar"].toString())
+                        Log.d("InformationFragment", "image array: ${data["avatar"]}")
+                        GlideApp.with(this)
+                            .load(ImagesStorageUtils.pathToReference(data["avatar"] as String))
+                            .placeholder(R.drawable.avatar_default)
                             .into(binding.icAvatar)
                     }
                 }

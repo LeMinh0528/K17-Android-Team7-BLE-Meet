@@ -64,10 +64,30 @@ fun isValidEmail(email: String): Boolean {
     return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
 
+fun addZeroNum(num: Int): String{
+    if(num in 0..9){
+        return "0000000$num"
+    }else if(num in 10..99){
+        return "000000$num"
+    }else if(num in 100..999){
+        return "00000$num"
+    }else if(num in 1000..9999){
+        return "0000$num"
+    }else if(num in 10000..99999){
+        return "000$num"
+    }else if(num in 100000..999999){
+        return "00$num"
+    }else if(num in 1000000..9999999){
+        return "0$num"
+    }else{
+        return "$num"
+    }
+}
+
 fun generateUniqueID(): String{
     var random = (0..16777215).random()
     var result = ""
-    if(random in 1..9){
+    if(random in 0..9){
         result = "0000000$random"
     }else if(random in 10..99){
         result = "000000$random"

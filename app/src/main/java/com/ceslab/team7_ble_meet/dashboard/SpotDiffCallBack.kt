@@ -1,11 +1,11 @@
 package com.ceslab.team7_ble_meet.dashboard
 
 import androidx.recyclerview.widget.DiffUtil
-import com.ceslab.team7_ble_meet.model.User
+import com.ceslab.team7_ble_meet.Model.UserAPI
 
 class SpotDiffCallback(
-    private val old: List<User>,
-    private val new: List<User>
+    private val old: List<UserAPI>,
+    private val new: List<UserAPI>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int {

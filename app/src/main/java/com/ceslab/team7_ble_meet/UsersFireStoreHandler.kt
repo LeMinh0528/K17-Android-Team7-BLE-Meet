@@ -1,19 +1,31 @@
 package com.ceslab.team7_ble_meet
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.ceslab.team7_ble_meet.Model.*
+import com.ceslab.team7_ble_meet.dashboard.recyclerview.ImageMessageItem
+import com.ceslab.team7_ble_meet.dashboard.recyclerview.PersonItem
+import com.ceslab.team7_ble_meet.dashboard.recyclerview.TextMessageItem
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
+import com.ceslab.team7_ble_meet.utils.ImagesStorageUtils
+import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.*
 import com.google.firebase.storage.FirebaseStorage
+import com.xwray.groupie.kotlinandroidextensions.Item
+import java.util.*
+import kotlin.collections.ArrayList
 
 class UsersFireStoreHandler {
+    private val fireStoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
+    private val storageInstance: FirebaseStorage by lazy { FirebaseStorage.getInstance() }
 
-    var userRef = FirebaseFirestore.getInstance().collection("Users")
-    var uidRef = FirebaseFirestore.getInstance().collection("UUID")
-    var imageRef = FirebaseStorage.getInstance().reference.child("images")
+    var userRef = fireStoreInstance.collection("Users")
+    var uidRef = fireStoreInstance.collection("UUID")
+    var imageRef = storageInstance.reference.child("images")
+    var chatChannelRef = fireStoreInstance.collection("chatChannels")
     var mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     var userResp = MutableLiveData<Resp?>()
 
@@ -118,25 +130,56 @@ class UsersFireStoreHandler {
             }
     }
 
-    fun updateAvatar(uri: Uri) {
+    fun updateAvatar(byteArray: ByteArray) {
         Log.d("UserFireStoreHandler", "shortId: ${getUserShortId()}")
-
-        var ref = imageRef.child(KeyValueDB.getUserShortId()).child("avatar")
-            ref.putFile(uri)
-            .addOnSuccessListener {
-                ref.downloadUrl.addOnSuccessListener {
-                    userRef.document(KeyValueDB.getUserShortId()).set(hashMapOf("avatar" to it.toString()), SetOptions.merge())
-                        .addOnSuccessListener {
-                            userResp.postValue(Resp("NONE", "SUCCESS", "update avatar successful!"))
-                            uidRef.document(KeyValueDB.getUserId())
-                                .set(hashMapOf("isRegisterAvatar" to true), SetOptions.merge())
-                            KeyValueDB.setUserAvatar(true)
-                            KeyValueDB.setRegister(true)
-                        }
+        ImagesStorageUtils.uploadProfilePhoto(byteArray) {
+            userRef.document(KeyValueDB.getUserShortId())
+                .set(hashMapOf("avatar" to it), SetOptions.merge())
+                .addOnSuccessListener {
+                    uidRef.document(KeyValueDB.getUserId())
+                        .set(hashMapOf("isRegisterAvatar" to true), SetOptions.merge())
+                    KeyValueDB.setUserAvatar(true)
+                    KeyValueDB.setRegister(true)
+                    userResp.postValue(
+                        UsersFireStoreHandler.Resp(
+                            "NONE",
+                            "SUCCESS",
+                            ""
+                        )
+                    )
                 }
-            }
-            .addOnFailureListener {
-                userResp.postValue(Resp("NONE", "FAILED", "update avatar failed!"))
+                .addOnFailureListener {
+                    userResp.postValue(Resp("NONE", "FAILED", "update avatar failed!"))
+                }
+
+        }
+//        var ref = imageRef.child(KeyValueDB.getUserShortId()).child("avatar")
+//            ref.putFile(uri)
+//            .addOnSuccessListener {
+//                ref.downloadUrl.addOnSuccessListener {
+//                    userRef.document(KeyValueDB.getUserShortId()).set(hashMapOf("avatar" to it.toString()), SetOptions.merge())
+//                        .addOnSuccessListener {
+//                            userResp.postValue(Resp("NONE", "SUCCESS", "update avatar successful!"))
+//                            uidRef.document(KeyValueDB.getUserId())
+//                                .set(hashMapOf("isRegisterAvatar" to true), SetOptions.merge())
+//                            KeyValueDB.setUserAvatar(true)
+//                            KeyValueDB.setRegister(true)
+//                        }
+//                }
+//            }
+//            .addOnFailureListener {
+//                userResp.postValue(Resp("NONE", "FAILED", "update avatar failed!"))
+//            }
+    }
+
+    fun uploadProfilePhoto(
+        imageBytes: ByteArray,
+        onSuccess: (imagePath: String) -> Unit
+    ) {
+        val ref = imageRef.child("profilePictures/${UUID.nameUUIDFromBytes(imageBytes)}")
+        ref.putBytes(imageBytes)
+            .addOnSuccessListener {
+                onSuccess(ref.path)
             }
     }
 
@@ -287,6 +330,7 @@ class UsersFireStoreHandler {
                                         )
                                     )
                             }
+//                            userRef.document(uid).collection("engagedChatChannel")
                             userResp.postValue(Resp("NONE", "SUCCESS", "add new users successful"))
                         }
                         .addOnFailureListener {
@@ -400,6 +444,168 @@ class UsersFireStoreHandler {
             }
 
     }
+
+    fun addUserListener(
+        context: Context,
+        onListen: (List<PersonItem>) -> Unit
+    ): ListenerRegistration {
+//        if(userRef.document(KeyValueDB.getUserShortId()).collection("engagedChatChannel"))
+        return userRef.document(KeyValueDB.getUserShortId())
+            .collection("engagedChatChannel")
+            .addSnapshotListener { querySnapshot, exception ->
+                if (exception != null) {
+                    Log.d("UserFireStoreHandler", "error: ${exception.message}")
+                    return@addSnapshotListener
+                }
+                if(querySnapshot == null){
+                    Log.d("UserFireStoreHandler", "collection hasn't created")
+                    return@addSnapshotListener
+                }
+                val items = mutableListOf<PersonItem>()
+                querySnapshot?.documents?.forEach { documentSnapShot ->
+//                    val person = documentSnapShot.toObject(Person::class.java)
+//                    if (person != null) {
+                    Log.d("UserFireStoreHandler", "channelId: ${documentSnapShot["channelId"]}")
+                        items.add(PersonItem("",documentSnapShot.id.trim(),"",documentSnapShot["channelId"] as String, context))
+//                    }
+                    onListen(items)
+//                    Log.d("UserFireStoreHandler","size: querySransot size: ${querySnapshot.size()}")
+//                    userRef.document(documentSnapShot.id)
+//                        .get().addOnSuccessListener {
+//                            Log.d("UserFireStoreHandler","size: item size: ${items.size}")
+//                            val m = it.toObject(User::class.java)
+//                            if(m != null){
+//                                Log.d("UserFireStoreHandler","data: ${m.Name}")
+//                                items.add(PersonItem(m.Name))
+//
+//                                if(items.size == querySnapshot.size()-1){
+//                                    onListen(items)
+//                                }
+//                            }
+//
+//                        }
+
+//                    userRef.document(documentSnapShot["Name"].toString())
+//                    items.add(PersonItem(documentSnapShot.id))
+                }
+
+            }
+    }
+
+    fun removeListener(registration: ListenerRegistration) = registration.remove()
+
+    fun getOrCreateChatChannel(otherUserId: String?, onComplete: (channelId: String) -> Unit) {
+        Log.d("UserFireStoreHandler","if exists:$otherUserId")
+        if (otherUserId != null) {
+            userRef.document(KeyValueDB.getUserShortId())
+                .collection("engagedChatChannel")
+                .document(otherUserId).get().addOnSuccessListener {
+                    Log.d("UserFireStoreHandler","if exists: ${it["channelId"]}")
+                    //neu co ton tai 1 kenh chat cho 2 dua
+                    if (it.exists()) {
+                        Log.d("UserFireStoreHandler","if exists: ${it["channelId"]}")
+                        onComplete(it["channelId"] as String)
+                        return@addOnSuccessListener
+                    }
+                    //neu chua co -> create new
+                    val newChannel = chatChannelRef.document()
+                    //set new channel in ChatChannels collection
+                    newChannel.set(
+                        ChatChannel(
+                            mutableListOf(
+                                KeyValueDB.getUserShortId(),
+                                otherUserId
+                            )
+                        )
+                    )
+                    userRef.document(KeyValueDB.getUserShortId())
+                        .collection("engagedChatChannel")
+                        .document(otherUserId)
+                        .set(hashMapOf("channelId" to newChannel.id),SetOptions.merge())
+                    //set new channel in engagedChatChannel in other user
+                    userRef.document(otherUserId)
+                        .collection("engagedChatChannel")
+                        .document(KeyValueDB.getUserShortId())
+                        .set(hashMapOf("channelId" to newChannel.id),SetOptions.merge())
+                    onComplete(newChannel.id)
+                    //set new channel in endgagedChatChannel in current user
+//                    userRef.document(KeyValueDB.getUserShortId())
+//                        .get()
+//                        .addOnSuccessListener {
+//                            if (it != null) {
+////                                val person = it.toObject(Person::class.java)
+//                                userRef.document(KeyValueDB.getUserShortId())
+//                                    .collection("engagedChatChannel")
+//                                    .document(otherUserId)
+//                                    .set("channelId" to newChannel.id, SetOptions.merge())
+//                                    userRef.document(KeyValueDB.getUserShortId())
+//                                        .collection("engagedChatChannel")
+//                                        .document(otherUserId)
+//                                        .set(hashMapOf("Name" to it["Name"]
+//                                            ,"avatar" to it["avatar"]), SetOptions.merge())
+//                            }
+//                        }
+//                    userRef.document(otherUserId)
+//                        .get()
+//                        .addOnSuccessListener {
+//                            if (it != null) {
+//                                userRef.document(otherUserId)
+//                                    .collection("engagedChatChannel")
+//                                    .document(KeyValueDB.getUserShortId())
+//                                    .set("channelId" to newChannel.id, SetOptions.merge())
+//                                    userRef.document(otherUserId)
+//                                        .collection("engagedChatChannel")
+//                                        .document(KeyValueDB.getUserShortId())
+//                                        .set(hashMapOf("Name" to it["Name"]
+//                                            ,"avatar" to it["avatar"]), SetOptions.merge())
+//                            }
+//                        }
+
+                }
+        }
+    }
+
+    fun addChatListener(
+        channelId: String,
+        context: Context,
+        onListen: (List<Item>) -> Unit
+    ): ListenerRegistration {
+        return chatChannelRef.document(channelId).collection("messages")
+            .orderBy("time")
+            .addSnapshotListener { querySnapshot, exception ->
+                if (exception != null) {
+                    return@addSnapshotListener
+                }
+                val items = mutableListOf<Item>()
+                querySnapshot!!.documents.forEach {
+                    if (it["type"] == MessageType.TEXT) {
+                        items.add(TextMessageItem(it.toObject(TextMessage::class.java)!!, context))
+                    } else {
+                        //image
+                        items.add(ImageMessageItem(it.toObject(ImageMessage::class.java)!!,context))
+                    }
+                    return@forEach
+                }
+                onListen(items)
+            }
+    }
+
+    fun sendMessage(message: Message, otherUserId: String, channelId: String) {
+        chatChannelRef.document(channelId)
+            .collection("messages")
+            .add(message)
+//        userRef.document(KeyValueDB.getUserShortId())
+//            .collection("engagedChatChannel")
+//            .document(otherUserId)
+//            .set(hashMapOf("lastMessageType" to message.type
+//                ,"lastMessageText" to message.))
+//        userRef.document(otherUserId)
+//            .collection("engagedChatChannel")
+//            .document(KeyValueDB.getUserShortId())
+//            .collection("lastMessage")
+//            .add(message)
+    }
+
 
     data class Resp(var type: String, var status: String, var message: String)
 }

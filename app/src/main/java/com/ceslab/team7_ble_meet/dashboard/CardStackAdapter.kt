@@ -9,11 +9,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.ceslab.team7_ble_meet.model.User
+import com.ceslab.team7_ble_meet.Model.UserAPI
 import com.ceslab.team7_ble_meet.R
 
 class CardStackAdapter(
-    private var spots: List<User> = emptyList()
+    private var spots: List<UserAPI> = emptyList()
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,11 +38,11 @@ class CardStackAdapter(
         return spots.size
     }
 
-    fun setSpots(spots: List<User>) {
+    fun setSpots(spots: List<UserAPI>) {
         this.spots = spots
     }
 
-    fun getSpots(): List<User> {
+    fun getSpots(): List<UserAPI> {
         return spots
     }
 

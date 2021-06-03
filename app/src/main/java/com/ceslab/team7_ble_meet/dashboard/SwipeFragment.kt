@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.ceslab.team7_ble_meet.model.User
+import com.ceslab.team7_ble_meet.Model.UserAPI
 import com.ceslab.team7_ble_meet.model.UserResp
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.rest.RestClient
@@ -145,7 +145,7 @@ class SwipeFragment: Fragment(),CardStackListener {
 
     fun requestAPI(){
         handler.setOnResponseListener(object: GetDataRespHandler.OnResponseListener{
-            override fun onResponse(message: String, resp: List<User>) {
+            override fun onResponse(message: String, resp: List<UserAPI>) {
                 Log.d("CardStackView","paginate ")
                 val old = adapter.getSpots()
                 Log.d("CardStackView","paginate: old: $old ")
@@ -179,7 +179,7 @@ class SwipeFragment: Fragment(),CardStackListener {
     class GetDataRespHandler(){
         private var listener: OnResponseListener? = null
         interface OnResponseListener{
-            fun onResponse(message: String, userList: List<User>)
+            fun onResponse(message: String, userList: List<UserAPI>)
         }
         fun setOnResponseListener(ob: OnResponseListener){
             listener = ob
@@ -192,7 +192,7 @@ class SwipeFragment: Fragment(),CardStackListener {
                 call.enqueue(object: Callback<UserResp> {
                     override fun onFailure(call: Call<UserResp>, t: Throwable) {
                         Log.d("CardStackView" , "error")
-                        listener?.onResponse("FAILED", arrayListOf<User>())
+                        listener?.onResponse("FAILED", arrayListOf<UserAPI>())
                     }
 
                     override fun onResponse(call: Call<UserResp>, response: Response<UserResp>) {

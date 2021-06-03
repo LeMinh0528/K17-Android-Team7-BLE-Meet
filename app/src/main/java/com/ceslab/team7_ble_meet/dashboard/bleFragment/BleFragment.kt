@@ -21,9 +21,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ceslab.team7_ble_meet.*
+import com.ceslab.team7_ble_meet.chat.ChatActivity
 import com.ceslab.team7_ble_meet.model.BleDataScanned
 import com.ceslab.team7_ble_meet.databinding.FragmentBleBinding
 import com.ceslab.team7_ble_meet.db.BleDataScannedDataBase
+import com.ceslab.team7_ble_meet.profile.ProfileActivity
 
 class BleFragment : Fragment() {
 
@@ -31,7 +33,7 @@ class BleFragment : Fragment() {
         const val PERMISSIONS_REQUEST_CODE: Int = 12
     }
 
-    private val TAG = "Ble_Fragment"
+    private val TAG = "Ble_Lifecycle"
 
     private lateinit var bleFragmentBinding: FragmentBleBinding
     private lateinit var bleFragmentViewModel: BleFragmentViewModel
@@ -59,6 +61,7 @@ class BleFragment : Fragment() {
                             "Broadcast Receiver: Bluetooth off",
                             Toast.LENGTH_LONG
                         ).show()
+                        bleFragmentViewModel.stopFindFriend(requireContext())
                     }
                     BluetoothAdapter.STATE_ON -> {
                         bleFragmentBinding.swTurnOnOffBLE.isChecked = true
@@ -78,12 +81,11 @@ class BleFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d(TAG,"BleFragment on Create View 1")
         checkPermissions()
-        bleFragmentViewModel =
-            ViewModelProvider(requireActivity()).get(BleFragmentViewModel::class.java)
+        bleFragmentViewModel = ViewModelProvider(requireActivity()).get(BleFragmentViewModel::class.java)
         setUpBle()
         setUpUI(inflater, container)
-
         return bleFragmentBinding.root
     }
 
@@ -177,9 +179,19 @@ class BleFragment : Fragment() {
                 object : ListBleDataScannedAdapter.IdClickedListener {
                     override fun onClickListen(id: String) {
                         Log.d(TAG, id)
-//                    val intent = Intent(activity, ProfileActivity::class.java)
-//                    intent.putExtra("idFromConnectFragmentToProfile", id)
-//                    startActivity(intent)
+//                        val intent = Intent(activity, ProfileActivity::class.java)
+//                        intent.putExtra("idFromConnectFragmentToProfile", id)
+//                        startActivity(intent)
+                    }
+                }
+            listDataDiscoveredAdapter.nextlistener =
+                object : ListBleDataScannedAdapter.onClickNextListender{
+                    override fun onClick(id: String) {
+                        Log.d(TAG,"id: $id")
+                        val num = addZeroNum(id.toInt())
+                        val intent = Intent(activity, ChatActivity::class.java)
+                        intent.putExtra(AppConstants.USER_ID, num)
+                        startActivity(intent)
                     }
                 }
         }

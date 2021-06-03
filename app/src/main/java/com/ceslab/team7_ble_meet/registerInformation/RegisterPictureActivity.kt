@@ -26,6 +26,7 @@ import com.ceslab.team7_ble_meet.dashboard.DashBoardActivity
 import com.ceslab.team7_ble_meet.databinding.ActivityRegisterPictureBinding
 import com.ceslab.team7_ble_meet.toast
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.storage.FirebaseStorage
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -166,27 +167,19 @@ class RegisterPictureActivity : AppCompatActivity() {
                 val result = CropImage.getActivityResult(data)
                 if(resultCode == RESULT_OK){
                     var uri = result.uri
-                    viewModel.selectedImage = uri
+//                    viewModel.selectedImage = uri
                     Glide.with(this)
                         .load(uri)
                         .into(binding.icAvt)
-        }
 
-//                upload to firestore
-//                var random = "10837606"
-//                var ref = imageStorage.child("images/$random/avatar")
-//
-//                ref.putFile(uri)
-//                    .addOnSuccessListener {
-//                        it.metadata?.let { it1 -> Log.d("RegisterPictureActivity", it1.path) }
-//                        ref.downloadUrl.addOnSuccessListener {responseUrl ->
-//
-//                        }
-//                    }
-//                    .addOnFailureListener{
-//                        Log.d("RegisterPictureActivity","${it.message}")
-//                    }
-//
+                    val selectedImageBmp = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+                    val outputStream = ByteArrayOutputStream()
+                    selectedImageBmp.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
+
+                    viewModel.selected = outputStream.toByteArray()
+                    Log.d(TAG, "image array: ${viewModel.selected}")
+                    Log.d(TAG, "image array: ${viewModel.selected}")
+        }
             }
         }
     }
