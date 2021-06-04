@@ -259,5 +259,14 @@ class ChatActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        KeyValueDB.setChatStatus(true)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        KeyValueDB.setChatStatus(false)
+    }
 
 }

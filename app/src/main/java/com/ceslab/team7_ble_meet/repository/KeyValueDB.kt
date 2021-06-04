@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 
 object KeyValueDB {
 
+    private const val CHAT_STATUS ="chat_status"
     private const val USER_ID = "user_id"
     private const val USER_AVATAR = "user_avatar"
     private const val USER_SHORT_ID = "user_short_id"
@@ -27,6 +28,16 @@ object KeyValueDB {
         val editor: SharedPreferences.Editor? = pref?.edit()
         editor?.putBoolean(USER_TAG,tag)
         editor?.apply()
+    }
+
+    fun setChatStatus(status: Boolean){
+        val editor: SharedPreferences.Editor? = pref?.edit()
+        editor?.putBoolean(CHAT_STATUS,status)
+        editor?.apply()
+    }
+
+    fun isChat():Boolean{
+        return pref?.getBoolean(CHAT_STATUS,false)?:false
     }
 
     fun getUserTag(): Boolean{
