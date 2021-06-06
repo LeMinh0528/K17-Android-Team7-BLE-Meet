@@ -76,12 +76,12 @@ class ChatActivity : AppCompatActivity() {
                 currentChannelId = channelId
                 messageListenerRegistration = UsersFireStoreHandler().addChatListener(channelId,this,this::updateRecyclerView)
                 binding.btnSend.setOnClickListener{
-                    binding.tvText.clearFocus()
+                    binding.tvText.requestFocus()
                     val messagetoSend = TextMessage(binding.tvText.text.toString(),Calendar.getInstance().time,
                         KeyValueDB.getUserShortId(),MessageType.TEXT)
                     binding.tvText.setText("")
-                    UsersFireStoreHandler().sendMessage(messagetoSend, otherUserId!!,channelId)
-                    sendPushnotificationToToken(messagetoSend, otherUserId!!)
+                    UsersFireStoreHandler().sendMessage(messagetoSend,channelId)
+                    sendPushNotificationToToken(messagetoSend, otherUserId!!)
                     //update lasttext to endgagedChatChannel
                     UsersFireStoreHandler().userRef.document()
                 }
@@ -150,9 +150,8 @@ class ChatActivity : AppCompatActivity() {
                             MessageType.IMAGE
                         )
                         otherUserId?.let {
-                            UsersFireStoreHandler().sendMessage(imageMessage,
-                                it,currentChannelId)
-                            sendPushnotificationToToken(imageMessage, it)
+                            UsersFireStoreHandler().sendMessage(imageMessage, currentChannelId)
+                            sendPushNotificationToToken(imageMessage, it)
                         }
 
                     }
@@ -192,7 +191,7 @@ class ChatActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun sendPushnotificationToToken(message: Message, otherUserId: String){
+    private fun sendPushNotificationToToken(message: Message, otherUserId: String){
         UsersFireStoreHandler().getCurrentUser(otherUserId){ user ->
             val tokens = user.token
             UsersFireStoreHandler().getCurrentUser(KeyValueDB.getUserShortId()){ currentUser ->

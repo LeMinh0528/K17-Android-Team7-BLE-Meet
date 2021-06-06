@@ -28,7 +28,6 @@ import kotlin.random.Random
 class MessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        Log.d("MessagingService", "token: $token")
         if(KeyValueDB.getUserShortId() != ""){
             updateToken(token)
         }
@@ -36,9 +35,7 @@ class MessagingService : FirebaseMessagingService() {
     }
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-        Log.d("MessagingService","message  ${message.data}")
         if(message.data.isNotEmpty()){
-            Log.d("MessagingService", "hell no")
             val map: Map<String, String> = message.data
             val title = map["title"]
             val message = map["message"]
@@ -50,8 +47,6 @@ class MessagingService : FirebaseMessagingService() {
 
         }
     }
-
-
 
     companion object {
         fun updateToken(newToken:String){
@@ -83,7 +78,6 @@ class MessagingService : FirebaseMessagingService() {
             putExtra(AppConstants.USER_NAME,title)
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
-        Log.d("MessagingService","pending intent: $hisId")
         val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
         val builder = NotificationCompat.Builder(this, "channel_message")
             .setContentTitle(title)

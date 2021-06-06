@@ -23,12 +23,9 @@ import com.google.android.material.chip.Chip
 import java.io.File
 import java.util.*
 
-class InformationFragment: Fragment() {
-    lateinit var btnSetting : Button
-    private var listChip : MutableList<String> = arrayListOf()
+class InformationFragment : Fragment() {
     lateinit var binding: FragmentInformationBinding
     private var handler = InformationHandler()
-    private var instance = UsersFireStoreHandler()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,15 +34,8 @@ class InformationFragment: Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_information, container, false)
         binding.lifecycleOwner = this
-//        btnSetting = view.findViewById(R.id.btn_setting)
-//        btnSetting.setOnClickListener{
-//            var intent = Intent(activity,SettingActivity::class.java)
-//            startActivity(intent)
         binding.apply {
-//            btn_setting.setOnClickListener{
-//                gotoSetting()
-//            }
-            btnSetting.setOnClickListener{
+            btnSetting.setOnClickListener {
                 gotoSetting()
             }
             btnEdit.setOnClickListener {
@@ -55,12 +45,12 @@ class InformationFragment: Fragment() {
         return binding.root
     }
 
-    private fun gotoSetting(){
+    private fun gotoSetting() {
         val intent = Intent(activity, SettingActivity::class.java)
-            startActivity(intent)
+        startActivity(intent)
     }
 
-    private fun gotoEdit(){
+    private fun gotoEdit() {
         val intent = Intent(activity, EditProfileActivity::class.java)
         startActivity(intent)
     }
@@ -69,73 +59,39 @@ class InformationFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         getFirstData()
 
-
-
     }
 
-    private fun getFirstData(){
-        instance.userRef.document(KeyValueDB.getUserShortId())
-            .get()
-            .addOnSuccessListener { data ->
-                Log.d("InformationFragment","it = $data")
-                if(data != null){
-                    //set tag
-                    var list: List<String> = data["Tag"] as List<String>
-                    listChip.addAll(data["Tag"] as List<String>)
-
-                    //set name
-                    binding.tvName.text = data["Name"].toString()
-                    showFirstChip()
-
-                    //set age
-                    val year: Int = Calendar.getInstance().get(Calendar.YEAR);
-                    var dob = data["DayOfBirth"].toString().split("/")
-                    var current = dob[2].toInt()
-                    binding.tvAge.text = (year - current).toString()
-
-                    //set gender
-                    if(data["Gender"].toString() == "Male"){
-                        binding.icGender.setImageResource(R.drawable.ic_baseline_male)
-                    }else{
-                        binding.icGender.setImageResource(R.drawable.ic_baseline_female)
-                    }
-
-                    //set bio
-                    if(data["bio"].toString() != "null"){
-                        binding.tvBio.text = data["bio"].toString()
-                    }else{
-                        binding.tvBio.text = ""
-                    }
-
-                    //set image
-                    if(data["avatar"].toString() != "" || data["avatar"] != null){
-                        Log.d("InformationFragment", "image array: ${data["avatar"]}")
-                        GlideApp.with(this)
-                            .load(ImagesStorageUtils.pathToReference(data["avatar"] as String))
-                            .placeholder(R.drawable.avatar_default)
-                            .into(binding.icAvatar)
-                    }
-                }
-
+    private fun getFirstData() {
+        handler.getInit { user ->
+            binding.tvName.text = user.Name
+            if (user.bio != "") {
+                binding.tvBio.text = user.bio
             }
-            .addOnFailureListener{
-
+            if (user.gender == "Male") {
+                binding.icGender.setImageResource(R.drawable.ic_baseline_male)
+            } else {
+                binding.icGender.setImageResource(R.drawable.ic_baseline_female)
             }
-        //set avatar
-        val file = File.createTempFile("file","jpg")
-        instance.imageRef.child(KeyValueDB.getUserShortId()).child("avatar")
-            .getFile(file)
-            .addOnSuccessListener {
-                val bitmap = BitmapFactory.decodeFile(file.absolutePath)
-                binding.icAvatar.setImageBitmap(bitmap)
+            val year: Int = Calendar.getInstance().get(Calendar.YEAR);
+            var dob = user.dob.split("/")
+            var current = dob[2].toInt()
+            binding.tvAge.text = (year - current).toString()
+            binding.tvBio.text = user.bio
 
-            }
+            GlideApp.with(this)
+                .load(user.avatar?.let { ImagesStorageUtils.pathToReference(it) })
+                .placeholder(R.drawable.avatar_default)
+                .into(binding.icAvatar)
+
+            showFirstChip(user.tag)
+        }
     }
 
-    private fun showFirstChip(){
+    private fun showFirstChip(listChip: MutableList<String>) {
         Log.d("InformationFragment", "tags chip: $listChip")
-        for(i in listChip){
-            val chip = layoutInflater.inflate(R.layout.item_chip_filter, binding.chipGroup, false) as Chip
+        for (i in listChip) {
+            val chip =
+                layoutInflater.inflate(R.layout.item_chip_filter, binding.chipGroup, false) as Chip
             chip.text = i
             chip.isClickable = false
             chip.isChecked = true
