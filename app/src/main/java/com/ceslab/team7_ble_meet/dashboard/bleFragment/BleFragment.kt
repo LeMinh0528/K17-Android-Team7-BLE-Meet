@@ -23,10 +23,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.ceslab.team7_ble_meet.AppConstants
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.addZeroNum
+import com.ceslab.team7_ble_meet.ble.BleDataScanned
 import com.ceslab.team7_ble_meet.chat.ChatActivity
 import com.ceslab.team7_ble_meet.databinding.FragmentBleBinding
 import com.ceslab.team7_ble_meet.db.BleDataScannedDataBase
-import com.ceslab.team7_ble_meet.model.BleDataScanned
+//import com.ceslab.team7_ble_meet.model.BleDataScanned
 
 class BleFragment : Fragment() {
 

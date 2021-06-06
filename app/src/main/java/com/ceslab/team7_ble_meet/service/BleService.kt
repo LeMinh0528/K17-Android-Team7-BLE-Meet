@@ -6,9 +6,10 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import com.ceslab.team7_ble_meet.*
+import com.ceslab.team7_ble_meet.ble.BleDataScanned
 import com.ceslab.team7_ble_meet.ble.BleHandle
 import com.ceslab.team7_ble_meet.db.BleDataScannedDataBase
-import com.ceslab.team7_ble_meet.model.BleDataScanned
+//import com.ceslab.team7_ble_meet.model.BleDataScanned
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import java.util.*
 import kotlin.collections.ArrayList

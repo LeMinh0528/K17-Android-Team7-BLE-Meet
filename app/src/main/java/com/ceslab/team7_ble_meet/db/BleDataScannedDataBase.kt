@@ -6,7 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.ceslab.team7_ble_meet.model.BleDataScanned
+import com.ceslab.team7_ble_meet.ble.BleDataScanned
+
 
 @Database(entities = [BleDataScanned::class], version = 1, exportSchema = false)
 public abstract class BleDataScannedDataBase : RoomDatabase() {
