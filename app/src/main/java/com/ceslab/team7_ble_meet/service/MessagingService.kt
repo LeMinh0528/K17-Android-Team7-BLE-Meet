@@ -35,6 +35,7 @@ class MessagingService : FirebaseMessagingService() {
     }
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
+        Log.d("MessagingService", "receive message: $message")
         if(message.data.isNotEmpty()){
             val map: Map<String, String> = message.data
             val title = map["title"]
@@ -78,17 +79,32 @@ class MessagingService : FirebaseMessagingService() {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
-        val builder = NotificationCompat.Builder(this, "channel_message")
-            .setContentTitle(title)
-            .setSmallIcon(R.drawable.ic_layout)
-            .setContentIntent(pendingIntent)
-            .setContentText(message)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true)
-
-        with(NotificationManagerCompat.from(this)){
-            notify(hisId.toInt(), builder.build())
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val builder = NotificationCompat.Builder(this, "channel_message")
+                .setContentTitle(title)
+                .setSmallIcon(R.drawable.ic_layout)
+                .setContentIntent(pendingIntent)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true)
+            with(NotificationManagerCompat.from(this)){
+                notify(hisId.toInt(), builder.build())
+            }
+        }else{
+            val builder = NotificationCompat.Builder(this)
+                .setContentTitle(title)
+                .setSmallIcon(R.drawable.ic_layout)
+                .setContentIntent(pendingIntent)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true)
+            with(NotificationManagerCompat.from(this)){
+                notify(hisId.toInt(), builder.build())
+            }
         }
+
+
+
 
     }
 }
