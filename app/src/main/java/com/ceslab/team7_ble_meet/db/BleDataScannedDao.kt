@@ -3,6 +3,7 @@ package com.ceslab.team7_ble_meet.db
 import androidx.room.*
 import com.ceslab.team7_ble_meet.model.BleDataScanned
 
+
 @Dao
 interface BleDataScannedDao {
     @Query("SELECT * FROM users_discovered")

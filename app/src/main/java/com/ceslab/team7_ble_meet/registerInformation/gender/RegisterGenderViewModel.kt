@@ -1,4 +1,4 @@
-package com.ceslab.team7_ble_meet.registerInformation
+package com.ceslab.team7_ble_meet.registerInformation.gender
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

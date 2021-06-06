@@ -1,13 +1,8 @@
 package com.ceslab.team7_ble_meet
 
 import android.content.Context
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.android.volley.DefaultRetryPolicy
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.ceslab.team7_ble_meet.Model.*
 import com.ceslab.team7_ble_meet.dashboard.recyclerview.ImageMessageItem
 import com.ceslab.team7_ble_meet.dashboard.recyclerview.PersonItem
@@ -16,31 +11,24 @@ import com.ceslab.team7_ble_meet.model.User
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ceslab.team7_ble_meet.service.MessagingService
 import com.ceslab.team7_ble_meet.utils.ImagesStorageUtils
-import com.firebase.ui.auth.AuthUI
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.storage.FirebaseStorage
 import com.xwray.groupie.kotlinandroidextensions.Item
-import org.json.JSONObject
-import java.security.Key
 import java.util.*
-import kotlin.collections.ArrayList
 
 class UsersFireStoreHandler {
     private val fireStoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
-    private val storageInstance: FirebaseStorage by lazy { FirebaseStorage.getInstance() }
 
     var userRef = fireStoreInstance.collection("Users")
-    var uidRef = fireStoreInstance.collection("UUID")
-    var imageRef = storageInstance.reference.child("images")
+    private var uidRef = fireStoreInstance.collection("UUID")
     var chatChannelRef = fireStoreInstance.collection("chatChannels")
     var mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     var userResp = MutableLiveData<Resp?>()
 
     fun updateBirthDay(birthDay: String) {
-        var note = mutableMapOf<String, String>()
+        val note = mutableMapOf<String, String>()
         note["DayOfBirth"] = birthDay
         userRef.document(KeyValueDB.getUserShortId())
             .set(note, SetOptions.merge())

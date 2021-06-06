@@ -1,11 +1,10 @@
-package com.ceslab.team7_ble_meet.registerInformation
+package com.ceslab.team7_ble_meet.registerInformation.avatar
 
 import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -26,7 +25,6 @@ import com.ceslab.team7_ble_meet.dashboard.DashBoardActivity
 import com.ceslab.team7_ble_meet.databinding.ActivityRegisterPictureBinding
 import com.ceslab.team7_ble_meet.toast
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.storage.FirebaseStorage
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -35,7 +33,6 @@ import kotlinx.android.synthetic.main.activity_register_picture.*
 import kotlinx.android.synthetic.main.activity_register_picture.btn_continue
 import kotlinx.android.synthetic.main.activity_register_picture.tv_btn
 import java.io.ByteArrayOutputStream
-import java.io.File
 
 
 class RegisterPictureActivity : AppCompatActivity() {

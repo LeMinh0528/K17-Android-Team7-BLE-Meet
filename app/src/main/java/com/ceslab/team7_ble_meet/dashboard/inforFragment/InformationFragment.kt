@@ -1,26 +1,21 @@
-package com.ceslab.team7_ble_meet.dashboard
+package com.ceslab.team7_ble_meet.dashboard.inforFragment
 
 import Activity.EditProfileActivity
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.ceslab.team7_ble_meet.R
-import com.ceslab.team7_ble_meet.UsersFireStoreHandler
 import com.ceslab.team7_ble_meet.databinding.FragmentInformationBinding
-import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ceslab.team7_ble_meet.setting.SettingActivity
 import com.ceslab.team7_ble_meet.utils.GlideApp
 import com.ceslab.team7_ble_meet.utils.ImagesStorageUtils
 import com.google.android.material.chip.Chip
-import java.io.File
 import java.util.*
 
 class InformationFragment : Fragment() {
@@ -72,9 +67,9 @@ class InformationFragment : Fragment() {
             } else {
                 binding.icGender.setImageResource(R.drawable.ic_baseline_female)
             }
-            val year: Int = Calendar.getInstance().get(Calendar.YEAR);
-            var dob = user.dob.split("/")
-            var current = dob[2].toInt()
+            val year: Int = Calendar.getInstance().get(Calendar.YEAR)
+            val dob = user.dob.split("/")
+            val current = dob[2].toInt()
             binding.tvAge.text = (year - current).toString()
             binding.tvBio.text = user.bio
 

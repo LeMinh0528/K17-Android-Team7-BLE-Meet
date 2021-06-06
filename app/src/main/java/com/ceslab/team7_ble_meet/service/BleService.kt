@@ -51,7 +51,7 @@ class BleService: LifecycleService() {
     }
 
     private fun sendBleNotification() {
-        val bleNotification = NotificationCompat.Builder(this, "pushNotificationChannel")
+        val bleNotification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("BLE MEET")
             .setContentText("Find friend is running")
             .setSmallIcon(R.drawable.ic_both)

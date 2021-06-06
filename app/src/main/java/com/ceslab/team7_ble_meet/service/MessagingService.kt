@@ -38,11 +38,11 @@ class MessagingService : FirebaseMessagingService() {
         if(message.data.isNotEmpty()){
             val map: Map<String, String> = message.data
             val title = map["title"]
-            val message = map["message"]
+            val content = map["message"]
             val hisId = map["hisId"]
             val hisImage = map["hisImage"]
             if(!KeyValueDB.isChat()){
-                sendNotification(title!!,message!!,hisId!!,hisImage!!)
+                sendNotification(title!!,content!!,hisId!!,hisImage!!)
             }
 
         }
