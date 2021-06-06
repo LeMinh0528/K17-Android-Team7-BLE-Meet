@@ -90,14 +90,16 @@ class ChatActivity : AppCompatActivity() {
                     viewmodel.setListener(channelId, this, this::updateRecyclerView)
 
                 binding.btnSend.setOnClickListener {
-                    binding.tvText.requestFocus()
-                    val messagetoSend = TextMessage(
-                        binding.tvText.text.toString(), Calendar.getInstance().time,
-                        KeyValueDB.getUserShortId(), MessageType.TEXT
-                    )
-                    binding.tvText.setText("")
-                    UsersFireStoreHandler().sendMessage(messagetoSend, channelId)
-                    sendPushNotificationToToken(messagetoSend, otherUserId!!)
+                    if(!binding.tvText.text.isEmpty()){
+                        binding.tvText.requestFocus()
+                        val messagetoSend = TextMessage(
+                            binding.tvText.text.toString(), Calendar.getInstance().time,
+                            KeyValueDB.getUserShortId(), MessageType.TEXT
+                        )
+                        binding.tvText.setText("")
+                        UsersFireStoreHandler().sendMessage(messagetoSend, channelId)
+                        sendPushNotificationToToken(messagetoSend, otherUserId!!)
+                    }
                 }
                 binding.btnImage.setOnClickListener {
                     val gallery1 = Intent()

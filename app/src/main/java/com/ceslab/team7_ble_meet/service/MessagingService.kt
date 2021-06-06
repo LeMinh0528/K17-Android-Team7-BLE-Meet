@@ -62,7 +62,6 @@ class MessagingService : FirebaseMessagingService() {
                         UsersFireStoreHandler().setUserToken(tokens)
                     }
                 }
-
             }
         }
 

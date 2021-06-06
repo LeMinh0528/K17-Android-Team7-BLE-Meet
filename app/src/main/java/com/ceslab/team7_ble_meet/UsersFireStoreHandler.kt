@@ -230,13 +230,14 @@ class UsersFireStoreHandler {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val note = mutableMapOf<String, String>()
-                    getCurrentToken()
+
                     note["EMAIL"] = email
                     note["PASS"] = pass
                     userRef.document(uid)
                         .set(note).addOnSuccessListener {
                             mAuth.currentUser?.let { it1 -> KeyValueDB.setUserId(it1.uid) }
                             KeyValueDB.setUserShortId(uid)
+                            getCurrentToken()
                             mAuth.currentUser?.let { it1 ->
                                 uidRef.document(it1.uid)
                                     .set(
@@ -413,6 +414,7 @@ class UsersFireStoreHandler {
     }
 
     fun getUserToken(onListen: (MutableList<String>) -> Unit){
+        Log.d("UserFireStoreHandler","key: ${KeyValueDB.getUserShortId()}")
         userRef.document(KeyValueDB.getUserShortId())
             .get()
             .addOnSuccessListener {
