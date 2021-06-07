@@ -42,6 +42,9 @@ class MessagingService : FirebaseMessagingService() {
             val hisId = map["hisId"]
             val hisImage = map["hisImage"]
             Log.d("MessagingService", "receive message: ${map["message"]}")
+            Log.d("MessagingService", "receive title: ${map["title"]}")
+            Log.d("MessagingService", "receive id: ${map["hisId"]}")
+            Log.d("MessagingService", "receive img: ${map["hisImage"]}")
             if(!KeyValueDB.isChat()){
                 sendNotification(title!!,content!!,hisId!!,hisImage!!)
             }
@@ -79,10 +82,10 @@ class MessagingService : FirebaseMessagingService() {
             putExtra(AppConstants.USER_ID,hisId)
             putExtra(AppConstants.AVATAR,hisImage)
             putExtra(AppConstants.USER_NAME,title)
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             Log.d("MessagingService", "over oreo ${Build.VERSION.SDK_INT}")
             val builder = NotificationCompat.Builder(this, "channel_message")

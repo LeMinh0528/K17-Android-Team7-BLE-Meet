@@ -60,11 +60,12 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun bindView() {
-
+        
         viewmodel = ViewModelProvider(this).get(ChatActivityViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chat)
         binding.lifecycleOwner = this
         binding.viewModel = viewmodel
+        Log.d(TAG,"name: ${intent.getStringExtra(AppConstants.USER_NAME)}")
         viewmodel.userName = intent.getStringExtra(AppConstants.USER_NAME)
         GlideApp.with(this)
             .load(intent.getStringExtra(AppConstants.AVATAR)?.let {
