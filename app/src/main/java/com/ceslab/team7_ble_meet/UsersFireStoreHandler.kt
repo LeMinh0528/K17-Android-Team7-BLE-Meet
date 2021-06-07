@@ -351,6 +351,7 @@ class UsersFireStoreHandler {
     fun removeListener(registration: ListenerRegistration) = registration.remove()
 
     fun getOrCreateChatChannel(otherUserId: String?, onComplete: (channelId: String) -> Unit) {
+        Log.d("UserFireStoreHandler","key: ${KeyValueDB.getUserShortId()}")
         if (otherUserId != null) {
             userRef.document(KeyValueDB.getUserShortId())
                 .collection("engagedChatChannel")

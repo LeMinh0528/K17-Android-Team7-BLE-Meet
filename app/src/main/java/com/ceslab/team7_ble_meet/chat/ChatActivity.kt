@@ -23,6 +23,7 @@ import com.ceslab.team7_ble_meet.Model.MessageType
 import com.ceslab.team7_ble_meet.Model.TextMessage
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.UsersFireStoreHandler
+import com.ceslab.team7_ble_meet.dashboard.DashBoardActivity
 import com.ceslab.team7_ble_meet.databinding.ActivityChatBinding
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ceslab.team7_ble_meet.service.MyApplication.Companion.context
@@ -53,6 +54,7 @@ class ChatActivity : AppCompatActivity() {
     private var currentChannelId = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        KeyValueDB.createRef(this)
         bindView()
         setChannel()
     }
@@ -75,7 +77,8 @@ class ChatActivity : AppCompatActivity() {
 
         binding.apply {
             btnBack.setOnClickListener {
-                finish()
+//                finish()
+                backToDashBoard()
             }
 
         }
@@ -170,7 +173,6 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun updateRecyclerView(messages: List<Item>) {
-        toast("onMessageChanged")
         fun init() {
             binding.recyclerview.apply {
                 layoutManager = LinearLayoutManager(this@ChatActivity)
@@ -222,6 +224,7 @@ class ChatActivity : AppCompatActivity() {
                     }
                     to.put("to", token)
                     to.put("data", data)
+                    to.put("priority","high")
                     sendNotification(to)
                 }
             }
@@ -274,6 +277,17 @@ class ChatActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         KeyValueDB.setChatStatus(false)
+    }
+
+    override fun onBackPressed() {
+        backToDashBoard()
+    }
+
+    private fun backToDashBoard(){
+        val intent = Intent(this,DashBoardActivity::class.java).apply {
+            flags =  Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(intent)
     }
 
 }

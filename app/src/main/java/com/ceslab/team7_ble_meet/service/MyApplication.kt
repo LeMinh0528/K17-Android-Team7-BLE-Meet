@@ -41,7 +41,7 @@ class MyApplication : Application() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Log.d("MessagingService", "OOO")
             val id = "channel_message"
-            val descriptionText = "Notification Messaging"
+            val descriptionText = "Chat message"
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(id, descriptionText, importance).apply {
                 description = descriptionText

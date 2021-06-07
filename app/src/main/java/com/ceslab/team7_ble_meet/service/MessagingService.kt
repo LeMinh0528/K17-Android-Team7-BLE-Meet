@@ -31,7 +31,6 @@ class MessagingService : FirebaseMessagingService() {
         if(KeyValueDB.getUserShortId() != ""){
             updateToken(token)
         }
-
     }
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
@@ -42,11 +41,15 @@ class MessagingService : FirebaseMessagingService() {
             val content = map["message"]
             val hisId = map["hisId"]
             val hisImage = map["hisImage"]
+            Log.d("MessagingService", "receive message: ${map["message"]}")
             if(!KeyValueDB.isChat()){
                 sendNotification(title!!,content!!,hisId!!,hisImage!!)
             }
 
+        }else{
+            Log.d("MessagingService", "not  message: $message")
         }
+
     }
 
     companion object {
@@ -78,8 +81,10 @@ class MessagingService : FirebaseMessagingService() {
             putExtra(AppConstants.USER_NAME,title)
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
+        val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
         val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            Log.d("MessagingService", "over oreo ${Build.VERSION.SDK_INT}")
             val builder = NotificationCompat.Builder(this, "channel_message")
                 .setContentTitle(title)
                 .setSmallIcon(R.drawable.ic_layout)
@@ -87,10 +92,19 @@ class MessagingService : FirebaseMessagingService() {
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
-            with(NotificationManagerCompat.from(this)){
-                notify(hisId.toInt(), builder.build())
+                .setSound(uri)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q){
+                with(NotificationManagerCompat.from(this)){
+                    notify(hisId.toInt(), builder.build())
+                }
+            }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                Log.d("MessagingService", "over o ${Build.VERSION.SDK_INT}")
+                startForeground(hisId.toInt(), builder.build())
             }
+
         }else{
+            Log.d("MessagingService", "below")
+            val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
             val builder = NotificationCompat.Builder(this)
                 .setContentTitle(title)
                 .setSmallIcon(R.drawable.ic_layout)
@@ -98,6 +112,7 @@ class MessagingService : FirebaseMessagingService() {
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
+                .setSound(uri)
             with(NotificationManagerCompat.from(this)){
                 notify(hisId.toInt(), builder.build())
             }
