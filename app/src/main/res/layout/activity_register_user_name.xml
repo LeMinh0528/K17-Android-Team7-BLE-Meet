@@ -6,13 +6,13 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.ceslab.team7_ble_meet.registerInformation.RegisterUserNameViewModel" />
+            type="com.ceslab.team7_ble_meet.registerInformation.name.RegisterUserNameViewModel" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".registerInformation.RegisterUserNameActivity">
+        tools:context=".registerInformation.name.RegisterUserNameActivity">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"

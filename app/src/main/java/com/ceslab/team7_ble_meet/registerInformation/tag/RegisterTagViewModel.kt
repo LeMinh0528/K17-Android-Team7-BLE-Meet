@@ -1,14 +1,14 @@
-package com.ceslab.team7_ble_meet.dashboard
+package com.ceslab.team7_ble_meet.registerInformation.tag
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ceslab.team7_ble_meet.UsersFireStoreHandler
 
-class InformationHandler{
+class RegisterTagViewModel: ViewModel() {
     private var instance = UsersFireStoreHandler()
     var userResp: MutableLiveData<UsersFireStoreHandler.Resp?> = instance.userResp
 
-    fun getInit(){
-
+    fun register(tag:MutableList<String>){
+        instance.updateTag(tag)
     }
 }

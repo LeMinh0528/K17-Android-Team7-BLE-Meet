@@ -23,8 +23,6 @@ class SettingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_setting)
         bindView()
         bindAction()
-//        Log.d("SettingActivity","userid firebase: ${instance.mAuth.currentUser.uid}")
-        Log.d("SettingActivity","userid key: ${KeyValueDB.getUserId()}")
 
     }
 
@@ -63,11 +61,11 @@ class SettingActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun showConfirm(message: String,
-                    title:String,
-                    textYes: String,
-                    textCancel: String,
-                    listener: ConfirmDialogListener
+    private fun showConfirm(message: String,
+                            title:String,
+                            textYes: String,
+                            textCancel: String,
+                            listener: ConfirmDialogListener
     ):
             ConfirmDialog {
         Log.d("TAG","onback press")

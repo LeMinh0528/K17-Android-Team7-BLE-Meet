@@ -7,12 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.dashboard.bleFragment.BleFragment
+import com.ceslab.team7_ble_meet.dashboard.discoverFragment.DiscoverFragment
+import com.ceslab.team7_ble_meet.dashboard.inforFragment.InformationFragment
+import com.ceslab.team7_ble_meet.dashboard.peoblesFragment.PeoplesFragment
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
 class DashBoardActivity: AppCompatActivity() {
     lateinit var navigationView : ChipNavigationBar
-    lateinit var viewPager: ViewPager
-    lateinit private var viewPagerAdapter: ViewPagerAdapter
+    private lateinit var viewPager: ViewPager
+    private lateinit var viewPagerAdapter: ViewPagerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -22,24 +25,23 @@ class DashBoardActivity: AppCompatActivity() {
             Log.d("TAG","$it")
             when(it){
                 R.id.awesome ->{
-                    viewPager.setCurrentItem(0)
+                    viewPager.currentItem = 0
                 }
                 R.id.bluetooth ->{
-                    viewPager.setCurrentItem(1)
+                    viewPager.currentItem = 1
                 }
                 R.id.chats ->{
-                    viewPager.setCurrentItem(2)
+                    viewPager.currentItem = 2
                 }
                 R.id.info ->{
-                    viewPager.setCurrentItem(3)
+                    viewPager.currentItem = 3
                 }
             }
         }
 
-        initData()
     }
 
-    fun bindView(){
+    private fun bindView(){
         setContentView(R.layout.activity_dash_board)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         viewPager = findViewById(R.id.viewPager)
@@ -48,13 +50,9 @@ class DashBoardActivity: AppCompatActivity() {
         navigationView.setItemSelected(R.id.awesome,true)
     }
 
-    fun initData(){
-
-    }
-
-    fun setUpViewPager(){
+    private fun setUpViewPager(){
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
-        viewPagerAdapter.addFragment(SwipeFragment(),"Swipe")
+        viewPagerAdapter.addFragment(DiscoverFragment(),"Swipe")
         viewPagerAdapter.addFragment(BleFragment(),"Bluetooth")
         viewPagerAdapter.addFragment(PeoplesFragment(),"Chats")
         viewPagerAdapter.addFragment(InformationFragment(),"Information")

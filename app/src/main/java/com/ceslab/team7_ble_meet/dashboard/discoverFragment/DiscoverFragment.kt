@@ -1,4 +1,4 @@
-package com.ceslab.team7_ble_meet.dashboard
+package com.ceslab.team7_ble_meet.dashboard.discoverFragment
 
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ceslab.team7_ble_meet.Model.UserAPI
 import com.ceslab.team7_ble_meet.model.UserResp
 import com.ceslab.team7_ble_meet.R
+import com.ceslab.team7_ble_meet.dashboard.SpotDiffCallback
 import com.ceslab.team7_ble_meet.rest.RestClient
 import com.yuyakaido.android.cardstackview.*
 import retrofit2.Call
@@ -23,20 +24,18 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
 
-class SwipeFragment: Fragment(),CardStackListener {
-    lateinit private var cardStack: CardStackView
-//    private var userList: MutableList<User> = arrayListOf()
-    var handler = GetDataRespHandler()
-    lateinit var manager: CardStackLayoutManager
-//    private val manager by lazy { CardStackLayoutManager(requireContext(), this) }
-    lateinit private var adapter : CardStackAdapter
+class DiscoverFragment: Fragment(),CardStackListener {
+    private lateinit var cardStack: CardStackView
+    private var handler = GetDataRespHandler()
+    private lateinit var manager: CardStackLayoutManager
+    private lateinit var adapter : CardStackAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = inflater.inflate(R.layout.fragment_swipe,container,false)
+        val view = inflater.inflate(R.layout.fragment_swipe,container,false)
         setupButton(view)
         cardStack = view.findViewById(R.id.cardStack)
         setupAdapter()
@@ -45,7 +44,6 @@ class SwipeFragment: Fragment(),CardStackListener {
         cardStack.isNestedScrollingEnabled = false
         cardStack.requestDisallowInterceptTouchEvent(true)
 
-        //diable parent scrollview
         cardStack.addOnItemTouchListener(object: RecyclerView.OnItemTouchListener{
             override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
             override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
@@ -97,16 +95,16 @@ class SwipeFragment: Fragment(),CardStackListener {
         }
     }
 
-    fun setupAdapter(){
+    private fun setupAdapter(){
         adapter = CardStackAdapter(arrayListOf())
     }
 
-    fun getFirstData(){
+    private fun getFirstData(){
         Log.d("CardStackView","Get first data")
         requestAPI()
     }
 
-    fun setupCardStack(){
+    private fun setupCardStack(){
         manager = CardStackLayoutManager(requireContext(),this)
         manager.setStackFrom(StackFrom.None)
         manager.setVisibleCount(3)
@@ -143,13 +141,13 @@ class SwipeFragment: Fragment(),CardStackListener {
         requestAPI()
     }
 
-    fun requestAPI(){
-        handler.setOnResponseListener(object: GetDataRespHandler.OnResponseListener{
-            override fun onResponse(message: String, resp: List<UserAPI>) {
+    private fun requestAPI(){
+        handler.setOnResponseListener(object: GetDataRespHandler.OnResponseListener {
+            override fun onResponse(message: String, userList: List<UserAPI>) {
                 Log.d("CardStackView","paginate ")
                 val old = adapter.getSpots()
                 Log.d("CardStackView","paginate: old: $old ")
-                val new = old.plus(resp)
+                val new = old.plus(userList)
                 Log.d("CardStackView","paginate: new: $new ")
                 val callback = SpotDiffCallback(old, new)
                 val result = DiffUtil.calculateDiff(callback)
@@ -176,7 +174,7 @@ class SwipeFragment: Fragment(),CardStackListener {
 
     }
 
-    class GetDataRespHandler(){
+    class GetDataRespHandler {
         private var listener: OnResponseListener? = null
         interface OnResponseListener{
             fun onResponse(message: String, userList: List<UserAPI>)
@@ -185,14 +183,14 @@ class SwipeFragment: Fragment(),CardStackListener {
             listener = ob
         }
         fun getData(){
-            var page = (1..500).random()
+            val page = (1..500).random()
             Log.d("CardStackView" , "page: $page")
             try{
-                var call = RestClient.getInstance().API.listUser("en-US",page)
+                val call = RestClient.getInstance().API.listUser("en-US",page)
                 call.enqueue(object: Callback<UserResp> {
                     override fun onFailure(call: Call<UserResp>, t: Throwable) {
                         Log.d("CardStackView" , "error")
-                        listener?.onResponse("FAILED", arrayListOf<UserAPI>())
+                        listener?.onResponse("FAILED", arrayListOf())
                     }
 
                     override fun onResponse(call: Call<UserResp>, response: Response<UserResp>) {
@@ -204,7 +202,7 @@ class SwipeFragment: Fragment(),CardStackListener {
 
             }catch (ex: Exception){
                 Log.d("CardStackView" , "$ex")
-                listener?.onResponse("FALIED", arrayListOf())
+                listener?.onResponse("FAILED", arrayListOf())
             }
         }
     }

@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.ceslab.team7_ble_meet.model.BleDataScanned
+//import com.ceslab.team7_ble_meet.model.BleDataScanned
 import com.ceslab.team7_ble_meet.R
+import com.ceslab.team7_ble_meet.ble.BleDataScanned
 import kotlinx.android.synthetic.main.item_ble_data_discovered.view.*
 
 

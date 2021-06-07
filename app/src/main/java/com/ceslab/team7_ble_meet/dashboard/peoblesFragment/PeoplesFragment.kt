@@ -1,4 +1,4 @@
-package com.ceslab.team7_ble_meet.dashboard
+package com.ceslab.team7_ble_meet.dashboard.peoblesFragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -21,7 +21,7 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_chats.*
 
 class PeoplesFragment: Fragment() {
-    private val TAG = "ChatsFragment"
+    private val TAG = "PeoplesFragment"
     private lateinit var userListenerRegistration: ListenerRegistration
 
     private var shouldInitRecyclerView = true
@@ -60,17 +60,12 @@ class PeoplesFragment: Fragment() {
         }
 
     }
-    private val onClick = OnItemClickListener{item, view ->
-        Log.d(TAG,"onClick item: ${item.id}")
-        Log.d(TAG,"onClick item: ${item}")
+    private val onClick = OnItemClickListener{ item, _ ->
        if(item is PersonItem){
-
            val intent = Intent(requireContext(),ChatActivity::class.java)
            intent.putExtra(AppConstants.USER_NAME,item.userName)
            intent.putExtra(AppConstants.USER_ID,item.userId)
            intent.putExtra(AppConstants.AVATAR,item.imagePath)
-
-
            startActivity(intent)
        }
 

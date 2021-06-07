@@ -1,4 +1,4 @@
-package com.ceslab.team7_ble_meet.registerInformation
+package com.ceslab.team7_ble_meet.registerInformation.dob
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
