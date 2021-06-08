@@ -24,6 +24,7 @@ class RegisterTagActivity : AppCompatActivity() {
     lateinit var progressbar : ProgressBar
     lateinit var tv_btn : TextView
     lateinit var btnText: TextView
+    lateinit var btn_backpress : LinearLayout
     lateinit var viewModel: RegisterTagViewModel
     private var listChip = arrayListOf<String>("Intimate Chat","Karaoke","Walking","17DTV","Sushi","Trying New Things","Swimming",
     "Esports","Chatting When I'm Bored","Photography","Instagram","Street Food"," Dancing","Outdoors","Music","Sapiosexual",
@@ -50,6 +51,7 @@ class RegisterTagActivity : AppCompatActivity() {
         btnText = findViewById(R.id.tv_btn)
         progressbar = findViewById(R.id.progressbar)
         tv_btn = findViewById(R.id.tv_btn)
+        btn_backpress = findViewById(R.id.btn_backpress)
         viewModel = ViewModelProvider(this).get(RegisterTagViewModel::class.java)
 
         btnContinue.setOnClickListener {
@@ -72,6 +74,9 @@ class RegisterTagActivity : AppCompatActivity() {
                 }
             }
         })
+        btn_backpress.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     fun gotoRegisterPicture(){

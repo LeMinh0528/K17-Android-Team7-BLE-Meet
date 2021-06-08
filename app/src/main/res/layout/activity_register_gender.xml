@@ -22,6 +22,7 @@
                 android:orientation="horizontal"
                 android:layout_marginRight="18dp">
                 <LinearLayout
+                    android:id="@+id/btn_backpress"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
