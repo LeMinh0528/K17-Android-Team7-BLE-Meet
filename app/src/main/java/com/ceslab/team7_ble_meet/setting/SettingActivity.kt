@@ -51,7 +51,12 @@ class SettingActivity : AppCompatActivity() {
 
     private fun logoutFireBase(){
         instance.mAuth.signOut()
-        KeyValueDB.clearData()
+        deleteToken()
+
+    }
+
+    private fun deleteToken(){
+        instance.deleteToken(KeyValueDB.getUserToken())
     }
 
     private fun goToLogIn(){

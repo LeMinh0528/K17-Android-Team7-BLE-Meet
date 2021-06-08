@@ -432,5 +432,15 @@ class UsersFireStoreHandler {
             .set(hashMapOf("token" to newToken),SetOptions.merge())
     }
 
+    fun deleteToken(token: String){
+        getUserToken {
+            if(it.contains(token)){
+                it.remove(token)
+                setUserToken(it)
+                KeyValueDB.clearData()
+            }
+        }
+    }
+
     data class Resp(var type: String, var status: String, var message: String)
 }
