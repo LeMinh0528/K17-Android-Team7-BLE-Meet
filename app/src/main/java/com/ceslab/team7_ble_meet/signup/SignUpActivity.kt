@@ -1,19 +1,15 @@
 package com.ceslab.team7_ble_meet.signup
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.databinding.ActivitySignUpBinding
 import com.ceslab.team7_ble_meet.dialog.LoadingDialog
-import com.ceslab.team7_ble_meet.login.LogInActivity
-import com.ceslab.team7_ble_meet.registerInformation.RegisterGenderActivity
-import com.ceslab.team7_ble_meet.registerInformation.RegisterUserNameActivity
+import com.ceslab.team7_ble_meet.registerInformation.name.RegisterUserNameActivity
 import com.ceslab.team7_ble_meet.toast
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
@@ -24,7 +20,7 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setUpSignUpActivity()
-        setupAction()
+        setAction()
 
     }
 
@@ -34,9 +30,8 @@ class SignUpActivity : AppCompatActivity() {
         binding.signUpViewModel = viewModel
     }
 
-    fun setupAction(){
+    private fun setAction(){
         binding.apply {
-            
             SignUp_btnSignUp.setOnClickListener{
                 loadingDialog.show(supportFragmentManager,"loading")
                 Log.d("SignUpActivity","sign up button")
@@ -44,7 +39,7 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.userResp.observe(this, Observer {response ->
+        viewModel.userResp.observe(this, { response ->
             loadingDialog.dismiss()
             Log.d("SignUpActivity","signup observer")
             if (response != null) {
@@ -58,12 +53,6 @@ class SignUpActivity : AppCompatActivity() {
 
             }
         })
-    }
-
-    private fun goToLogIn(){
-        val intent = Intent(this, LogInActivity::class.java)
-//        intent.putExtra("UsrNameFromSignUp2LogIn", viewModel.account.usrName)
-        startActivity(intent)
     }
 
     private fun goToRegisterGender(){

@@ -1,13 +1,9 @@
 package com.ceslab.team7_ble_meet.login
 
 import android.content.Intent
-import android.content.LocusId
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ceslab.team7_ble_meet.R
@@ -15,7 +11,11 @@ import com.ceslab.team7_ble_meet.dashboard.DashBoardActivity
 import com.ceslab.team7_ble_meet.databinding.ActivityLogInBinding
 import com.ceslab.team7_ble_meet.dialog.LoadingDialog
 import com.ceslab.team7_ble_meet.registerInformation.*
-import com.ceslab.team7_ble_meet.repository.KeyValueDB
+import com.ceslab.team7_ble_meet.registerInformation.avatar.RegisterPictureActivity
+import com.ceslab.team7_ble_meet.registerInformation.dob.RegisterBirthdayActivity
+import com.ceslab.team7_ble_meet.registerInformation.gender.RegisterGenderActivity
+import com.ceslab.team7_ble_meet.registerInformation.name.RegisterUserNameActivity
+import com.ceslab.team7_ble_meet.registerInformation.tag.RegisterTagActivity
 import com.ceslab.team7_ble_meet.signup.SignUpActivity
 import com.ceslab.team7_ble_meet.toast
 
