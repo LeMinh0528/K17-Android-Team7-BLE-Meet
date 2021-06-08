@@ -35,12 +35,21 @@ class PeoplesFragment: Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_chats,container,false)
         userListenerRegistration = UsersFireStoreHandler().addUserListener(requireContext(),this::updateRecyclerView)
-
-
         return view
     }
 
     private fun updateRecyclerView(items: List<PersonItem>){
+
+        fun checkEmpty(){
+            if(items.isEmpty()){
+                recycler_view_people.visibility = View.GONE
+                ic_empty.visibility = View.VISIBLE
+            }else{
+                recycler_view_people.visibility = View.VISIBLE
+                ic_empty.visibility = View.GONE
+            }
+        }
+
         fun init(){
             recycler_view_people.apply {
                 layoutManager = LinearLayoutManager(this@PeoplesFragment.context)
@@ -48,18 +57,29 @@ class PeoplesFragment: Fragment() {
                     peopleSection = Section(items)
                     add(peopleSection)
                     setOnItemClickListener(onClick)
+
                 }
             }
+            checkEmpty()
             shouldInitRecyclerView = false
         }
-        fun updateItems() = peopleSection.update(items)
+
+        fun updateItems() {
+            checkEmpty()
+            peopleSection.update(items)
+        }
         if(shouldInitRecyclerView){
             init()
         }else{
             updateItems()
         }
 
+
+
     }
+
+
+
     private val onClick = OnItemClickListener{ item, _ ->
        if(item is PersonItem){
            val intent = Intent(requireContext(),ChatActivity::class.java)
