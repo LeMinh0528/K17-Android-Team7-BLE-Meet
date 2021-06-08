@@ -23,6 +23,8 @@ import com.bumptech.glide.Glide
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.dashboard.DashBoardActivity
 import com.ceslab.team7_ble_meet.databinding.ActivityRegisterPictureBinding
+import com.ceslab.team7_ble_meet.registerInformation.dob.RegisterBirthdayActivity
+import com.ceslab.team7_ble_meet.registerInformation.tag.RegisterTagActivity
 import com.ceslab.team7_ble_meet.toast
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.storage.FirebaseStorage
@@ -42,6 +44,7 @@ class RegisterPictureActivity : AppCompatActivity() {
     private val PERMISSION_REQUEST = 10
     lateinit var viewModel: RegisterPictureViewModel
     lateinit var binding: ActivityRegisterPictureBinding
+
     private var bottomdialog : BottomSheetDialog? = null
     private var permission = arrayOf(
         Manifest.permission.CAMERA,
@@ -78,6 +81,9 @@ class RegisterPictureActivity : AppCompatActivity() {
                 progressbar.visibility = View.VISIBLE
                 tv_btn.visibility = View.GONE
                 viewmodel?.uploadImage()
+            }
+            btn_backpress_respicture.setOnClickListener {
+                onBackPressed()
             }
         }
         viewModel.userResp.observe(this, Observer { response ->
@@ -224,5 +230,9 @@ class RegisterPictureActivity : AppCompatActivity() {
         if(allSuccess){
             toast("Permission granted!")
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 }
