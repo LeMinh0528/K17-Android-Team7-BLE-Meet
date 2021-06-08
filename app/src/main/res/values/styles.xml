@@ -3,7 +3,7 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colororange</item>
-        <item name="colorPrimaryDark">@color/colorblue</item>
+        <item name="colorPrimaryDark">@color/colorblue100</item>
         <item name="colorAccent">@color/colorgreen</item>
     </style>
     <style name="CustomChipChoice" parent="@style/Widget.MaterialComponents.Chip.Choice">
