@@ -54,7 +54,7 @@ class ChatActivity : AppCompatActivity() {
     private var currentChannelId = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        KeyValueDB.createRef(this)
+
         bindView()
         setChannel()
     }
@@ -78,8 +78,8 @@ class ChatActivity : AppCompatActivity() {
 
         binding.apply {
             btnBack.setOnClickListener {
-//                finish()
-                backToDashBoard()
+                finish()
+//                backToDashBoard()
             }
 
         }
@@ -278,17 +278,9 @@ class ChatActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         KeyValueDB.setChatStatus(false)
-    }
-
-    override fun onBackPressed() {
-        backToDashBoard()
-    }
-
-    private fun backToDashBoard(){
-        val intent = Intent(this,DashBoardActivity::class.java).apply {
-            flags =  Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-        startActivity(intent)
+        intent.removeExtra(AppConstants.USER_NAME)
+        intent.removeExtra(AppConstants.USER_ID)
+        intent.removeExtra(AppConstants.AVATAR)
     }
 
 }

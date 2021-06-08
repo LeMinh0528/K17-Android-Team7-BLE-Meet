@@ -1,15 +1,19 @@
 package com.ceslab.team7_ble_meet.dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
+import com.ceslab.team7_ble_meet.AppConstants
 import com.ceslab.team7_ble_meet.R
+import com.ceslab.team7_ble_meet.chat.ChatActivity
 import com.ceslab.team7_ble_meet.dashboard.bleFragment.BleFragment
 import com.ceslab.team7_ble_meet.dashboard.discoverFragment.DiscoverFragment
 import com.ceslab.team7_ble_meet.dashboard.inforFragment.InformationFragment
 import com.ceslab.team7_ble_meet.dashboard.peoblesFragment.PeoplesFragment
+import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
 class DashBoardActivity: AppCompatActivity() {
@@ -18,9 +22,10 @@ class DashBoardActivity: AppCompatActivity() {
     private lateinit var viewPagerAdapter: ViewPagerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        KeyValueDB.createRef(this)
 
         bindView()
-
+        checkIntentChat()
         navigationView.setOnItemSelectedListener {
             Log.d("TAG","$it")
             when(it){
@@ -39,6 +44,24 @@ class DashBoardActivity: AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun checkIntentChat(){
+        if(!isTaskRoot){
+            Log.d("DashBoard","isTaskRoot")
+            finish()
+        }
+        if(intent != null){
+            val isChat:Boolean = intent.getBooleanExtra("isOpenChat",false)
+            if(isChat){
+                val mIntent = Intent(this,ChatActivity::class.java).apply {
+                    putExtra(AppConstants.USER_ID,intent.getStringExtra(AppConstants.USER_ID))
+                    putExtra(AppConstants.AVATAR,intent.getStringExtra(AppConstants.AVATAR))
+                    putExtra(AppConstants.USER_NAME,intent.getStringExtra(AppConstants.USER_NAME))
+                }
+                startActivity(mIntent)
+            }
+        }
     }
 
     private fun bindView(){

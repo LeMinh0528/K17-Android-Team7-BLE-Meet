@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 object KeyValueDB {
 
     private const val CHAT_STATUS ="chat_status"
+    private const val USER_TOKEN = "user_token"
     private const val USER_ID = "user_id"
     private const val USER_AVATAR = "user_avatar"
     private const val USER_SHORT_ID = "user_short_id"
@@ -19,6 +20,16 @@ object KeyValueDB {
 
     fun createRef(context: Context){
         pref =context.applicationContext.getSharedPreferences("BLE_MEET",0)
+    }
+
+    fun setUserToken(token: String){
+        val editor: SharedPreferences.Editor? = pref?.edit()
+        editor?.putString(USER_TOKEN,token)
+        editor?.apply()
+    }
+
+    fun getUserToken(): String {
+        return pref?.getString(USER_TOKEN,"")?:""
     }
 
     fun setUserTag(tag: Boolean){
