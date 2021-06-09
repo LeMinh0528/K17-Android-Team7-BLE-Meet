@@ -19,7 +19,7 @@ class EditPassionsActivity : AppCompatActivity() {
     lateinit var btn_back : LinearLayout
     private var confirmDialog: ReadDialog? = null
     private var listChip = arrayListOf<String>("Intimate Chat","Karaoke","Walking","17DTV","Sushi","Trying New Things","Swimming",
-        "Esports","Chatting When I'm Bored","Photography","Instagram","Street Food"," Dancing","Outdoors","Music","Sapiosexual",
+        "Esports","Chatting When I'm Bored","Photography","Instagram","Street Food","Dancing","Outdoors","Music","Sapiosexual",
         "Art","Korean Dramas","Working out","Environentalism","BTS","Pho","PotterHead","Horror Movies","Comedy","Athlete",
         "Shopping","Festivals","Geek","Golf","Board Games","Netflix","Hot Pot","Picnicking","Running","Go for a drive","Hip Hop",
         "LGBT+","Hiking","Disney","Vlogging","Vegan","Travel","Anime","Student","Cocking","Cat lover","Craft Beer","Foodie","Coffee",
