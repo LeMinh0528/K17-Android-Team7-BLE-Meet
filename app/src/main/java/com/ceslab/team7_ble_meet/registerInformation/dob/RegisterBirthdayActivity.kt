@@ -15,8 +15,7 @@ import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.databinding.ActivityRegisterBirthdayBinding
 import com.ceslab.team7_ble_meet.registerInformation.tag.RegisterTagActivity
 import com.ceslab.team7_ble_meet.toast
-import kotlinx.android.synthetic.main.activity_register_birthday.btn_continue
-import kotlinx.android.synthetic.main.activity_register_birthday.tv_btn
+import kotlinx.android.synthetic.main.activity_register_birthday.*
 import java.util.*
 
 
@@ -63,6 +62,9 @@ class RegisterBirthdayActivity : AppCompatActivity() {
                 progressbar.visibility = View.VISIBLE
                 tv_btn.visibility = View.GONE
                 viewmodel?.updateBirthDay()
+            }
+            btn_backpress.setOnClickListener {
+                onBackPressed()
             }
         }
 

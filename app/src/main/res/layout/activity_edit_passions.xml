@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".registerInformation.gender.RegisterGenderActivity">
+    tools:context=".registerInformation.RegisterGenderActivity">
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+        android:id="@+id/appBarLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -22,7 +22,7 @@
                 android:orientation="horizontal"
                 android:layout_marginRight="18dp">
                 <LinearLayout
-                    android:id="@+id/btn_backpress"
+                    android:id="@+id/btn_back"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Register Profile"
+                    android:text="Edit Passions"
                     android:textColor="@color/black"
                     android:textSize="20dp"
                     android:textStyle="bold" />
@@ -48,69 +48,76 @@
 
     </com.google.android.material.appbar.AppBarLayout>
     <RelativeLayout
-        android:layout_below="@+id/appBarLayout"
+        android:layout_below="@+id/appBarLayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
-            android:layout_above="@+id/btn_continue"
-            android:paddingHorizontal="25dp"
-            android:layout_marginTop="20dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <TextView
-                android:layout_marginTop="15dp"
-                android:text="Passions"
-                android:textSize="30dp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"/>
-            <TextView
-                android:layout_marginTop="5dp"
-                android:text="Let everyone know what you're passionate about by adding it to your profile"
-                android:textSize="13dp"
-                android:textStyle="italic"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/ln_passon"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:paddingVertical="10dp"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="25dp"
+                    android:background="#F5F5F5">
+                    <TextView
+                        android:text="Let everyone know what you're passionate about by adding it to your profile"
+                        android:textSize="13dp"
+                        android:textColor="@color/black"
+                        android:textStyle="italic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:paddingVertical="10dp">
+                        <TextView
+                            android:layout_alignParentLeft="true"
+                            android:text="Passions"
+                            android:textSize="20dp"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id="@+id/tv_CountSelect"
+                            android:gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:textColor="@color/black"
+                            android:text="(5/5)"/>
+                    </RelativeLayout>
+                </LinearLayout>
+                <View
+                    android:layout_below="@+id/ln_passon"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:layout_height="0.8dp"
+                    android:background="@color/colorgrayoption4"
+                    />
+            </RelativeLayout>
+
+
+
             <ScrollView
                 android:scrollbars="none"
                 android:layout_marginBottom="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroup"
+                    android:id="@+id/chipGroup1"
                     app:singleSelection="false"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
             </ScrollView>
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/btn_continue"
-            android:clickable="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ripble_button"
-            android:layout_alignParentBottom="true"
-            android:layout_marginVertical="5dp"
-            android:gravity="center"
-            android:textColor="#F4F4F4"
-            android:paddingVertical="12dp"
-            android:layout_marginHorizontal="65dp">
-            <ProgressBar
-            android:id="@+id/progressbar"
-            android:visibility="gone"
-            android:paddingVertical="-5dp"
-            android:layout_centerInParent="true"
-            android:layout_width="25dp"
-            android:layout_height="25dp"/>
-            <TextView
-                android:id="@+id/tv_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Continue (0/5)"
-                android:textStyle="bold"
-                android:textColor="@color/colorwhite"
-                android:textSize="18dp" />
-        </LinearLayout>
+
     </RelativeLayout>
 </RelativeLayout>

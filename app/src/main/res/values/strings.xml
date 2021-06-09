@@ -43,4 +43,6 @@
     <string name="todo_3">TODO</string>
     <string name="stop_3">STOP</string>
     <string name="start_3">START</string>
+    <string name="needpassions">You must select a minimum 3 of passions</string>
+    <string name="needpassionsabout">To have passions display on your profile, you must select at least 3 passions</string>
 </resources>

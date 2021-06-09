@@ -430,6 +430,32 @@ class UsersFireStoreHandler {
     fun setUserToken(newToken: MutableList<String>){
         userRef.document(KeyValueDB.getUserShortId())
             .set(hashMapOf("token" to newToken),SetOptions.merge())
+            .addOnSuccessListener {
+
+            }
+    }
+
+    fun deleteToken(token: String,onComplete: (status: String) -> Unit){
+        Log.d("UserFireStoreHandler", "get user token")
+
+        getUserToken {
+            Log.d("UserFireStoreHandler", "get user token: $it")
+            if(it.contains(token)){
+                it.remove(token)
+                userRef.document(KeyValueDB.getUserShortId())
+                    .set(hashMapOf("token" to it),SetOptions.merge())
+                    .addOnSuccessListener {
+                        KeyValueDB.clearData()
+                        onComplete("SUCCESS")
+                    }
+                    .addOnFailureListener{
+                        onComplete("FAILED")
+                    }
+            }else{
+                KeyValueDB.clearData()
+                onComplete("SUCCESS")
+            }
+        }
     }
 
     data class Resp(var type: String, var status: String, var message: String)

@@ -6,7 +6,29 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_people"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:id="@+id/ic_empty"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/img"
+            android:layout_centerInParent="true"
+            android:src="@drawable/folder"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+        <TextView
+            android:textSize="15dp"
+            android:layout_below="@+id/img"
+            android:textColor="@color/colorgray400"
+            android:layout_centerHorizontal="true"
+            android:text="No user found! Use bluetooth to scan user."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 
 </FrameLayout>

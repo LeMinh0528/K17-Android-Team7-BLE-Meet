@@ -19,8 +19,10 @@ import com.ceslab.team7_ble_meet.AppConstants
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.UsersFireStoreHandler
 import com.ceslab.team7_ble_meet.chat.ChatActivity
+import com.ceslab.team7_ble_meet.dashboard.DashBoardActivity
 import com.ceslab.team7_ble_meet.model.User
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
+import com.ceslab.team7_ble_meet.service.MyApplication.Companion.context
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlin.random.Random
@@ -42,6 +44,9 @@ class MessagingService : FirebaseMessagingService() {
             val hisId = map["hisId"]
             val hisImage = map["hisImage"]
             Log.d("MessagingService", "receive message: ${map["message"]}")
+            Log.d("MessagingService", "receive title: ${map["title"]}")
+            Log.d("MessagingService", "receive id: ${map["hisId"]}")
+            Log.d("MessagingService", "receive img: ${map["hisImage"]}")
             if(!KeyValueDB.isChat()){
                 sendNotification(title!!,content!!,hisId!!,hisImage!!)
             }
@@ -57,12 +62,14 @@ class MessagingService : FirebaseMessagingService() {
             UsersFireStoreHandler().getUserToken { tokens ->
                 if(tokens.isEmpty()){
                     tokens.add(newToken)
+                    KeyValueDB.setUserToken(newToken)
                     UsersFireStoreHandler().setUserToken(tokens)
                 }else{
                     if(tokens.contains(newToken)){
                         return@getUserToken
                     }else{
                         tokens.add(newToken)
+                        KeyValueDB.setUserToken(newToken)
                         UsersFireStoreHandler().setUserToken(tokens)
                     }
                 }
@@ -75,14 +82,15 @@ class MessagingService : FirebaseMessagingService() {
                                  , message: String
                                  , hisId: String
                                  , hisImage: String){
-        val intent = Intent(this, ChatActivity::class.java).apply {
+        val intent = Intent(this, DashBoardActivity::class.java).apply {
             putExtra(AppConstants.USER_ID,hisId)
             putExtra(AppConstants.AVATAR,hisImage)
             putExtra(AppConstants.USER_NAME,title)
+            putExtra("isOpenChat",true)
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         val uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             Log.d("MessagingService", "over oreo ${Build.VERSION.SDK_INT}")
             val builder = NotificationCompat.Builder(this, "channel_message")
@@ -90,7 +98,8 @@ class MessagingService : FirebaseMessagingService() {
                 .setSmallIcon(R.drawable.ic_layout)
                 .setContentIntent(pendingIntent)
                 .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setAutoCancel(true)
                 .setSound(uri)
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q){
@@ -99,7 +108,9 @@ class MessagingService : FirebaseMessagingService() {
                 }
             }else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
                 Log.d("MessagingService", "over o ${Build.VERSION.SDK_INT}")
-                startForeground(hisId.toInt(), builder.build())
+//                startForeground(hisId.toInt(), builder.build())
+                val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager.notify(hisId.toInt(),builder.build())
             }
 
         }else{

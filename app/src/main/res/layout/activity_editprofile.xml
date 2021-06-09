@@ -1,245 +1,246 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+
+    <data>
+        <variable
+            name="logInViewModel"
+            type="com.ceslab.team7_ble_meet.login.LogInViewModel" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@color/white">
-        <androidx.appcompat.widget.Toolbar
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/white">
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="18dp">
+
+                    <LinearLayout
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:clickable="true"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/left_arrow"
+                            android:paddingTop="10dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginRight="25dp"
+                        android:text="Edit Profile"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/appBarLayout">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_marginRight="18dp">
-                <LinearLayout
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_centerVertical="true"
-                    android:clickable="true"
-                    android:gravity="center">
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:background="@drawable/left_arrow"
-                        android:paddingTop="10dp" />
-                </LinearLayout>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_marginRight="25dp"
-                    android:text="Register Profile"
-                    android:textColor="@color/black"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
-  <ScrollView
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_below="@+id/appBarLayout">
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:orientation="vertical"
-          android:paddingVertical="10dp"
-          android:paddingHorizontal="20dp">
-          <RelativeLayout
-              android:layout_width="match_parent"
-              android:orientation="horizontal"
-              android:layout_height="wrap_content"
-              android:paddingVertical="5dp"
-              >
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textColor="@color/black"
-                  android:textStyle="bold"
-                  android:textSize="18dp"
-                  android:text="Profile Picture"
-                  android:layout_alignParentLeft="true"/>
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_alignParentRight="true"
-                  android:clickable="true"
-                  android:textSize="18dp"
-                  android:textColor="@color/blue"
-                  android:text="Edit"/>
-          </RelativeLayout>
-          <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:paddingVertical="10dp"
-              android:gravity="center">
-              <de.hdodenhof.circleimageview.CircleImageView
-                  android:layout_width="150dp"
-                  android:layout_height="150dp"
-                  android:src="@drawable/avatar_default" />
-          </LinearLayout>
-          <View
-              android:layout_width="match_parent"
-              android:layout_height="0.5dp"
-              android:layout_marginTop="20dp"
-              android:background="@color/colorgrayoption3"/>
-          <RelativeLayout
-              android:layout_width="match_parent"
-              android:orientation="horizontal"
-              android:layout_height="wrap_content"
-              android:paddingVertical="5dp"
-              >
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textColor="@color/black"
-                  android:textStyle="bold"
-                  android:textSize="18dp"
-                  android:text="Background"
-                  android:layout_alignParentLeft="true"/>
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_alignParentRight="true"
-                  android:clickable="true"
-                  android:textSize="18dp"
-                  android:textColor="@color/blue"
-                  android:text="Edit"/>
-          </RelativeLayout>
-          <LinearLayout
-              android:layout_marginTop="10dp"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
-              <com.makeramen.roundedimageview.RoundedImageView
-                  android:layout_width="match_parent"
-                  android:layout_height="200dp"
-                  android:src="@drawable/backgroud_default"
-                  android:scaleType="centerCrop"
-                  app:riv_corner_radius="10dp"/>
-          </LinearLayout>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="20dp">
 
-          <View
-              android:layout_width="match_parent"
-              android:layout_height="0.5dp"
-              android:layout_marginTop="20dp"
-              android:background="@color/colorgrayoption3"/>
-          <RelativeLayout
-              android:layout_width="match_parent"
-              android:orientation="horizontal"
-              android:layout_height="wrap_content"
-              android:paddingVertical="10dp"
-              >
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textColor="@color/black"
-                  android:textStyle="bold"
-                  android:textSize="18dp"
-                  android:text="Bio"
-                  android:layout_alignParentLeft="true"/>
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_alignParentRight="true"
-                  android:clickable="true"
-                  android:textSize="18dp"
-                  android:textColor="@color/blue"
-                  android:text="Add"/>
-          </RelativeLayout>
-          <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center"
-              android:clickable="true"
-              android:paddingVertical="10dp">
-              <TextView
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:gravity="center"
-                  android:textSize="20dp"
-                  android:textColor="@color/colorgrayoption4"
-                  android:text="Descri yourself"/>
-          </LinearLayout>
-          <View
-              android:layout_width="match_parent"
-              android:layout_height="0.5dp"
-              android:background="@color/colorgrayoption3"/>
-          <RelativeLayout
-              android:layout_width="match_parent"
-              android:orientation="horizontal"
-              android:layout_height="wrap_content"
-              android:paddingVertical="10dp"
-              >
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textColor="@color/black"
-                  android:textStyle="bold"
-                  android:textSize="18dp"
-                  android:text="Details"
-                  android:layout_alignParentLeft="true"/>
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_alignParentRight="true"
-                  android:clickable="true"
-                  android:textSize="18dp"
-                  android:textColor="@color/blue"
-                  android:text="Edit"/>
-          </RelativeLayout>
-          <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal"
-              android:gravity="center_vertical"
-              android:paddingVertical="3dp">
-              <ImageView
-                  android:layout_width="30dp"
-                  android:layout_height="30dp"
-                  android:src="@drawable/ic_baseline_access_time_24"/>
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:paddingHorizontal="10dp"
-                  android:textColor="@color/colorgrayoption4"
-                  android:text="23/01/1999"/>
-          </LinearLayout>
-          <View
-              android:layout_width="match_parent"
-              android:layout_height="0.5dp"
-              android:layout_marginTop="20dp"
-              android:background="@color/colorgrayoption3"/>
-          <RelativeLayout
-              android:layout_width="match_parent"
-              android:orientation="horizontal"
-              android:layout_height="wrap_content"
-              android:paddingVertical="10dp">
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textColor="@color/black"
-                  android:textStyle="bold"
-                  android:textSize="18dp"
-                  android:text="Passions"
-                  android:layout_alignParentLeft="true"/>
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_alignParentRight="true"
-                  android:clickable="true"
-                  android:textSize="18dp"
-                  android:textColor="@color/blue"
-                  android:text="Edit"/>
-          </RelativeLayout>
-      </LinearLayout>
-  </ScrollView>
-</RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:text="Profile Picture"
+                        android:layout_alignParentLeft="true" />
+
+                    <TextView
+                        android:id="@+id/tv_editavatar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:clickable="true"
+                        android:textSize="18dp"
+                        android:textColor="@color/blue"
+                        android:text="Edit" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="10dp"
+                    android:gravity="center">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/avatar"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/ic_user" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/colorgrayoption3" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:text="Background"
+                        android:layout_alignParentLeft="true" />
+
+                    <TextView
+                        android:id="@+id/tv_editbackground"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:clickable="true"
+                        android:textSize="18dp"
+                        android:textColor="@color/blue"
+                        android:text="Edit" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/background"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:src="@drawable/backgroud_default"
+                        android:scaleType="centerCrop"
+                        app:riv_corner_radius="10dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/colorgrayoption3" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:text="Bio"
+                        android:layout_alignParentLeft="true" />
+
+                    <TextView
+                        android:id="@+id/addbio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:clickable="true"
+                        android:textSize="18dp"
+                        android:textColor="@color/blue"
+                        android:text="Add"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/bio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="20dp"
+                        android:textColor="@color/colorgrayoption4"
+                        android:text="Descri yourself" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/colorgrayoption3" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:text="Passions"
+                        android:layout_alignParentLeft="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:clickable="true"
+                        android:textSize="18dp"
+                        android:textColor="@color/blue"
+                        android:text="Edit" />
+                </RelativeLayout>
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroup"
+                    android:layout_marginHorizontal="10dp"
+                    android:paddingVertical="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+</layout>

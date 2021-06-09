@@ -23,6 +23,8 @@ import com.bumptech.glide.Glide
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.dashboard.DashBoardActivity
 import com.ceslab.team7_ble_meet.databinding.ActivityRegisterPictureBinding
+import com.ceslab.team7_ble_meet.registerInformation.dob.RegisterBirthdayActivity
+import com.ceslab.team7_ble_meet.registerInformation.tag.RegisterTagActivity
 import com.ceslab.team7_ble_meet.toast
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.storage.FirebaseStorage
@@ -42,6 +44,7 @@ class RegisterPictureActivity : AppCompatActivity() {
     private val PERMISSION_REQUEST = 10
     lateinit var viewModel: RegisterPictureViewModel
     lateinit var binding: ActivityRegisterPictureBinding
+
     private var bottomdialog : BottomSheetDialog? = null
     private var permission = arrayOf(
         Manifest.permission.CAMERA,
@@ -49,8 +52,6 @@ class RegisterPictureActivity : AppCompatActivity() {
         Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.INTERNET
     )
-    private var imageStorage = FirebaseStorage.getInstance().reference
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding()
@@ -78,6 +79,9 @@ class RegisterPictureActivity : AppCompatActivity() {
                 progressbar.visibility = View.VISIBLE
                 tv_btn.visibility = View.GONE
                 viewmodel?.uploadImage()
+            }
+            btn_backpress_respicture.setOnClickListener {
+                onBackPressed()
             }
         }
         viewModel.userResp.observe(this, Observer { response ->
@@ -110,8 +114,6 @@ class RegisterPictureActivity : AppCompatActivity() {
             val takePictureintent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             if (takePictureintent.resolveActivity(packageManager)!= null){
                 startActivityForResult(takePictureintent, REQUEST_CAMERA)
-            }else{
-
             }
             bottomdialog!!.dismiss()
         }
@@ -119,7 +121,7 @@ class RegisterPictureActivity : AppCompatActivity() {
             val gallery1 = Intent()
             gallery1.type = "image/*"
             gallery1.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(gallery1, "chon hinh anh"), PICK_IMAGE)
+            startActivityForResult(Intent.createChooser(gallery1, "choose image"), PICK_IMAGE)
             bottomdialog!!.dismiss()
         }
     }
@@ -139,31 +141,22 @@ class RegisterPictureActivity : AppCompatActivity() {
             if(requestCode == PICK_IMAGE && data != null){
                 Log.d("TAG", "Pick image: ${data.data}")
                 val uri: Uri? = data.data
-                CropImage.activity(uri)
-                    .setAspectRatio(1, 1)
-                    .setMinCropWindowSize(500, 500)
-                    .setGuidelines(CropImageView.Guidelines.ON)
-                    .start(this);
+                if (uri != null) {
+                    cropImage(uri)
+                }
             }
             if(requestCode == REQUEST_CAMERA && data != null){
                 val image = data.extras?.get("data") as Bitmap
-                var uri = getImageUri(this,image)
+                val uri = getImageUri(this,image)
                 if(uri != null){
                     Log.d(TAG, "image: ${uri.path}")
-                    CropImage.activity(uri)
-                        .setAspectRatio(1, 1)
-                        .setMinCropWindowSize(500, 500)
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .start(this);
-                }else{
-                    Log.d(TAG, "image null: ")
+                    cropImage(uri)
                 }
-                Log.d(TAG, "image: $image")
             }
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
                 val result = CropImage.getActivityResult(data)
                 if(resultCode == RESULT_OK){
-                    var uri = result.uri
+                    val uri = result.uri
 //                    viewModel.selectedImage = uri
                     Glide.with(this)
                         .load(uri)
@@ -181,14 +174,22 @@ class RegisterPictureActivity : AppCompatActivity() {
         }
     }
 
-    fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
+    private fun cropImage(uri: Uri){
+        CropImage.activity(uri)
+            .setAspectRatio(1, 1)
+            .setMinCropWindowSize(500, 500)
+            .setGuidelines(CropImageView.Guidelines.ON)
+            .start(this);
+    }
+
+    private fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
         val path = MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, inImage.toString(), null)
         return Uri.parse(path)
     }
 
-    fun checkPermission(context: Context, permissionArray: Array<String>): Boolean{
+    private fun checkPermission(context: Context, permissionArray: Array<String>): Boolean{
         var allSuccess = true
         for (i in permissionArray.indices){
             if(checkCallingOrSelfPermission(permissionArray[i]) == PackageManager.PERMISSION_DENIED){
@@ -225,4 +226,5 @@ class RegisterPictureActivity : AppCompatActivity() {
             toast("Permission granted!")
         }
     }
+
 }
