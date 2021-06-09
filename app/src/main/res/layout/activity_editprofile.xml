@@ -107,7 +107,7 @@
                         android:id="@+id/avatar"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:src="@drawable/avatar_default" />
+                        android:src="@drawable/ic_user" />
                 </LinearLayout>
 
                 <View
