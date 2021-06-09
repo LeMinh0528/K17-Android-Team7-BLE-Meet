@@ -1,11 +1,14 @@
 package Activity
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -13,6 +16,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.WindowManager
 import android.widget.*
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -21,6 +25,7 @@ import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.databinding.ActivityEditprofileBinding
 import com.ceslab.team7_ble_meet.dialog.EditGenderDialog
 import com.ceslab.team7_ble_meet.profile.EditProfileViewModel
+import com.ceslab.team7_ble_meet.toast
 import com.ceslab.team7_ble_meet.utils.GlideApp
 import com.ceslab.team7_ble_meet.utils.ImagesStorageUtils
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -40,11 +45,21 @@ class EditProfileActivity : AppCompatActivity() {
     private val REQUEST_CAMERA_BACKGROUND = 3
     private val PICK_IMAGE_BACKGROUND = 4
     private val PERMISSION_REQUEST = 10
+
+    private var permission = arrayOf(
+        Manifest.permission.CAMERA,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.INTERNET
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editprofile)
-
         bindView()
+
+        if(!checkPermission(this, permission)){
+            requestPermissions(permission, PERMISSION_REQUEST)
+        }
         getData()
     }
     private fun bindView(){
@@ -75,19 +90,19 @@ class EditProfileActivity : AppCompatActivity() {
         val camera = sheetView.findViewById(R.id.Opcamera) as LinearLayout
         val gallery = sheetView.findViewById(R.id.Opgallery) as LinearLayout
         camera.setOnClickListener {
+            Log.d("EditProfileActivity","camera :$cameraCode")
             val takePictureintent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             if (takePictureintent.resolveActivity(packageManager)!= null){
                 startActivityForResult(takePictureintent, cameraCode)
-            }else{
-
             }
             bottomdialog!!.dismiss()
         }
         gallery.setOnClickListener {
+            Log.d("EditProfileActivity","camera :$galaryCode")
             val gallery1 = Intent()
             gallery1.type = "image/*"
             gallery1.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(gallery1, "chon hinh anh"), galaryCode)
+            startActivityForResult(Intent.createChooser(gallery1, "choose image"), galaryCode)
             bottomdialog!!.dismiss()
         }
     }
@@ -179,6 +194,43 @@ class EditProfileActivity : AppCompatActivity() {
             chip.isChecked = true
             chip.setTextColor(ContextCompat.getColor(this, R.color.colorblue100))
             binding.chipGroup.addView(chip)
+        }
+    }
+
+    private fun checkPermission(context: Context, permissionArray: Array<String>): Boolean{
+        var allSuccess = true
+        for (i in permissionArray.indices){
+            if(checkCallingOrSelfPermission(permissionArray[i]) == PackageManager.PERMISSION_DENIED){
+                allSuccess = false
+            }
+        }
+        return allSuccess
+    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        var allSuccess = true
+        if(requestCode == PERMISSION_REQUEST){
+            for(i in permissions.indices){
+                if(grantResults[i] == PackageManager.PERMISSION_DENIED){
+                    allSuccess = false
+                    val requestAgain = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ActivityCompat.shouldShowRequestPermissionRationale(
+                        this,
+                        "show rationale"
+                    )
+                    if(requestAgain){
+                        Toast.makeText(this, "Permission denied", Toast.LENGTH_LONG).show()
+                    }else{
+                        Toast.makeText(this, "Go to setting and enable", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
+        if(allSuccess){
+            toast("Permission granted!")
         }
     }
 }
