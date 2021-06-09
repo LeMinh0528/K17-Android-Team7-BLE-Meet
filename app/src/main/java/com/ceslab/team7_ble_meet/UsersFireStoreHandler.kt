@@ -496,15 +496,17 @@ class UsersFireStoreHandler {
         return chatChannelRef.document(channelId).collection("messages")
             .orderBy("time").addSnapshotListener{querySnapshot, exception ->
                 if (querySnapshot != null) {
-                    Log.d("UserFireStoreHandler","query1: ${querySnapshot.size()}")
-                    val message : Message
-                    if(querySnapshot.documents[querySnapshot.size()-1]["type"] == "TEXT") {
-                        onComplete(querySnapshot.documents[querySnapshot.size()-1]["text"] as String)
-                    }else{
-                        if(querySnapshot.documents[querySnapshot.size()-1]["senderId"] == KeyValueDB.getUserShortId()){
-                            onComplete("You send an image")
+                    if(querySnapshot.documents.size > 0){
+                        Log.d("UserFireStoreHandler","query1: ${querySnapshot.size()}")
+                        val message : Message
+                        if(querySnapshot.documents[querySnapshot.size()-1]["type"] == "TEXT") {
+                            onComplete(querySnapshot.documents[querySnapshot.size()-1]["text"] as String)
                         }else{
-                            onComplete("Other send an image")
+                            if(querySnapshot.documents[querySnapshot.size()-1]["senderId"] == KeyValueDB.getUserShortId()){
+                                onComplete("You send an image")
+                            }else{
+                                onComplete("Other send an image")
+                            }
                         }
                     }
 //                    val message = querySnapshot.documents[0].toObject(Message::class.java)
