@@ -9,7 +9,8 @@ data class User(
     val token: MutableList<String>,
     @get: PropertyName("Gender") @set: PropertyName("Gender") var gender: String,
     @get: PropertyName("Tag") @set: PropertyName("Tag") var tag: MutableList<String>,
-    val avatar: String?
+    val avatar: String?,
+    @get:PropertyName("Background") @set:PropertyName("Background") var background: String?
 ) {
-    constructor() : this("", "", "", mutableListOf(), "", mutableListOf(), "")
+    constructor() : this("", "", "", mutableListOf(), "", mutableListOf(), "","")
 }

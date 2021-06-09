@@ -12,6 +12,7 @@ import com.ceslab.team7_ble_meet.dialog.ConfirmDialog
 import com.ceslab.team7_ble_meet.dialog.ConfirmDialogListener
 import com.ceslab.team7_ble_meet.login.LogInActivity
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
+import com.ceslab.team7_ble_meet.toast
 
 class SettingActivity : AppCompatActivity() {
     lateinit var btnLogout: CardView
@@ -43,7 +44,7 @@ class SettingActivity : AppCompatActivity() {
                     }
                     override fun confirm() {
                         logoutFireBase()
-                        goToLogIn()
+
                     }
                 })
         }
@@ -56,7 +57,16 @@ class SettingActivity : AppCompatActivity() {
     }
 
     private fun deleteToken(){
-        instance.deleteToken(KeyValueDB.getUserToken())
+        Log.d("SettingActivity","status: ")
+        instance.deleteToken(KeyValueDB.getUserToken()){ status ->
+            Log.d("SettingActivity","status: $status")
+            if(status == "SUCCESS"){
+                goToLogIn()
+            }else{
+                toast("Error: cannot logout")
+            }
+
+        }
     }
 
     private fun goToLogIn(){
