@@ -6,9 +6,11 @@ import com.ceslab.team7_ble_meet.UsersFireStoreHandler
 
 class RegisterTagViewModel: ViewModel() {
     private var instance = UsersFireStoreHandler()
-    var userResp: MutableLiveData<UsersFireStoreHandler.Resp?> = instance.userResp
+//    var userResp: MutableLiveData<UsersFireStoreHandler.Resp?> = instance.userResp
 
-    fun register(tag:MutableList<String>){
-        instance.updateTag(tag)
+    fun register(tag:MutableList<String>,onComplete:(status: String) -> Unit){
+        instance.updateTag(tag){
+            onComplete(it)
+        }
     }
 }

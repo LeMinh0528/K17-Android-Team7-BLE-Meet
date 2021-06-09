@@ -58,22 +58,30 @@ class RegisterTagActivity : AppCompatActivity() {
             btn_continue.isEnabled = false
             progressbar.visibility = View.VISIBLE
             tv_btn.visibility = View.GONE
-            viewModel.register(listChooser)
-        }
-        viewModel.userResp.observe(this, Observer { result ->
-            btn_continue.isEnabled = true
-            progressbar.visibility = View.GONE
-            tv_btn.visibility = View.VISIBLE
-
-            Log.d("RegisterTagActivity","registertag observer")
-            if(result != null){
-                toast("result: ${result.message}")
-                if(result.type == "NONE" && result.status == "SUCCESS"){
+            viewModel.register(listChooser){
+                btn_continue.isEnabled = true
+                progressbar.visibility = View.GONE
+                tv_btn.visibility = View.VISIBLE
+                if(it == "SUCCESS"){
                     gotoRegisterPicture()
-//                    gotoDashBoard()
+                }else{
+                    toast("Error edit tags")
                 }
             }
-        })
+        }
+//        viewModel.userResp.observe(this, Observer { result ->
+//            btn_continue.isEnabled = true
+//            progressbar.visibility = View.GONE
+//            tv_btn.visibility = View.VISIBLE
+//
+//            Log.d("RegisterTagActivity","registertag observer")
+//            if(result != null){
+//                toast("result: ${result.message}")
+//                if(result.type == "NONE" && result.status == "SUCCESS"){
+//                    gotoRegisterPicture()
+//                }
+//            }
+//        })
         btn_backpress.setOnClickListener {
             onBackPressed()
         }
@@ -83,6 +91,15 @@ class RegisterTagActivity : AppCompatActivity() {
         val intent = Intent(this, RegisterPictureActivity::class.java).apply {
         }
         startActivity(intent)
+    }
+
+    private fun setupChip(){
+        for(i in listChip){
+            val chip = layoutInflater.inflate(R.layout.item_chip_filter,chipGroup,false) as Chip
+            chip.text = i
+            chip.isClickable = true
+            chipGroup.addView(chip)
+        }
     }
 
     fun initData(){
@@ -97,15 +114,6 @@ class RegisterTagActivity : AppCompatActivity() {
         updateText()
     }
 
-    private fun setupChip(){
-        for(i in listChip){
-            val chip = layoutInflater.inflate(R.layout.item_chip_filter,chipGroup,false) as Chip
-            chip.text = i
-            chip.isClickable = true
-            chipGroup.addView(chip)
-        }
-    }
-
     private fun setupChipListener(){
         for(index in 0 until chipGroup.childCount){
             val chip: Chip = chipGroup.getChildAt(index) as Chip
@@ -113,7 +121,7 @@ class RegisterTagActivity : AppCompatActivity() {
                 run {
                     Log.d("RegisterTagActivity","isChecked: $isChecked")
                     if (isChecked) {
-                        if(listChooser.size > 9){
+                        if(listChooser.size > 5){
                             chip.setTextColor(ContextCompat.getColor(applicationContext,R.color.colorgray400))
                             chip.isChecked = false
                         }else{
@@ -133,7 +141,7 @@ class RegisterTagActivity : AppCompatActivity() {
     }
 
     private fun updateText(){
-        btnText.text = "Continue (${listChooser.size}/10)"
+        btnText.text = "Continue (${listChooser.size}/5)"
         btnContinue.isEnabled = listChooser.size > 4
     }
 

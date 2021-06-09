@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".registerInformation.RegisterGenderActivity">
+    android:orientation="vertical">
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout1"
         android:layout_width="match_parent"
@@ -92,7 +91,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:textColor="@color/black"
-                            android:text="(5/5)"/>
+                            android:text="(0/5)"/>
                     </RelativeLayout>
                 </LinearLayout>
                 <View

@@ -14,7 +14,7 @@ class EditProfileViewModel: ViewModel() {
     var avatar : String = ""
     var background: String = ""
     var bio: String = ""
-    var tag: String =""
+    var tag: MutableList<String> = mutableListOf()
     fun getUserInfor(onComplete:(User) -> Unit){
         instance.getCurrentUser(KeyValueDB.getUserShortId()){
             onComplete(it)
@@ -46,7 +46,17 @@ class EditProfileViewModel: ViewModel() {
         }
     }
 
-    fun updateBio(){
+    fun updateBio(bio:String,onComplete: (status: String, bio: String) -> Unit){
+        if(bio != ""){
+            instance.userRef.document(KeyValueDB.getUserShortId())
+                .set(hashMapOf("bio" to bio), SetOptions.merge())
+                .addOnSuccessListener {
+                    onComplete("SUCCESS",bio)
+                }
+                .addOnFailureListener {
+                    onComplete("FAILED",it.message.toString())
+                }
+        }
 
     }
 

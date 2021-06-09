@@ -55,10 +55,10 @@ class UsersFireStoreHandler {
             .addOnSuccessListener {
                 uidRef.document(KeyValueDB.getUserId())
                     .set(hashMapOf("isRegisterName" to true), SetOptions.merge())
-                userResp.postValue(Resp("NONE", "SUCCESS", "update tag successful!"))
+                userResp.postValue(Resp("NONE", "SUCCESS", "update name successful!"))
             }
             .addOnFailureListener {
-                userResp.postValue(Resp("NONE", "FAILED", "update tag failed!"))
+                userResp.postValue(Resp("NONE", "FAILED", "update name failed!"))
             }
     }
 
@@ -96,7 +96,7 @@ class UsersFireStoreHandler {
             }
     }
 
-    fun updateTag(list: MutableList<String>) {
+    fun updateTag(list: MutableList<String>,onComplete: (status: String) -> Unit) {
         val note = mutableMapOf<String, MutableList<String>>()
         note["Tag"] = list
         userRef.document(KeyValueDB.getUserShortId())
@@ -104,11 +104,28 @@ class UsersFireStoreHandler {
             .addOnSuccessListener {
                 uidRef.document(KeyValueDB.getUserId())
                     .set(hashMapOf("isRegisterTag" to true), SetOptions.merge())
-                userResp.postValue(Resp("NONE", "SUCCESS", "update tag successful!"))
+
                 KeyValueDB.setUserTag(true)
+                onComplete("SUCCESS")
             }
             .addOnFailureListener {
-                userResp.postValue(Resp("NONE", "FAILED", "update tag failed!"))
+                onComplete("FAILED")
+            }
+    }
+    fun getTags(onComplete: (tags: MutableList<String>) -> Unit){
+        userRef.document(KeyValueDB.getUserShortId())
+            .get()
+            .addOnSuccessListener {
+                if(it != null){
+                    if(it["Tag"] != null){
+                        onComplete(it["Tag"] as MutableList<String>)
+                        Log.d("UserFireStoreHandler", "shortId: ${it["Tag"]}")
+                    }else{
+                        onComplete(mutableListOf())
+                    }
+                }else{
+                    onComplete(mutableListOf())
+                }
             }
     }
 
