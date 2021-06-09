@@ -50,10 +50,9 @@ class InformationFragment : Fragment() {
         startActivity(intent)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         getFirstData()
-
     }
 
     private fun getFirstData() {
@@ -75,14 +74,20 @@ class InformationFragment : Fragment() {
 
             GlideApp.with(this)
                 .load(user.avatar?.let { ImagesStorageUtils.pathToReference(it) })
-                .placeholder(R.drawable.avatar_default)
+                .placeholder(R.drawable.ic_user)
                 .into(binding.icAvatar)
-
+            if(user.background != ""){
+                GlideApp.with(this)
+                    .load(user.background?.let{ImagesStorageUtils.pathToReference(it)})
+                    .placeholder(R.drawable.backgroud_default)
+                    .into(binding.ln)
+            }
             showFirstChip(user.tag)
         }
     }
 
     private fun showFirstChip(listChip: MutableList<String>) {
+        binding.chipGroup.removeAllViews()
         Log.d("InformationFragment", "tags chip: $listChip")
         for (i in listChip) {
             val chip =

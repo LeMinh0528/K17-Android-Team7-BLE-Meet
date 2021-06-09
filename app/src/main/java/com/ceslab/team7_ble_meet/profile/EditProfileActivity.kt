@@ -45,7 +45,8 @@ class EditProfileActivity : AppCompatActivity() {
     private val REQUEST_CAMERA_BACKGROUND = 3
     private val PICK_IMAGE_BACKGROUND = 4
     private val PERMISSION_REQUEST = 10
-
+    private var setAvatar = false
+    private var setBackground = false
     private var permission = arrayOf(
         Manifest.permission.CAMERA,
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -67,13 +68,16 @@ class EditProfileActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_editprofile)
         binding.lifecycleOwner = this
         binding.apply {
-            viewModel = viewModel
             tvEditavatar.setOnClickListener{
                 setUpBottomSheet(REQUEST_CAMERA_AVATAR,PICK_IMAGE_AVATAR)
+                setAvatar = true
+                setBackground = false
                 bottomdialog?.show()
             }
             tvEditbackground.setOnClickListener{
                 setUpBottomSheet(REQUEST_CAMERA_BACKGROUND,PICK_IMAGE_BACKGROUND)
+                setAvatar = false
+                setBackground = true
                 bottomdialog?.show()
             }
         }
@@ -99,6 +103,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
         gallery.setOnClickListener {
             Log.d("EditProfileActivity","camera :$galaryCode")
+
             val gallery1 = Intent()
             gallery1.type = "image/*"
             gallery1.action = Intent.ACTION_GET_CONTENT
@@ -110,49 +115,64 @@ class EditProfileActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == RESULT_OK){
-            if(requestCode == PICK_IMAGE_AVATAR && data != null){
+            if((requestCode == PICK_IMAGE_AVATAR || requestCode == PICK_IMAGE_BACKGROUND )&& data != null){
                 Log.d("TAG", "Pick image: ${data.data}")
                 val uri: Uri? = data.data
-                CropImage.activity(uri)
-                    .setAspectRatio(1, 1)
-                    .setMinCropWindowSize(500, 500)
-                    .setGuidelines(CropImageView.Guidelines.ON)
-                    .start(this);
+                if (uri != null) {
+                    cropImage(uri)
+                }
+
             }
-            if(requestCode == REQUEST_CAMERA_AVATAR && data != null){
+            if((requestCode == REQUEST_CAMERA_AVATAR ||requestCode == REQUEST_CAMERA_BACKGROUND)&& data != null){
                 val image = data.extras?.get("data") as Bitmap
                 var uri = getImageUri(this,image)
                 if(uri != null) {
-                    CropImage.activity(uri)
-                        .setAspectRatio(1, 1)
-                        .setMinCropWindowSize(500, 500)
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .start(this);
+                    cropImage(uri)
                 }
-            }
-            if(requestCode == REQUEST_CAMERA_BACKGROUND && data != null){
-
-            }
-            if(requestCode == PICK_IMAGE_BACKGROUND && data != null){
-
             }
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
                 val result = CropImage.getActivityResult(data)
                 if(resultCode == RESULT_OK){
-                    var uri = result.uri
-//                    viewModel.selectedImage = uri
-                    Glide.with(this)
-                        .load(uri)
-                        .into(binding.avatar)
-
+                    val uri = result.uri
                     val selectedImageBmp = MediaStore.Images.Media.getBitmap(contentResolver, uri)
                     val outputStream = ByteArrayOutputStream()
                     selectedImageBmp.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
-
+                    if(setAvatar){
+                        viewModel.updateAvatar(outputStream.toByteArray()){ status, path ->
+                            if(status == "SUCCESS"){
+                                GlideApp.with(this)
+                                    .load(ImagesStorageUtils.pathToReference(path))
+                                    .placeholder(R.drawable.ic_user)
+                                    .into(binding.avatar)
+                                toast("Change image successful!")
+                            }else{
+                                toast(path)
+                            }
+                        }
+                    }
+                    if(setBackground){
+                        viewModel.updateBackground(outputStream.toByteArray()){status, path ->
+                            if(status == "SUCCESS"){
+                                GlideApp.with(this)
+                                    .load(ImagesStorageUtils.pathToReference(path))
+                                    .placeholder(R.drawable.backgroud_default)
+                                    .into(binding.background)
+                                toast("Change image successful!")
+                            }else{
+                                toast(path)
+                            }
+                        }
+                    }
 //                    viewModel.selected = outputStream.toByteArray()
                 }
             }
         }
+    }
+
+    private fun cropImage(uri: Uri){
+        CropImage.activity(uri)
+            .setGuidelines(CropImageView.Guidelines.ON)
+            .start(this);
     }
 
     fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {

@@ -10,20 +10,6 @@ class RegisterPictureViewModel: ViewModel() {
     private var instance = UsersFireStoreHandler()
     var userResp: MutableLiveData<UsersFireStoreHandler.Resp?> = instance.userResp
 
-//    fun uploadImage(){
-//        if(selectedImage == null){
-//            userResp.postValue(
-//                UsersFireStoreHandler.Resp(
-//                    "NONE",
-//                    "FAILED",
-//                    "Not selected image!"
-//                )
-//            )
-//        }else{
-//            instance.updateAvatar(selectedImage!!)
-//        }
-//    }
-
     fun uploadImage(){
         Log.d("TAG", "image array: ${selected?.size}")
         if(selected == null || selected!!.isEmpty()){
