@@ -178,13 +178,14 @@
                         android:layout_alignParentLeft="true" />
 
                     <TextView
+                        android:id="@+id/addbio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:clickable="true"
                         android:textSize="18dp"
                         android:textColor="@color/blue"
-                        android:text="Add" />
+                        android:text="Add"/>
                 </RelativeLayout>
 
                 <LinearLayout

@@ -23,7 +23,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.databinding.ActivityEditprofileBinding
-import com.ceslab.team7_ble_meet.dialog.EditGenderDialog
+import com.ceslab.team7_ble_meet.dialog.*
 import com.ceslab.team7_ble_meet.profile.EditProfileViewModel
 import com.ceslab.team7_ble_meet.toast
 import com.ceslab.team7_ble_meet.utils.GlideApp
@@ -33,6 +33,7 @@ import com.google.android.material.chip.Chip
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.activity_editprofile.*
+import kotlinx.android.synthetic.main.edit_bio_dialog.*
 import java.io.ByteArrayOutputStream
 
 
@@ -40,6 +41,7 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditprofileBinding
     private lateinit var viewModel: EditProfileViewModel
     private var bottomdialog : BottomSheetDialog? = null
+    private var editBioDialog: EditBioDialog? = null
     private  var  REQUEST_CAMERA_AVATAR =2
     private val PICK_IMAGE_AVATAR = 1
     private val REQUEST_CAMERA_BACKGROUND = 3
@@ -75,6 +77,20 @@ class EditProfileActivity : AppCompatActivity() {
             tvEditbackground.setOnClickListener{
                 setUpBottomSheet(REQUEST_CAMERA_BACKGROUND,PICK_IMAGE_BACKGROUND)
                 bottomdialog?.show()
+            }
+            addbio.setOnClickListener {
+                editBioDialog = showConfirm(
+                    title = "Edit Bio",
+                    textYes = "Yes",
+                    textCancel = "Cancel",
+                    object: EditDialogListener {
+                        override fun cancel() {
+                            editBioDialog?.dismiss()
+                        }
+
+                        override fun confirm() {
+                        }
+                    })
             }
         }
     }
@@ -232,5 +248,20 @@ class EditProfileActivity : AppCompatActivity() {
         if(allSuccess){
             toast("Permission granted!")
         }
+    }
+    fun showConfirm(title:String,
+                    textYes: String,
+                    textCancel: String,
+                    listener: EditDialogListener):
+            EditBioDialog{
+        Log.d("TAG","onback press")
+        val dialog = EditBioDialog.Builder()
+            .title(title)
+            .yesText(textYes)
+            .cancelText(textCancel)
+            .listener(listener)
+            .build()
+        dialog.show(supportFragmentManager,"CONFIRMATION")
+        return dialog
     }
 }

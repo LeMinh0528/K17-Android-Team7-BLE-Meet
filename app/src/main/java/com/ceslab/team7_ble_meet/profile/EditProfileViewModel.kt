@@ -12,6 +12,7 @@ class EditProfileViewModel: ViewModel() {
     var avatar : String = ""
     var background: String = ""
     var bio: String = ""
+    var tag: String =""
     fun getUserInfor(onComplete:(User) -> Unit){
         instance.getCurrentUser(KeyValueDB.getUserShortId()){
             onComplete(it)
