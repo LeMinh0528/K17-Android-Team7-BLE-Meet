@@ -12,6 +12,7 @@ import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.databinding.ActivityRegisterUserNameBinding
 import com.ceslab.team7_ble_meet.dialog.ConfirmDialog
 import com.ceslab.team7_ble_meet.dialog.ConfirmDialogListener
+import com.ceslab.team7_ble_meet.login.LogInActivity
 import com.ceslab.team7_ble_meet.registerInformation.gender.RegisterGenderActivity
 import com.ceslab.team7_ble_meet.signup.SignUpActivity
 import com.ceslab.team7_ble_meet.toast
@@ -94,7 +95,7 @@ class RegisterUserNameActivity : AppCompatActivity() {
     }
 
     fun goToSignUp(){
-        val intent = Intent(this, SignUpActivity::class.java).apply {
+        val intent = Intent(this, LogInActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         startActivity(intent)
