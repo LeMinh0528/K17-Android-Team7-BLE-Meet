@@ -38,9 +38,7 @@ class BleService: LifecycleService() {
         Log.d(TAG, "BleService on start command")
         if (intent != null) {
             intent.getByteArrayExtra("dataFromBleViewModel2BleService")?.let {
-                bleHandle.advertise(
-                    it
-                )
+                bleHandle.advertise(it)
                 target = convertDataDiscovered(it)
                 Log.d(TAG, it.toString())
                 Log.d(TAG, "target: $target")

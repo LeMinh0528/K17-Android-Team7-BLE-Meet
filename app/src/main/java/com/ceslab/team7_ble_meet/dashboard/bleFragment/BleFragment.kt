@@ -27,6 +27,7 @@ import com.ceslab.team7_ble_meet.ble.BleDataScanned
 import com.ceslab.team7_ble_meet.chat.ChatActivity
 import com.ceslab.team7_ble_meet.databinding.FragmentBleBinding
 import com.ceslab.team7_ble_meet.db.BleDataScannedDataBase
+
 //import com.ceslab.team7_ble_meet.model.BleDataScanned
 
 class BleFragment : Fragment() {
@@ -83,9 +84,10 @@ class BleFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d(TAG,"BleFragment on Create View 1")
+        Log.d(TAG, "BleFragment on Create View 1")
         checkPermissions()
-        bleFragmentViewModel = ViewModelProvider(requireActivity()).get(BleFragmentViewModel::class.java)
+        bleFragmentViewModel =
+            ViewModelProvider(requireActivity()).get(BleFragmentViewModel::class.java)
         setUpBle()
         setUpUI(inflater, container)
         return bleFragmentBinding.root
@@ -124,8 +126,7 @@ class BleFragment : Fragment() {
     }
 
     private fun setUpUI(inflater: LayoutInflater, container: ViewGroup?) {
-        bleFragmentBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_ble, container, false)
+        bleFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_ble, container, false)
         bleFragmentBinding.apply {
             if (bluetoothAdapter.isEnabled) {
                 swTurnOnOffBLE.isChecked = true
@@ -158,7 +159,7 @@ class BleFragment : Fragment() {
                 bleFragmentViewModel.deleteBleDataScanned(requireContext())
             }
 
-            bleFragmentViewModel.setUpListDataScanned(requireContext(),requireActivity())
+            bleFragmentViewModel.setUpListDataScanned(requireContext(), requireActivity())
             rcListBleDataScanned.adapter = listDataDiscoveredAdapter
             bleFragmentViewModel.isBleDataScannedDisplay.observe(requireActivity(), {
                 if (it) {
@@ -187,9 +188,9 @@ class BleFragment : Fragment() {
                     }
                 }
             listDataDiscoveredAdapter.nextlistener =
-                object : ListBleDataScannedAdapter.onClickNextListender{
+                object : ListBleDataScannedAdapter.onClickNextListender {
                     override fun onClick(id: String) {
-                        Log.d(TAG,"id: $id")
+                        Log.d(TAG, "id: $id")
                         val num = addZeroNum(id.toInt())
                         val intent = Intent(activity, ChatActivity::class.java)
                         intent.putExtra(AppConstants.USER_ID, num)

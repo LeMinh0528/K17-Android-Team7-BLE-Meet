@@ -10,7 +10,6 @@ import com.ceslab.team7_ble_meet.bytesToHex
 @Suppress("NAME_SHADOWING")
 class BleHandle {
 
-
     private val TAG = "Ble_Lifecycle"
     private val manuId: Int = 0x6969
 
@@ -19,9 +18,8 @@ class BleHandle {
     var bleDataScanned: MutableLiveData<ByteArray> = MutableLiveData()
 
     fun advertise(data: ByteArray) {
-        Log.d(TAG, "Advertise function called")
         val settings = AdvertiseSettings.Builder()
-            .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_BALANCED)
+            .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY)
             .setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_MEDIUM)
             .setTimeout(0)
             .setConnectable(false)
@@ -43,7 +41,7 @@ class BleHandle {
                 Log.e(TAG, "BleHandler: Advertise Failed $errorCode")
             }
         }
-        Log.d(TAG, "BleHandler: advertise callback: $advertisingCallback")
+
         advertiser.startAdvertising(settings, data, advertisingCallback)
     }
 
@@ -58,7 +56,6 @@ class BleHandle {
                 if (adType == -1 && manuIdUpper == 105 && manuIdLower == 105) {
                     Log.d(TAG, "Scan result:" + bytesToHex(result.scanRecord!!.bytes))
                     bleDataScanned.value = result.scanRecord!!.bytes
-//                    Log.d(TAG, "Scan result DATA received:" + bleDataReceived.value)
                 }
             }
 
@@ -74,7 +71,7 @@ class BleHandle {
 
         val filter = ScanFilter.Builder().build()
         val filters = listOf(filter)
-        val settings = ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_BALANCED).build()
+        val settings = ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build()
         scanner.startScan(filters, settings, scanCallback)
     }
 }
