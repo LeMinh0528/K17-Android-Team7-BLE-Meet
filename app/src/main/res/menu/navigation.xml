@@ -9,14 +9,15 @@
         app:cnb_iconColor="#D74CFE"
         android:icon="@drawable/ic_baseline_auto_awesome_24"/>
     <item
+        android:id="@+id/chats"
+        android:icon="@drawable/ic_baseline_chat_24"
+        android:title="Chats" />
+    <item
         android:title="Bluetooth"
         android:id="@+id/bluetooth"
         app:cnb_iconColor="@color/colorblue"
         android:icon="@drawable/ic_baseline_bluetooth_audio_24"/>
-    <item
-        android:id="@+id/chats"
-        android:icon="@drawable/ic_baseline_chat_24"
-        android:title="Chats" />
+
     <item
         android:title="Info"
         android:id="@+id/info"

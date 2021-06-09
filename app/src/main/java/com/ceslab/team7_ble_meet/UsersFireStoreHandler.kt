@@ -48,7 +48,7 @@ class UsersFireStoreHandler {
         val note = mutableMapOf<String, String>()
         note["Name"] = name
         note["bio"] = ""
-        note["avatar"] =""
+        note["avatar"] = ""
         note["background"] = ""
         userRef.document(KeyValueDB.getUserShortId())
             .set(note, SetOptions.merge())
@@ -96,7 +96,7 @@ class UsersFireStoreHandler {
             }
     }
 
-    fun updateTag(list: MutableList<String>,onComplete: (status: String) -> Unit) {
+    fun updateTag(list: MutableList<String>, onComplete: (status: String) -> Unit) {
         val note = mutableMapOf<String, MutableList<String>>()
         note["Tag"] = list
         userRef.document(KeyValueDB.getUserShortId())
@@ -112,18 +112,19 @@ class UsersFireStoreHandler {
                 onComplete("FAILED")
             }
     }
-    fun getTags(onComplete: (tags: MutableList<String>) -> Unit){
+
+    fun getTags(onComplete: (tags: MutableList<String>) -> Unit) {
         userRef.document(KeyValueDB.getUserShortId())
             .get()
             .addOnSuccessListener {
-                if(it != null){
-                    if(it["Tag"] != null){
+                if (it != null) {
+                    if (it["Tag"] != null) {
                         onComplete(it["Tag"] as MutableList<String>)
                         Log.d("UserFireStoreHandler", "shortId: ${it["Tag"]}")
-                    }else{
+                    } else {
                         onComplete(mutableListOf())
                     }
-                }else{
+                } else {
                     onComplete(mutableListOf())
                 }
             }
@@ -212,10 +213,14 @@ class UsersFireStoreHandler {
         }
     }
 
-    private fun getCurrentToken(){
+    private fun getCurrentToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Log.d("UserFireStoreHandler", "Fetching FCM registration token failed", task.exception)
+                Log.d(
+                    "UserFireStoreHandler",
+                    "Fetching FCM registration token failed",
+                    task.exception
+                )
                 return@OnCompleteListener
             }
 
@@ -291,7 +296,7 @@ class UsersFireStoreHandler {
             }
     }
 
-    fun getCurrentUser(id: String,onComplete: (User) -> Unit) {
+    fun getCurrentUser(id: String, onComplete: (User) -> Unit) {
         userRef.document(id).get()
             .addOnSuccessListener {
                 onComplete(it.toObject(User::class.java)!!)
@@ -350,25 +355,31 @@ class UsersFireStoreHandler {
                     Log.d("UserFireStoreHandler", "error: ${exception.message}")
                     return@addSnapshotListener
                 }
-                if(querySnapshot == null){
+                if (querySnapshot == null) {
                     Log.d("UserFireStoreHandler", "collection hasn't created")
                     return@addSnapshotListener
                 }
                 val items = mutableListOf<PersonItem>()
                 querySnapshot.documents.forEach { documentSnapShot ->
                     Log.d("UserFireStoreHandler", "channelId: ${documentSnapShot["channelId"]}")
-                    items.add(PersonItem("",documentSnapShot.id.trim(),"",documentSnapShot["channelId"] as String, context))
-            //                    }
-                    onListen(items)
+                    items.add(
+                        PersonItem(
+                            "",
+                            documentSnapShot.id.trim(),
+                            "",
+                            documentSnapShot["channelId"] as String,
+                            context
+                        )
+                    )
                 }
-
+                onListen(items)
             }
     }
 
     fun removeListener(registration: ListenerRegistration) = registration.remove()
 
     fun getOrCreateChatChannel(otherUserId: String?, onComplete: (channelId: String) -> Unit) {
-        Log.d("UserFireStoreHandler","key: ${KeyValueDB.getUserShortId()}")
+        Log.d("UserFireStoreHandler", "key: ${KeyValueDB.getUserShortId()}")
         if (otherUserId != null) {
             userRef.document(KeyValueDB.getUserShortId())
                 .collection("engagedChatChannel")
@@ -389,11 +400,11 @@ class UsersFireStoreHandler {
                     userRef.document(KeyValueDB.getUserShortId())
                         .collection("engagedChatChannel")
                         .document(otherUserId)
-                        .set(hashMapOf("channelId" to newChannel.id),SetOptions.merge())
+                        .set(hashMapOf("channelId" to newChannel.id), SetOptions.merge())
                     userRef.document(otherUserId)
                         .collection("engagedChatChannel")
                         .document(KeyValueDB.getUserShortId())
-                        .set(hashMapOf("channelId" to newChannel.id),SetOptions.merge())
+                        .set(hashMapOf("channelId" to newChannel.id), SetOptions.merge())
                     onComplete(newChannel.id)
 
                 }
@@ -417,7 +428,12 @@ class UsersFireStoreHandler {
                         items.add(TextMessageItem(it.toObject(TextMessage::class.java)!!, context))
                     } else {
                         //image
-                        items.add(ImageMessageItem(it.toObject(ImageMessage::class.java)!!,context))
+                        items.add(
+                            ImageMessageItem(
+                                it.toObject(ImageMessage::class.java)!!,
+                                context
+                            )
+                        )
                     }
                     return@forEach
                 }
@@ -425,14 +441,14 @@ class UsersFireStoreHandler {
             }
     }
 
-    fun sendMessage(message: Message,channelId: String) {
+    fun sendMessage(message: Message, channelId: String) {
         chatChannelRef.document(channelId)
             .collection("messages")
             .add(message)
     }
 
-    fun getUserToken(onListen: (MutableList<String>) -> Unit){
-        Log.d("UserFireStoreHandler","key: ${KeyValueDB.getUserShortId()}")
+    fun getUserToken(onListen: (MutableList<String>) -> Unit) {
+        Log.d("UserFireStoreHandler", "key: ${KeyValueDB.getUserShortId()}")
         userRef.document(KeyValueDB.getUserShortId())
             .get()
             .addOnSuccessListener {
@@ -444,35 +460,62 @@ class UsersFireStoreHandler {
             }
     }
 
-    fun setUserToken(newToken: MutableList<String>){
+    fun setUserToken(newToken: MutableList<String>) {
         userRef.document(KeyValueDB.getUserShortId())
-            .set(hashMapOf("token" to newToken),SetOptions.merge())
+            .set(hashMapOf("token" to newToken), SetOptions.merge())
             .addOnSuccessListener {
 
             }
     }
 
-    fun deleteToken(token: String,onComplete: (status: String) -> Unit){
+    fun deleteToken(token: String, onComplete: (status: String) -> Unit) {
         Log.d("UserFireStoreHandler", "get user token")
 
         getUserToken {
             Log.d("UserFireStoreHandler", "get user token: $it")
-            if(it.contains(token)){
+            if (it.contains(token)) {
                 it.remove(token)
                 userRef.document(KeyValueDB.getUserShortId())
-                    .set(hashMapOf("token" to it),SetOptions.merge())
+                    .set(hashMapOf("token" to it), SetOptions.merge())
                     .addOnSuccessListener {
                         KeyValueDB.clearData()
                         onComplete("SUCCESS")
                     }
-                    .addOnFailureListener{
+                    .addOnFailureListener {
                         onComplete("FAILED")
                     }
-            }else{
+            } else {
                 KeyValueDB.clearData()
                 onComplete("SUCCESS")
             }
         }
+    }
+
+    fun setLastTextListener(channelId: String, onComplete: (text: String) -> Unit):ListenerRegistration{
+        Log.d("UserFireStoreHandler","go to lasst text")
+        return chatChannelRef.document(channelId).collection("messages")
+            .orderBy("time").addSnapshotListener{querySnapshot, exception ->
+                if (querySnapshot != null) {
+                    Log.d("UserFireStoreHandler","query1: ${querySnapshot.size()}")
+                    val message : Message
+                    if(querySnapshot.documents[querySnapshot.size()-1]["type"] == "TEXT") {
+                        onComplete(querySnapshot.documents[querySnapshot.size()-1]["text"] as String)
+                    }else{
+                        if(querySnapshot.documents[querySnapshot.size()-1]["senderId"] == KeyValueDB.getUserShortId()){
+                            onComplete("You send an image")
+                        }else{
+                            onComplete("Other send an image")
+                        }
+                    }
+//                    val message = querySnapshot.documents[0].toObject(Message::class.java)
+//                    Log.d("UserFireStoreHandler","query:2 ${querySnapshot.documents[0].toObject(Message::class.java)}")
+//                    if (message != null) {
+//                        Log.d("UserFireStoreHandler","query3: ${message.type}")
+//                    }
+
+                }
+
+            }
     }
 
     data class Resp(var type: String, var status: String, var message: String)
