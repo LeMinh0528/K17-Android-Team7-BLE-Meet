@@ -1,4 +1,4 @@
-package com.ceslab.team7_ble_meet.dashboard
+package com.ceslab.team7_ble_meet.dashboard.peoblesFragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -20,8 +20,8 @@ import com.xwray.groupie.Section
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_chats.*
 
-class PeoplesFragment: Fragment() {
-    private val TAG = "ChatsFragment"
+class PeoplesFragment : Fragment() {
+    private val TAG = "PeoplesFragment"
     private lateinit var userListenerRegistration: ListenerRegistration
 
     private var shouldInitRecyclerView = true
@@ -33,60 +33,74 @@ class PeoplesFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_chats,container,false)
-        userListenerRegistration = UsersFireStoreHandler().addUserListener(requireContext(),this::updateRecyclerView)
-
-
+        val view = inflater.inflate(R.layout.fragment_chats, container, false)
+        userListenerRegistration =
+            UsersFireStoreHandler().addUserListener(requireContext(), this::updateRecyclerView)
         return view
     }
 
-    private fun updateRecyclerView(items: List<PersonItem>){
-        fun init(){
+    private fun updateRecyclerView(items: List<PersonItem>) {
+
+        fun checkEmpty() {
+            Log.d("PeopleFragment","check Empty: ${items.isEmpty()}")
+            if (items.isEmpty()) {
+                recycler_view_people.visibility = View.GONE
+                ic_empty.visibility = View.VISIBLE
+            } else {
+                recycler_view_people.visibility = View.VISIBLE
+                ic_empty.visibility = View.GONE
+            }
+        }
+
+        fun init() {
             recycler_view_people.apply {
                 layoutManager = LinearLayoutManager(this@PeoplesFragment.context)
                 adapter = GroupAdapter<ViewHolder>().apply {
                     peopleSection = Section(items)
                     add(peopleSection)
                     setOnItemClickListener(onClick)
+
                 }
             }
+            checkEmpty()
             shouldInitRecyclerView = false
         }
-        fun updateItems() = peopleSection.update(items)
-        if(shouldInitRecyclerView){
+
+        fun updateItems() {
+            checkEmpty()
+            peopleSection.update(items)
+        }
+        if (shouldInitRecyclerView) {
             init()
-        }else{
+        } else {
             updateItems()
         }
 
     }
-    private val onClick = OnItemClickListener{item, view ->
-        Log.d(TAG,"onClick item: ${item.id}")
-        Log.d(TAG,"onClick item: ${item}")
-       if(item is PersonItem){
 
-           val intent = Intent(requireContext(),ChatActivity::class.java)
-           intent.putExtra(AppConstants.USER_NAME,item.userName)
-           intent.putExtra(AppConstants.USER_ID,item.userId)
-           intent.putExtra(AppConstants.AVATAR,item.imagePath)
-
-
-           startActivity(intent)
-       }
+    private val onClick = OnItemClickListener { item, _ ->
+        if (item is PersonItem) {
+            val intent = Intent(requireContext(), ChatActivity::class.java)
+            intent.putExtra(AppConstants.USER_NAME, item.userName)
+            intent.putExtra(AppConstants.USER_ID, item.userId)
+            intent.putExtra(AppConstants.AVATAR, item.imagePath)
+            startActivity(intent)
+        }
 
     }
 
     override fun onPause() {
-        Log.d(TAG,"onPause")
-        UsersFireStoreHandler().removeListener(userListenerRegistration)
+        Log.d(TAG, "onPause")
+//        UsersFireStoreHandler().removeListener(userListenerRegistration)
         shouldInitRecyclerView = true
         super.onPause()
 
     }
+
     override fun onDestroy() {
-        Log.d(TAG,"onDestroy")
+        Log.d(TAG, "onDestroy")
         super.onDestroy()
-        Log.d(TAG,"onDestroy")
+        Log.d(TAG, "onDestroy")
         UsersFireStoreHandler().removeListener(userListenerRegistration)
         shouldInitRecyclerView = true
     }

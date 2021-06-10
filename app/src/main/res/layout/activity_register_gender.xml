@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".registerInformation.RegisterGenderActivity">
+    tools:context=".registerInformation.gender.RegisterGenderActivity">
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -22,6 +22,7 @@
                 android:orientation="horizontal"
                 android:layout_marginRight="18dp">
                 <LinearLayout
+                    android:id="@+id/btn_backpress"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"

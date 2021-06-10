@@ -1,10 +1,16 @@
 package com.ceslab.team7_ble_meet.model
 
-data class User(val Name: String,
-                val bio: String,
-                val dob: String,
-                val token: MutableList<String>,
-                val gender: String,
-                val avatar: String?) {
-    constructor(): this("", "","", mutableListOf(), "","")
+import com.google.firebase.firestore.PropertyName
+
+data class User(
+    @get: PropertyName("Name") @set: PropertyName("Name") var Name: String,
+    val bio: String,
+    @get: PropertyName("DayOfBirth") @set: PropertyName("DayOfBirth") var dob: String,
+    val token: MutableList<String>,
+    @get: PropertyName("Gender") @set: PropertyName("Gender") var gender: String,
+    @get: PropertyName("Tag") @set: PropertyName("Tag") var tag: MutableList<String>,
+    val avatar: String?,
+    @get:PropertyName("Background") @set:PropertyName("Background") var background: String?
+) {
+    constructor() : this("", "", "", mutableListOf(), "", mutableListOf(), "","")
 }

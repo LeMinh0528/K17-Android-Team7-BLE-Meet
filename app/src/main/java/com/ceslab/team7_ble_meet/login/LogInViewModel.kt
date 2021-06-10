@@ -3,7 +3,6 @@ package com.ceslab.team7_ble_meet.login
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ceslab.team7_ble_meet.UsersFireStoreHandler
-import com.ceslab.team7_ble_meet.data.DataAccountHandler
 import com.ceslab.team7_ble_meet.isValidEmail
 import com.ceslab.team7_ble_meet.isValidPasswordFormat
 

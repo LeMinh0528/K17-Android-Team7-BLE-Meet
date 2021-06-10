@@ -1,4 +1,4 @@
-package com.ceslab.team7_ble_meet.registerInformation
+package com.ceslab.team7_ble_meet.registerInformation.dob
 
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -7,19 +7,15 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.DatePicker
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.databinding.ActivityRegisterBirthdayBinding
+import com.ceslab.team7_ble_meet.registerInformation.tag.RegisterTagActivity
 import com.ceslab.team7_ble_meet.toast
 import kotlinx.android.synthetic.main.activity_register_birthday.*
-import kotlinx.android.synthetic.main.activity_register_birthday.btn_continue
-import kotlinx.android.synthetic.main.activity_register_birthday.tv_btn
-import kotlinx.android.synthetic.main.activity_register_user_name.*
 import java.util.*
 
 
@@ -66,6 +62,9 @@ class RegisterBirthdayActivity : AppCompatActivity() {
                 progressbar.visibility = View.VISIBLE
                 tv_btn.visibility = View.GONE
                 viewmodel?.updateBirthDay()
+            }
+            btn_backpress.setOnClickListener {
+                onBackPressed()
             }
         }
 

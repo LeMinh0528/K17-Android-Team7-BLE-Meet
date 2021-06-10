@@ -12,6 +12,7 @@ import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ceslab.team7_ble_meet.service.MyApplication.Companion.context
 import com.ceslab.team7_ble_meet.utils.GlideApp
 import com.ceslab.team7_ble_meet.utils.ImagesStorageUtils
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 
 import com.xwray.groupie.kotlinandroidextensions.Item
@@ -27,6 +28,7 @@ class PersonItem(
     var channelId: String,
     var context: Context
 ) : Item() {
+    lateinit var listener : ListenerRegistration
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
         UsersFireStoreHandler().userRef.document(userId)
@@ -49,23 +51,27 @@ class PersonItem(
                 }
             }
 
-        UsersFireStoreHandler().chatChannelRef.document(channelId).collection("messages")
-            .orderBy("time", Query.Direction.DESCENDING).limit(1)
-            .get().addOnSuccessListener {
-                it.documents.forEach {
-                    Log.d("PersonItem","item: $it")
-                    Log.d("PersonItem","item: ${it["type"]}")
-                    if(it["type"] == MessageType.IMAGE){
-                        if(it["senderId"] == KeyValueDB.getUserShortId()){
-                            viewHolder.tv_lastText.text = "${viewHolder.tv_name.text} send an image"
-                        }else{
-                            viewHolder.tv_lastText.text = "you send an image"
-                        }
-                    }else{
-                        viewHolder.tv_lastText.text = it["text"] as String
-                    }
-                }
-            }
+//        UsersFireStoreHandler().chatChannelRef.document(channelId).collection("messages")
+//            .orderBy("time", Query.Direction.DESCENDING).limit(1)
+//            .get().addOnSuccessListener {
+//                it.documents.forEach {
+//                    Log.d("PersonItem","item: $it")
+//                    Log.d("PersonItem","item: ${it["type"]}")
+//                    if(it["type"] == MessageType.IMAGE){
+//                        if(it["senderId"] == KeyValueDB.getUserShortId()){
+//                            viewHolder.tv_lastText.text = "${viewHolder.tv_name.text} send an image"
+//                        }else{
+//                            viewHolder.tv_lastText.text = "you send an image"
+//                        }
+//                    }else{
+//                        viewHolder.tv_lastText.text = it["text"] as String
+//                    }
+//                }
+//            }
+
+        listener = UsersFireStoreHandler().setLastTextListener(channelId){
+            viewHolder.tv_lastText.text = it
+        }
     }
 
     override fun getLayout(): Int {

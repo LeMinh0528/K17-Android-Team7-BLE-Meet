@@ -8,10 +8,12 @@ import androidx.cardview.widget.CardView
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.UsersFireStoreHandler
 import com.ceslab.team7_ble_meet.dashboard.DashBoardActivity
+import com.ceslab.team7_ble_meet.db.BleDataScannedDataBase
 import com.ceslab.team7_ble_meet.dialog.ConfirmDialog
 import com.ceslab.team7_ble_meet.dialog.ConfirmDialogListener
 import com.ceslab.team7_ble_meet.login.LogInActivity
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
+import com.ceslab.team7_ble_meet.toast
 
 class SettingActivity : AppCompatActivity() {
     lateinit var btnLogout: CardView
@@ -23,8 +25,6 @@ class SettingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_setting)
         bindView()
         bindAction()
-//        Log.d("SettingActivity","userid firebase: ${instance.mAuth.currentUser.uid}")
-        Log.d("SettingActivity","userid key: ${KeyValueDB.getUserId()}")
 
     }
 
@@ -45,7 +45,7 @@ class SettingActivity : AppCompatActivity() {
                     }
                     override fun confirm() {
                         logoutFireBase()
-                        goToLogIn()
+
                     }
                 })
         }
@@ -53,7 +53,23 @@ class SettingActivity : AppCompatActivity() {
 
     private fun logoutFireBase(){
         instance.mAuth.signOut()
-        KeyValueDB.clearData()
+        deleteToken()
+
+    }
+
+    private fun deleteToken(){
+        Log.d("SettingActivity","status: ")
+        instance.deleteToken(KeyValueDB.getUserToken()){ status ->
+            Log.d("SettingActivity","status: $status")
+            if(status == "SUCCESS"){
+                BleDataScannedDataBase.getDatabase(this).bleDataScannedDao().deleteAll()
+                goToLogIn()
+            }else{
+                toast("Error: cannot logout")
+            }
+
+        }
+
     }
 
     private fun goToLogIn(){
@@ -63,11 +79,11 @@ class SettingActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun showConfirm(message: String,
-                    title:String,
-                    textYes: String,
-                    textCancel: String,
-                    listener: ConfirmDialogListener
+    private fun showConfirm(message: String,
+                            title:String,
+                            textYes: String,
+                            textCancel: String,
+                            listener: ConfirmDialogListener
     ):
             ConfirmDialog {
         Log.d("TAG","onback press")

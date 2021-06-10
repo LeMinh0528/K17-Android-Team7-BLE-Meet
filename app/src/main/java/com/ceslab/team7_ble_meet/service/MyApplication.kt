@@ -25,6 +25,7 @@ class MyApplication : Application() {
         instance = this
 
         createBleChannelNotification()
+        createMessagingChannelNotification()
     }
 
     private fun createBleChannelNotification() {
@@ -33,27 +34,25 @@ class MyApplication : Application() {
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(notificationChannel)
         }
+
+    }
+
+    private fun createMessagingChannelNotification(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Log.d("MessagingService", "OOO")
-            createNotificationChannel()
-        } else{
-            Log.d("MessagingService","not OOO")
+            val id = "channel_message"
+            val descriptionText = "Chat message"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(id, descriptionText, importance).apply {
+                description = descriptionText
+                enableVibration(true)
+                lightColor = Color.BLUE
+                enableLights(true)
+                setShowBadge(false) //open size
+            }
+            val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
 
-        }
-    }
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun createNotificationChannel(){
-        val id = "channel_message"
-        val descriptionText = "Notification Messaging"
-        val importance = NotificationManager.IMPORTANCE_HIGH
-        val channel = NotificationChannel(id, descriptionText, importance).apply {
-            description = descriptionText
-            enableVibration(true)
-            lightColor = Color.BLUE
-            enableLights(true)
-            setShowBadge(false) //open size
-        }
-        val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
-    }
 }

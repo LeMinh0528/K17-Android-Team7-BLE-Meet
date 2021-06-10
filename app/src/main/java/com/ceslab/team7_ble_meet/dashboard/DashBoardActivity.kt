@@ -1,45 +1,70 @@
 package com.ceslab.team7_ble_meet.dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
+import com.ceslab.team7_ble_meet.AppConstants
 import com.ceslab.team7_ble_meet.R
+import com.ceslab.team7_ble_meet.chat.ChatActivity
 import com.ceslab.team7_ble_meet.dashboard.bleFragment.BleFragment
+import com.ceslab.team7_ble_meet.dashboard.discoverFragment.DiscoverFragment
+import com.ceslab.team7_ble_meet.dashboard.inforFragment.InformationFragment
+import com.ceslab.team7_ble_meet.dashboard.peoblesFragment.PeoplesFragment
+import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
 class DashBoardActivity: AppCompatActivity() {
     lateinit var navigationView : ChipNavigationBar
-    lateinit var viewPager: ViewPager
-    lateinit private var viewPagerAdapter: ViewPagerAdapter
+    private lateinit var viewPager: ViewPager
+    private lateinit var viewPagerAdapter: ViewPagerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        KeyValueDB.createRef(this)
 
         bindView()
-
+        checkIntentChat()
         navigationView.setOnItemSelectedListener {
             Log.d("TAG","$it")
             when(it){
                 R.id.awesome ->{
-                    viewPager.setCurrentItem(0)
-                }
-                R.id.bluetooth ->{
-                    viewPager.setCurrentItem(1)
+                    viewPager.currentItem = 0
                 }
                 R.id.chats ->{
-                    viewPager.setCurrentItem(2)
+                    viewPager.currentItem = 1
+                }
+                R.id.bluetooth ->{
+                    viewPager.currentItem = 2
                 }
                 R.id.info ->{
-                    viewPager.setCurrentItem(3)
+                    viewPager.currentItem = 3
                 }
             }
         }
 
-        initData()
     }
 
-    fun bindView(){
+    private fun checkIntentChat(){
+        if(!isTaskRoot){
+            Log.d("DashBoard","isTaskRoot")
+            finish()
+        }
+        if(intent != null){
+            val isChat:Boolean = intent.getBooleanExtra("isOpenChat",false)
+            if(isChat){
+                val mIntent = Intent(this,ChatActivity::class.java).apply {
+                    putExtra(AppConstants.USER_ID,intent.getStringExtra(AppConstants.USER_ID))
+                    putExtra(AppConstants.AVATAR,intent.getStringExtra(AppConstants.AVATAR))
+                    putExtra(AppConstants.USER_NAME,intent.getStringExtra(AppConstants.USER_NAME))
+                }
+                startActivity(mIntent)
+            }
+        }
+    }
+
+    private fun bindView(){
         setContentView(R.layout.activity_dash_board)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         viewPager = findViewById(R.id.viewPager)
@@ -48,15 +73,11 @@ class DashBoardActivity: AppCompatActivity() {
         navigationView.setItemSelected(R.id.awesome,true)
     }
 
-    fun initData(){
-
-    }
-
-    fun setUpViewPager(){
+    private fun setUpViewPager(){
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
-        viewPagerAdapter.addFragment(SwipeFragment(),"Swipe")
-        viewPagerAdapter.addFragment(BleFragment(),"Bluetooth")
+        viewPagerAdapter.addFragment(DiscoverFragment(),"Swipe")
         viewPagerAdapter.addFragment(PeoplesFragment(),"Chats")
+        viewPagerAdapter.addFragment(BleFragment(),"Bluetooth")
         viewPagerAdapter.addFragment(InformationFragment(),"Information")
         viewPager.adapter = viewPagerAdapter
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
@@ -67,15 +88,15 @@ class DashBoardActivity: AppCompatActivity() {
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
-                Log.d("TAG","position: $position, ofset: $positionOffset, pixel: $positionOffsetPixels")
+                Log.d("DashBoardActivity","position: $position, ofset: $positionOffset, pixel: $positionOffsetPixels")
 
             }
             override fun onPageSelected(position: Int) {
-                Log.d("TAG",position.toString())
+                Log.d("DashBoardActivity",position.toString())
                 when(position){
                     0 -> navigationView.setItemSelected(R.id.awesome,true)
-                    1 -> navigationView.setItemSelected(R.id.bluetooth,true)
-                    2 -> navigationView.setItemSelected(R.id.chats,true)
+                    1 -> navigationView.setItemSelected(R.id.chats,true)
+                    2 -> navigationView.setItemSelected(R.id.bluetooth,true)
                     3 -> navigationView.setItemSelected(R.id.info,true)
                 }
             }

@@ -17,6 +17,7 @@ import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ceslab.team7_ble_meet.service.BleService
 import java.util.*
 import kotlin.experimental.or
+import android.os.Handler
 
 
 class BleFragmentViewModel() : ViewModel() {
@@ -30,42 +31,51 @@ class BleFragmentViewModel() : ViewModel() {
     var isBleDataScannedDisplay: MutableLiveData<Boolean> = MutableLiveData(false)
 
     private var instance = UsersFireStoreHandler()
-    private var characteristicUser: List<Int> = listOf(0,0,0,0,0,0,0,0,0)
+    private lateinit var characteristicUser: MutableList<Int>
     private lateinit var characteristicUser2ByteArray: ByteArray
     var dataReady = false
 
     init{
         Log.d(TAG, "BleFragmentViewModel init")
+        setUpData2Advertise()
+    }
+
+    private fun setUpData2Advertise(){
+        Log.d(TAG, "BleFragmentViewModel set up data to advertise")
         instance.userRef.document(KeyValueDB.getUserShortId())
             .get()
             .addOnSuccessListener { data ->
+                //add id
+                characteristicUser = mutableListOf(KeyValueDB.getUserShortId().toInt())
+                Log.d(TAG, characteristicUser.toString())
+
                 if(data != null){
-                    //set age
+                    //add age
                     val current: Int = Calendar.getInstance().get(Calendar.YEAR);
                     val yearOfBirth = data["DayOfBirth"].toString().split("/")[2].toInt()
                     val age = (current - yearOfBirth)
+                    characteristicUser.add(age)
 
                     val sex = if(data["Gender"].toString() == "Male") 0 else 1
+                    characteristicUser.add(sex)
 
                     val genderOrientation = if(data["Interested"].toString() == "Male") 0 else {
                         if (data["Interested"].toString() != "Female") 1 else 2
                     }
+                    characteristicUser.add(genderOrientation)
 
                     val list: List<String> = data["Tag"] as List<String>
-                    val a: Int = Characteristic.Tag.filterValues { it == list[0]}.keys.first()
-                    val b: Int? = Characteristic.Tag.filterValues { it == list[1]}.keys.first()
-                    val c: Int? = Characteristic.Tag.filterValues { it == list[2]}.keys.first()
-                    val d: Int? = Characteristic.Tag.filterValues { it == list[3]}.keys.first()
-                    val e: Int? = Characteristic.Tag.filterValues { it == list[4]}.keys.first()
-
-                    if (a != null && b != null && c != null&& d != null&& e != null) {
-                        characteristicUser = listOf(KeyValueDB.getUserShortId().toInt(), age, sex, genderOrientation, a.toInt(), b.toInt(), c.toInt(), d.toInt(), e.toInt())
-                        characteristicUser2ByteArray = convertListCharacteristic2ByteArray(
-                            characteristicUser as MutableList<Int>
-                        )
-                        dataReady = true
+                    for(tag in list){
+                        val digit: Int = Characteristic.Tag.filterValues { it == tag}.keys.first()
+                        characteristicUser.add(digit)
                     }
-                    Log.d(TAG, characteristicUser.toString())
+                    characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
+//                    val handler = Handler()
+//                    handler.postDelayed(
+//                    Runnable {
+//                        Log.d(TAG, "stop delay")
+//                        dataReady = true
+//                    }, 5000)
                 }
             }
             .addOnFailureListener{
@@ -93,21 +103,46 @@ class BleFragmentViewModel() : ViewModel() {
     }
 
     fun startFindFriend(context: Context) {
-        Log.d(TAG,characteristicUser.toString())
-        if (bluetoothAdapter.isEnabled) {
-            if(dataReady){
-                val intent = Intent(context, BleService::class.java)
-                val bundle = Bundle()
-                bundle.putByteArray("dataFromBleViewModel2BleService", characteristicUser2ByteArray)
-                intent.putExtras(bundle)
-                context.startService(intent)
-                isRunning.value = true
-            } else {
-                Toast.makeText(context, "Data is not ready, wait a moment", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            Toast.makeText(context, "Please turn on Bluetooth", Toast.LENGTH_SHORT).show()
-        }
+        setUpData2Advertise()
+        val handler = Handler()
+        handler.postDelayed(
+            Runnable {
+                Log.d(TAG, "stop delay")
+                dataReady = true
+                Log.d(TAG,characteristicUser.toString())
+                if (bluetoothAdapter.isEnabled) {
+                    if(dataReady){
+                        val intent = Intent(context, BleService::class.java)
+                        val bundle = Bundle()
+                        bundle.putByteArray("dataFromBleViewModel2BleService", characteristicUser2ByteArray)
+                        intent.putExtras(bundle)
+                        context.startService(intent)
+                        isRunning.value = true
+                        dataReady = false
+                    } else {
+                        Toast.makeText(context, "Data is not ready, wait a moment", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(context, "Please turn on Bluetooth", Toast.LENGTH_SHORT).show()
+                }
+            }, 5000
+        )
+//        Log.d(TAG,characteristicUser.toString())
+//        if (bluetoothAdapter.isEnabled) {
+//            if(dataReady){
+//                val intent = Intent(context, BleService::class.java)
+//                val bundle = Bundle()
+//                bundle.putByteArray("dataFromBleViewModel2BleService", characteristicUser2ByteArray)
+//                intent.putExtras(bundle)
+//                context.startService(intent)
+//                isRunning.value = true
+//                dataReady = false
+//            } else {
+//                Toast.makeText(context, "Data is not ready, wait a moment", Toast.LENGTH_SHORT).show()
+//            }
+//        } else {
+//            Toast.makeText(context, "Please turn on Bluetooth", Toast.LENGTH_SHORT).show()
+//        }
     }
 
     private fun convertListCharacteristic2ByteArray(input: MutableList<Int>): ByteArray {

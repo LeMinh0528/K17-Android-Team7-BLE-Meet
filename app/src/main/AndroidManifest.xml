@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.ceslab.team7_ble_meet">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -55,27 +57,30 @@
         <activity
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
-            android:name=".registerInformation.RegisterUserNameActivity"/>
+            android:name=".registerInformation.name.RegisterUserNameActivity"/>
         <activity
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
             android:name=".dashboard.DashBoardActivity" />
-        <activity android:name=".registerInformation.RegisterGenderActivity"/>
+        <activity android:name=".registerInformation.gender.RegisterGenderActivity"/>
         <activity
             android:screenOrientation="portrait"
-            android:name=".registerInformation.RegisterBirthdayActivity"/>
+            android:name=".registerInformation.dob.RegisterBirthdayActivity"/>
+        <activity
+            android:screenOrientation="portrait"
+            android:name="Activity.EditProfileActivity"/>
         <activity
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
-            android:name=".registerInformation.RegisterTagActivity"/>
-        <activity
-            android:screenOrientation="portrait"
-            android:name=".profile.ProfileActivity"/>
+            android:name=".registerInformation.tag.RegisterTagActivity"/>
+<!--        <activity-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:name=".profile.ProfileActivity"/>-->
         <activity
             android:screenOrientation="portrait"
             android:name=".setting.SettingActivity"/>
         <activity
-            android:name=".registerInformation.RegisterPictureActivity"
+            android:name=".registerInformation.avatar.RegisterPictureActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity
@@ -85,6 +90,9 @@
         <activity
             android:screenOrientation="portrait"
             android:name=".chat.ChatActivity"/>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".profile.EditPassionsActivity"/>
         <service android:name=".service.BleService"
             android:enabled="true"
             android:exported="false">

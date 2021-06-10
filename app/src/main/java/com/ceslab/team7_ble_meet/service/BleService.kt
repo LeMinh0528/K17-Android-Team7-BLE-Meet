@@ -1,18 +1,15 @@
 package com.ceslab.team7_ble_meet.service
 
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import com.ceslab.team7_ble_meet.*
+import com.ceslab.team7_ble_meet.ble.BleDataScanned
 import com.ceslab.team7_ble_meet.ble.BleHandle
 import com.ceslab.team7_ble_meet.db.BleDataScannedDataBase
-import com.ceslab.team7_ble_meet.model.BleDataScanned
-import com.ceslab.team7_ble_meet.repository.KeyValueDB
-import java.util.*
+//import com.ceslab.team7_ble_meet.model.BleDataScanned
 import kotlin.collections.ArrayList
-import kotlin.experimental.or
 
 
 class BleService: LifecycleService() {
@@ -37,9 +34,7 @@ class BleService: LifecycleService() {
         Log.d(TAG, "BleService on start command")
         if (intent != null) {
             intent.getByteArrayExtra("dataFromBleViewModel2BleService")?.let {
-                bleHandle.advertise(
-                    it
-                )
+                bleHandle.startAdvertise(it)
                 target = convertDataDiscovered(it)
                 Log.d(TAG, it.toString())
                 Log.d(TAG, "target: $target")
@@ -51,7 +46,7 @@ class BleService: LifecycleService() {
     }
 
     private fun sendBleNotification() {
-        val bleNotification = NotificationCompat.Builder(this, "pushNotificationChannel")
+        val bleNotification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("BLE MEET")
             .setContentText("Find friend is running")
             .setSmallIcon(R.drawable.ic_both)

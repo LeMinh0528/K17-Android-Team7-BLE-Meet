@@ -1,4 +1,4 @@
-package com.ceslab.team7_ble_meet.dashboard
+package com.ceslab.team7_ble_meet.dashboard.discoverFragment
 
 import android.util.Log
 import android.view.LayoutInflater
