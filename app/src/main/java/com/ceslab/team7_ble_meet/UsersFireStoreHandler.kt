@@ -520,5 +520,18 @@ class UsersFireStoreHandler {
             }
     }
 
+    fun setTagChangedListener(onComplete: (listTag: MutableList<String>) -> Unit):ListenerRegistration{
+        return userRef.document(KeyValueDB.getUserShortId())
+            .addSnapshotListener{ documentSnapshot, exception ->
+                Log.d("UserFireStoreHandle","${documentSnapshot?.get("Tag")} ")
+                if(exception != null){
+                    onComplete(mutableListOf())
+                }
+                if(documentSnapshot!= null){
+                    onComplete(documentSnapshot.get("Tag") as MutableList<String>)
+                }
+            }
+    }
+
     data class Resp(var type: String, var status: String, var message: String)
 }
