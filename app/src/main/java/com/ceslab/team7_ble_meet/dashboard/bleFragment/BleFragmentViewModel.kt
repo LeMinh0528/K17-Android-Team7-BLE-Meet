@@ -29,6 +29,7 @@ class BleFragmentViewModel() : ViewModel() {
     // Initializes Bluetooth adapter.
     private var bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
     var isBluetoothOn: Boolean = false
+    var startFindFriendClicked = false
     var isRunning: MutableLiveData<Boolean> = MutableLiveData(false)
     var isBleDataScannedDisplay: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -50,12 +51,15 @@ class BleFragmentViewModel() : ViewModel() {
                 val digit: Int = Characteristic.Tag.filterValues {
                     it == listTag[i]
                 }.keys.first()
-                characteristicUser[3 + i] = digit
+                characteristicUser[4 + i] = digit
             }
             characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
             context?.let {
-                startFindFriend(it)
-                deleteBleDataScanned(it)}
+                if(startFindFriendClicked){
+                    startFindFriend(it)
+                }
+                deleteBleDataScanned(it)
+            }
         }
     }
 
@@ -86,7 +90,7 @@ class BleFragmentViewModel() : ViewModel() {
                     val list: List<String> = data["Tag"] as List<String>
                     for (i in 0..4) {
                         val digit: Int = Characteristic.Tag.filterValues { it == list[i] }.keys.first()
-                        characteristicUser[3 + i] = digit
+                        characteristicUser[4 + i] = digit
                     }
                     characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
                 }
@@ -105,6 +109,12 @@ class BleFragmentViewModel() : ViewModel() {
             isBluetoothOn = false
             Log.d(TAG, "BLE is disable")
         }
+    }
+
+    fun handlerStartFindFriendClicked(){
+        startFindFriendClicked = true
+        context?.let { startFindFriend(it) }
+
     }
 
     fun findFriend(context: Context) {
@@ -176,6 +186,7 @@ class BleFragmentViewModel() : ViewModel() {
     fun stopFindFriend(context: Context) {
         val intent = Intent(context, BleService::class.java)
         context.stopService(intent)
+        startFindFriendClicked = false
         isRunning.value = false
     }
 

@@ -24,7 +24,7 @@ class BleService: LifecycleService() {
         Log.d(TAG, "BleService on create")
         bleHandle = BleHandle()
         bleHandle.bleDataScanned.observe(this, {
-            Log.d(TAG, "BleService ble data scanned")
+//            Log.d(TAG, "BleService ble data scanned")
             handleDataDiscovered(it)
         })
     }
@@ -58,8 +58,11 @@ class BleService: LifecycleService() {
     private fun handleDataDiscovered(data: ByteArray) {
         Log.d(TAG, bytesToHex(data))
         val dataDiscovered = data.drop(4)
+        Log.d(TAG,bytesToHex(dataDiscovered.toByteArray()))
         val listOfCharacteristic = convertDataDiscovered(dataDiscovered.toByteArray())
+        Log.d(TAG,listOfCharacteristic.toString())
         if (checkCharacteristic(listOfCharacteristic, target)) {
+            Log.d(TAG,"handlerDataDiscoverd successful")
             addUser(listOfCharacteristic)
         }
     }
@@ -100,6 +103,7 @@ class BleService: LifecycleService() {
     }
 
     private fun checkCharacteristic(input: List<Int>, filter: List<Int>): Boolean {
+
         var score = 0
         for (i in 4..8){
             for (j in 4..8){
@@ -108,6 +112,9 @@ class BleService: LifecycleService() {
                 }
             }
         }
+        Log.d(TAG,"input $input")
+        Log.d(TAG,"filter: $filter")
+        Log.d(TAG,"score $score")
         return score >= 3
     }
 
