@@ -50,7 +50,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="60dp"
                                 android:gravity="center"
-                                android:text=""
+                                android:layout_marginHorizontal="20dp"
+                                android:ems="10"
+
                                 android:textSize="20dp"
                                 android:textStyle="bold"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -82,6 +84,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text=""
+                                android:layout_marginHorizontal="20dp"
                                 android:textSize="15dp"
                                 android:textStyle="normal"
                                 app:layout_constraintTop_toBottomOf="@+id/ln_age"

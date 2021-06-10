@@ -62,13 +62,14 @@ class SettingActivity : AppCompatActivity() {
         instance.deleteToken(KeyValueDB.getUserToken()){ status ->
             Log.d("SettingActivity","status: $status")
             if(status == "SUCCESS"){
+                BleDataScannedDataBase.getDatabase(this).bleDataScannedDao().deleteAll()
                 goToLogIn()
             }else{
                 toast("Error: cannot logout")
             }
 
         }
-        BleDataScannedDataBase.getDatabase(this).bleDataScannedDao().deleteAll()
+
     }
 
     private fun goToLogIn(){

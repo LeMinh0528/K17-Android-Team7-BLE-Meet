@@ -32,10 +32,10 @@ class DashBoardActivity: AppCompatActivity() {
                 R.id.awesome ->{
                     viewPager.currentItem = 0
                 }
-                R.id.bluetooth ->{
+                R.id.chats ->{
                     viewPager.currentItem = 1
                 }
-                R.id.chats ->{
+                R.id.bluetooth ->{
                     viewPager.currentItem = 2
                 }
                 R.id.info ->{
@@ -76,8 +76,8 @@ class DashBoardActivity: AppCompatActivity() {
     private fun setUpViewPager(){
         viewPagerAdapter = ViewPagerAdapter(supportFragmentManager)
         viewPagerAdapter.addFragment(DiscoverFragment(),"Swipe")
-        viewPagerAdapter.addFragment(BleFragment(),"Bluetooth")
         viewPagerAdapter.addFragment(PeoplesFragment(),"Chats")
+        viewPagerAdapter.addFragment(BleFragment(),"Bluetooth")
         viewPagerAdapter.addFragment(InformationFragment(),"Information")
         viewPager.adapter = viewPagerAdapter
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
@@ -88,15 +88,15 @@ class DashBoardActivity: AppCompatActivity() {
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
-                Log.d("TAG","position: $position, ofset: $positionOffset, pixel: $positionOffsetPixels")
+                Log.d("DashBoardActivity","position: $position, ofset: $positionOffset, pixel: $positionOffsetPixels")
 
             }
             override fun onPageSelected(position: Int) {
-                Log.d("TAG",position.toString())
+                Log.d("DashBoardActivity",position.toString())
                 when(position){
                     0 -> navigationView.setItemSelected(R.id.awesome,true)
-                    1 -> navigationView.setItemSelected(R.id.bluetooth,true)
-                    2 -> navigationView.setItemSelected(R.id.chats,true)
+                    1 -> navigationView.setItemSelected(R.id.chats,true)
+                    2 -> navigationView.setItemSelected(R.id.bluetooth,true)
                     3 -> navigationView.setItemSelected(R.id.info,true)
                 }
             }

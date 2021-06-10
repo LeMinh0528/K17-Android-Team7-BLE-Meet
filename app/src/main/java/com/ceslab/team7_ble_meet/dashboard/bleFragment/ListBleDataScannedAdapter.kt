@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 //import com.ceslab.team7_ble_meet.model.BleDataScanned
 import com.ceslab.team7_ble_meet.R
+import com.ceslab.team7_ble_meet.addZeroNum
 import com.ceslab.team7_ble_meet.ble.BleDataScanned
 import kotlinx.android.synthetic.main.item_ble_data_discovered.view.*
 
@@ -58,7 +59,7 @@ class ListBleDataScannedAdapter: RecyclerView.Adapter<ListBleDataScannedAdapter.
         }
 
         fun bind(item : BleDataScanned, listener: ListBleDataScannedAdapter.IdClickedListener,clickNextListender: ListBleDataScannedAdapter.onClickNextListender){
-            tvId.text = item.ID.toString()
+            tvId.text = addZeroNum(item.ID)
             tvCharacteristic.text = item.description
             itemView.setOnClickListener{
                 Log.d("MainActivity","item clicked")

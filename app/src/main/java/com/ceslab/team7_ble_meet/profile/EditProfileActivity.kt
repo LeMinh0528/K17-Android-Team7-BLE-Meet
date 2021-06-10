@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.databinding.ActivityEditprofileBinding
 import com.ceslab.team7_ble_meet.dialog.*
+import com.ceslab.team7_ble_meet.profile.EditPassionsActivity
 import com.ceslab.team7_ble_meet.profile.EditProfileViewModel
 import com.ceslab.team7_ble_meet.toast
 import com.ceslab.team7_ble_meet.utils.GlideApp
@@ -63,12 +64,21 @@ class EditProfileActivity : AppCompatActivity() {
         if(!checkPermission(this, permission)){
             requestPermissions(permission, PERMISSION_REQUEST)
         }
-        getData()
+
+        setAction()
     }
     private fun bindView(){
         viewModel = ViewModelProvider(this).get(EditProfileViewModel::class.java)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_editprofile)
         binding.lifecycleOwner = this
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getData()
+    }
+
+    private fun setAction(){
         binding.apply {
             tvEditavatar.setOnClickListener{
                 setUpBottomSheet(REQUEST_CAMERA_AVATAR,PICK_IMAGE_AVATAR)
@@ -85,16 +95,33 @@ class EditProfileActivity : AppCompatActivity() {
             addbio.setOnClickListener {
                 editBioDialog = showConfirm(
                     title = "Edit Bio",
-                    textYes = "Yes",
+                    message = binding.bio.text.toString(),
+                    textYes = "OK",
                     textCancel = "Cancel",
                     object: EditDialogListener {
                         override fun cancel() {
                             editBioDialog?.dismiss()
                         }
 
-                        override fun confirm() {
+                        override fun confirm(result: String) {
+                            Log.d("EditProfileActivity","result: $result")
+                            viewModel.updateBio(result){ status, bio ->
+                                if(status == "SUCCESS"){
+                                    binding.bio.text = bio
+                                    toast("Update bio successful!")
+                                }else{
+                                    toast("Error updating bio!")
+                                }
+
+                            }
                         }
                     })
+            }
+            tvtag.setOnClickListener{
+                val intent = Intent(this@EditProfileActivity, EditPassionsActivity::class.java)
+//                intent.putExtra("TAG",viewModel.tag)
+                startActivityForResult(intent,6)
+
             }
         }
     }
@@ -216,12 +243,15 @@ class EditProfileActivity : AppCompatActivity() {
                 binding.bio.text = it.bio
             }
             showFirstChip(it.tag)
-
+            if(it.tag.isNotEmpty()){
+                viewModel.tag = it.tag
+            }
         }
     }
 
     private fun showFirstChip(listChip: MutableList<String>) {
         Log.d("InformationFragment", "tags chip: $listChip")
+        binding.chipGroup.removeAllViews()
         for (i in listChip) {
             val chip =
                 layoutInflater.inflate(R.layout.item_chip_filter, binding.chipGroup, false) as Chip
@@ -270,6 +300,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
     fun showConfirm(title:String,
+                    message: String,
                     textYes: String,
                     textCancel: String,
                     listener: EditDialogListener):
@@ -277,6 +308,7 @@ class EditProfileActivity : AppCompatActivity() {
         Log.d("TAG","onback press")
         val dialog = EditBioDialog.Builder()
             .title(title)
+            .message(message)
             .yesText(textYes)
             .cancelText(textCancel)
             .listener(listener)

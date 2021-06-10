@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.ceslab.team7_ble_meet">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -65,16 +66,16 @@
         <activity
             android:screenOrientation="portrait"
             android:name=".registerInformation.dob.RegisterBirthdayActivity"/>
-<!--        <activity-->
-<!--            android:screenOrientation="portrait"-->
-<!--            android:name="Activity.EditProfileActivity"/>-->
+        <activity
+            android:screenOrientation="portrait"
+            android:name="Activity.EditProfileActivity"/>
         <activity
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
             android:name=".registerInformation.tag.RegisterTagActivity"/>
-        <activity
-            android:screenOrientation="portrait"
-            android:name=".profile.ProfileActivity"/>
+<!--        <activity-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:name=".profile.ProfileActivity"/>-->
         <activity
             android:screenOrientation="portrait"
             android:name=".setting.SettingActivity"/>
@@ -89,6 +90,9 @@
         <activity
             android:screenOrientation="portrait"
             android:name=".chat.ChatActivity"/>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".profile.EditPassionsActivity"/>
         <service android:name=".service.BleService"
             android:enabled="true"
             android:exported="false">

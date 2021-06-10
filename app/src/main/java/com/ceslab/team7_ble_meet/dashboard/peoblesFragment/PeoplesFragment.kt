@@ -20,7 +20,7 @@ import com.xwray.groupie.Section
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.fragment_chats.*
 
-class PeoplesFragment: Fragment() {
+class PeoplesFragment : Fragment() {
     private val TAG = "PeoplesFragment"
     private lateinit var userListenerRegistration: ListenerRegistration
 
@@ -33,24 +33,26 @@ class PeoplesFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_chats,container,false)
-        userListenerRegistration = UsersFireStoreHandler().addUserListener(requireContext(),this::updateRecyclerView)
+        val view = inflater.inflate(R.layout.fragment_chats, container, false)
+        userListenerRegistration =
+            UsersFireStoreHandler().addUserListener(requireContext(), this::updateRecyclerView)
         return view
     }
 
-    private fun updateRecyclerView(items: List<PersonItem>){
+    private fun updateRecyclerView(items: List<PersonItem>) {
 
-        fun checkEmpty(){
-            if(items.isEmpty()){
+        fun checkEmpty() {
+            Log.d("PeopleFragment","check Empty: ${items.isEmpty()}")
+            if (items.isEmpty()) {
                 recycler_view_people.visibility = View.GONE
                 ic_empty.visibility = View.VISIBLE
-            }else{
+            } else {
                 recycler_view_people.visibility = View.VISIBLE
                 ic_empty.visibility = View.GONE
             }
         }
 
-        fun init(){
+        fun init() {
             recycler_view_people.apply {
                 layoutManager = LinearLayoutManager(this@PeoplesFragment.context)
                 adapter = GroupAdapter<ViewHolder>().apply {
@@ -68,40 +70,37 @@ class PeoplesFragment: Fragment() {
             checkEmpty()
             peopleSection.update(items)
         }
-        if(shouldInitRecyclerView){
+        if (shouldInitRecyclerView) {
             init()
-        }else{
+        } else {
             updateItems()
         }
 
-
-
     }
 
-
-
-    private val onClick = OnItemClickListener{ item, _ ->
-       if(item is PersonItem){
-           val intent = Intent(requireContext(),ChatActivity::class.java)
-           intent.putExtra(AppConstants.USER_NAME,item.userName)
-           intent.putExtra(AppConstants.USER_ID,item.userId)
-           intent.putExtra(AppConstants.AVATAR,item.imagePath)
-           startActivity(intent)
-       }
+    private val onClick = OnItemClickListener { item, _ ->
+        if (item is PersonItem) {
+            val intent = Intent(requireContext(), ChatActivity::class.java)
+            intent.putExtra(AppConstants.USER_NAME, item.userName)
+            intent.putExtra(AppConstants.USER_ID, item.userId)
+            intent.putExtra(AppConstants.AVATAR, item.imagePath)
+            startActivity(intent)
+        }
 
     }
 
     override fun onPause() {
-        Log.d(TAG,"onPause")
-        UsersFireStoreHandler().removeListener(userListenerRegistration)
+        Log.d(TAG, "onPause")
+//        UsersFireStoreHandler().removeListener(userListenerRegistration)
         shouldInitRecyclerView = true
         super.onPause()
 
     }
+
     override fun onDestroy() {
-        Log.d(TAG,"onDestroy")
+        Log.d(TAG, "onDestroy")
         super.onDestroy()
-        Log.d(TAG,"onDestroy")
+        Log.d(TAG, "onDestroy")
         UsersFireStoreHandler().removeListener(userListenerRegistration)
         shouldInitRecyclerView = true
     }

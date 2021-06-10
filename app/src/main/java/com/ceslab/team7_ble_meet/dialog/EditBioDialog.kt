@@ -13,7 +13,7 @@ import com.ceslab.team7_ble_meet.service.MyApplication.Companion.context
 
 interface EditDialogListener {
     fun cancel()
-    fun confirm()
+    fun confirm(result: String)
 }
 class EditBioDialog(private val builder: Builder?): DialogFragment() {
     private var tvTile: TextView? = null
@@ -47,7 +47,7 @@ class EditBioDialog(private val builder: Builder?): DialogFragment() {
             dismiss()
         }
         btnOk?.setOnClickListener {
-            this.builder?.listener?.confirm()
+            this.builder?.listener?.confirm(tvInfo?.text.toString())
             dismiss()
         }
     }
@@ -63,14 +63,19 @@ class EditBioDialog(private val builder: Builder?): DialogFragment() {
             it.tvCancel?.let {
                 tvCancel?.text = it
             }
+            it.message?.let{
+                tvInfo?.setText(it)
+            }
         }
     }
 
     data class Builder(var title: String? = context?.getString(R.string.confirmation),
+                       var message: String? = "",
                        var tvYes: String? = context?.getString(R.string.yes),
                        var tvCancel: String? = context?.getString(R.string.cancel),
                        var listener: EditDialogListener? = null) {
         fun title(title: String?) = apply { this.title = title }
+        fun message(message: String?) = apply{this.message = message}
         fun yesText(text: String?) = apply { this.tvYes = text }
         fun cancelText(text: String?) = apply { this.tvCancel = text}
         fun listener(listener: EditDialogListener?) = apply { this.listener = listener }
