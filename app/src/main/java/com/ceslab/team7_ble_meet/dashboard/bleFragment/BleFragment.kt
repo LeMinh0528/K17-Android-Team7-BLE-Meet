@@ -88,6 +88,7 @@ class BleFragment : Fragment() {
         checkPermissions()
         bleFragmentViewModel =
             ViewModelProvider(requireActivity()).get(BleFragmentViewModel::class.java)
+        bleFragmentViewModel.context = requireContext()
         setUpBle()
         setUpUI(inflater, container)
         return bleFragmentBinding.root
