@@ -109,7 +109,7 @@ class EditPassionsActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (listChooser.size < 4) {
+        if (listChooser.size < 5) {
             confirmDialog =
                 showConfirm(message = "To have passions display on your profile, you must select at least 5 passions",
                     title = getString(R.string.needpassions),

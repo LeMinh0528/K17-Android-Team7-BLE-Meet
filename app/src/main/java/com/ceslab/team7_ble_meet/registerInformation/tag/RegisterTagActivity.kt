@@ -121,7 +121,7 @@ class RegisterTagActivity : AppCompatActivity() {
                 run {
                     Log.d("RegisterTagActivity","isChecked: $isChecked")
                     if (isChecked) {
-                        if(listChooser.size > 5){
+                        if(listChooser.size > 4){
                             chip.setTextColor(ContextCompat.getColor(applicationContext,R.color.colorgray400))
                             chip.isChecked = false
                         }else{
