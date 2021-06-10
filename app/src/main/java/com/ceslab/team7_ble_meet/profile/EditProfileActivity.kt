@@ -117,6 +117,9 @@ class EditProfileActivity : AppCompatActivity() {
                         }
                     })
             }
+            btnBackpress.setOnClickListener {
+                finish()
+            }
             tvtag.setOnClickListener{
                 val intent = Intent(this@EditProfileActivity, EditPassionsActivity::class.java)
 //                intent.putExtra("TAG",viewModel.tag)
