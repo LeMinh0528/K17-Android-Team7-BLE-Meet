@@ -104,6 +104,7 @@ class BleFragmentViewModel() : ViewModel() {
 
     fun startFindFriend(context: Context) {
         setUpData2Advertise()
+        isRunning.value = true
         val handler = Handler()
         handler.postDelayed(
             Runnable {
@@ -117,7 +118,6 @@ class BleFragmentViewModel() : ViewModel() {
                         bundle.putByteArray("dataFromBleViewModel2BleService", characteristicUser2ByteArray)
                         intent.putExtras(bundle)
                         context.startService(intent)
-                        isRunning.value = true
                         dataReady = false
                     } else {
                         Toast.makeText(context, "Data is not ready, wait a moment", Toast.LENGTH_SHORT).show()
