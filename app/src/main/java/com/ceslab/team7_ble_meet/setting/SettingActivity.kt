@@ -8,6 +8,7 @@ import androidx.cardview.widget.CardView
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.UsersFireStoreHandler
 import com.ceslab.team7_ble_meet.dashboard.DashBoardActivity
+import com.ceslab.team7_ble_meet.db.BleDataScannedDataBase
 import com.ceslab.team7_ble_meet.dialog.ConfirmDialog
 import com.ceslab.team7_ble_meet.dialog.ConfirmDialogListener
 import com.ceslab.team7_ble_meet.login.LogInActivity
@@ -67,6 +68,7 @@ class SettingActivity : AppCompatActivity() {
             }
 
         }
+        BleDataScannedDataBase.getDatabase(this).bleDataScannedDao().deleteAll()
     }
 
     private fun goToLogIn(){
