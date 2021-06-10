@@ -18,6 +18,8 @@ import com.ceslab.team7_ble_meet.service.BleService
 import java.util.*
 import kotlin.experimental.or
 import android.os.Handler
+import com.google.firebase.firestore.ListenerRegistration
+import kotlinx.android.synthetic.main.item_person.*
 
 
 class BleFragmentViewModel() : ViewModel() {
@@ -31,13 +33,30 @@ class BleFragmentViewModel() : ViewModel() {
     var isBleDataScannedDisplay: MutableLiveData<Boolean> = MutableLiveData(false)
 
     private var instance = UsersFireStoreHandler()
-    private lateinit var characteristicUser: MutableList<Int>
-    private lateinit var characteristicUser2ByteArray: ByteArray
-    var dataReady = false
+    private var characteristicUser: MutableList<Int> = mutableListOf(0,0,0,0,0,0,0,0,0)
+    lateinit var characteristicUser2ByteArray: ByteArray
+    private var dataReady = false
+    var context: Context? = null
+
+    lateinit var listener : ListenerRegistration
 
     init{
-        Log.d(TAG, "BleFragmentViewModel init")
         setUpData2Advertise()
+        Log.d(TAG, "BleFragmentViewModel init")
+        listener = UsersFireStoreHandler().setTagChangedListener(){listTag ->
+            Log.d(TAG,"something changed on firebase")
+            Log.d(TAG, listTag.toString())
+            for (i in 0..4) {
+                val digit: Int = Characteristic.Tag.filterValues {
+                    it == listTag[i]
+                }.keys.first()
+                characteristicUser[3 + i] = digit
+            }
+            characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
+            context?.let {
+                startFindFriend(it)
+                deleteBleDataScanned(it)}
+        }
     }
 
     private fun setUpData2Advertise(){
@@ -46,7 +65,7 @@ class BleFragmentViewModel() : ViewModel() {
             .get()
             .addOnSuccessListener { data ->
                 //add id
-                characteristicUser = mutableListOf(KeyValueDB.getUserShortId().toInt())
+                characteristicUser[0] = KeyValueDB.getUserShortId().toInt()
                 Log.d(TAG, characteristicUser.toString())
 
                 if(data != null){
@@ -54,28 +73,22 @@ class BleFragmentViewModel() : ViewModel() {
                     val current: Int = Calendar.getInstance().get(Calendar.YEAR);
                     val yearOfBirth = data["DayOfBirth"].toString().split("/")[2].toInt()
                     val age = (current - yearOfBirth)
-                    characteristicUser.add(age)
+                    characteristicUser[1] = age
 
                     val sex = if(data["Gender"].toString() == "Male") 0 else 1
-                    characteristicUser.add(sex)
+                    characteristicUser[2] = sex
 
                     val genderOrientation = if(data["Interested"].toString() == "Male") 0 else {
                         if (data["Interested"].toString() != "Female") 1 else 2
                     }
-                    characteristicUser.add(genderOrientation)
+                    characteristicUser[3] = genderOrientation
 
                     val list: List<String> = data["Tag"] as List<String>
-                    for(tag in list){
-                        val digit: Int = Characteristic.Tag.filterValues { it == tag}.keys.first()
-                        characteristicUser.add(digit)
+                    for (i in 0..4) {
+                        val digit: Int = Characteristic.Tag.filterValues { it == list[i] }.keys.first()
+                        characteristicUser[3 + i] = digit
                     }
                     characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
-//                    val handler = Handler()
-//                    handler.postDelayed(
-//                    Runnable {
-//                        Log.d(TAG, "stop delay")
-//                        dataReady = true
-//                    }, 5000)
                 }
             }
             .addOnFailureListener{
@@ -103,7 +116,9 @@ class BleFragmentViewModel() : ViewModel() {
     }
 
     fun startFindFriend(context: Context) {
-        setUpData2Advertise()
+        Log.d(TAG, "start find friend")
+        Log.d(TAG,characteristicUser.toString())
+        isRunning.value = true
         val handler = Handler()
         handler.postDelayed(
             Runnable {
@@ -117,7 +132,6 @@ class BleFragmentViewModel() : ViewModel() {
                         bundle.putByteArray("dataFromBleViewModel2BleService", characteristicUser2ByteArray)
                         intent.putExtras(bundle)
                         context.startService(intent)
-                        isRunning.value = true
                         dataReady = false
                     } else {
                         Toast.makeText(context, "Data is not ready, wait a moment", Toast.LENGTH_SHORT).show()
@@ -127,22 +141,6 @@ class BleFragmentViewModel() : ViewModel() {
                 }
             }, 5000
         )
-//        Log.d(TAG,characteristicUser.toString())
-//        if (bluetoothAdapter.isEnabled) {
-//            if(dataReady){
-//                val intent = Intent(context, BleService::class.java)
-//                val bundle = Bundle()
-//                bundle.putByteArray("dataFromBleViewModel2BleService", characteristicUser2ByteArray)
-//                intent.putExtras(bundle)
-//                context.startService(intent)
-//                isRunning.value = true
-//                dataReady = false
-//            } else {
-//                Toast.makeText(context, "Data is not ready, wait a moment", Toast.LENGTH_SHORT).show()
-//            }
-//        } else {
-//            Toast.makeText(context, "Please turn on Bluetooth", Toast.LENGTH_SHORT).show()
-//        }
     }
 
     private fun convertListCharacteristic2ByteArray(input: MutableList<Int>): ByteArray {
