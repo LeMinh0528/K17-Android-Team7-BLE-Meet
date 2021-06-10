@@ -53,7 +53,9 @@ class BleFragmentViewModel() : ViewModel() {
                 characteristicUser[3 + i] = digit
             }
             characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
-            context?.let { startFindFriend(it) }
+            context?.let {
+                startFindFriend(it)
+                deleteBleDataScanned(it)}
         }
     }
 
