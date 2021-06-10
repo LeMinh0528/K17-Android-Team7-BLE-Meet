@@ -69,11 +69,6 @@ class RegisterUserNameActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-
-        //show dialog
-        //if dialog show -> shut down dialog
-        //else show dialog
-        Log.d("TAG","onback press")
         confirmDialog = showConfirm(message = "Do you want to cancel process, all your data will be delete?",
             title = getString(R.string.confirmation),
             textYes = "Yes",
@@ -101,11 +96,11 @@ class RegisterUserNameActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun showConfirm(message: String,
-                    title:String,
-                    textYes: String,
-                    textCancel: String,
-                    listener: ConfirmDialogListener):
+    private fun showConfirm(message: String,
+                            title:String,
+                            textYes: String,
+                            textCancel: String,
+                            listener: ConfirmDialogListener):
             ConfirmDialog{
         Log.d("TAG","onback press")
         val dialog = ConfirmDialog.Builder()
