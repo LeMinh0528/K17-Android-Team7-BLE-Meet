@@ -84,10 +84,8 @@ class BleFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d(TAG, "BleFragment on Create View 1")
         checkPermissions()
-        bleFragmentViewModel =
-            ViewModelProvider(requireActivity()).get(BleFragmentViewModel::class.java)
+        bleFragmentViewModel = ViewModelProvider(requireActivity()).get(BleFragmentViewModel::class.java)
         bleFragmentViewModel.context = requireContext()
         setUpBle()
         setUpUI(inflater, container)
@@ -149,7 +147,7 @@ class BleFragment : Fragment() {
             })
 
             btnStartFindFriend.setOnClickListener {
-                bleFragmentViewModel.startFindFriend(requireContext())
+                bleFragmentViewModel.handleStartFindFriendClicked()
             }
 
             btnStopFindFriend.setOnClickListener {
@@ -172,7 +170,6 @@ class BleFragment : Fragment() {
                         .bleDataScannedDao()
                         .getUserDiscover() as ArrayList<BleDataScanned>
                 } else {
-                    Log.d(TAG, "hide the list")
                     btnFindFriend.isGone = false
                     vRipple.isGone = false
                     rcListBleDataScanned.visibility = View.GONE
@@ -183,9 +180,6 @@ class BleFragment : Fragment() {
                 object : ListBleDataScannedAdapter.IdClickedListener {
                     override fun onClickListen(id: String) {
                         Log.d(TAG, id)
-//                        val intent = Intent(activity, ProfileActivity::class.java)
-//                        intent.putExtra("idFromConnectFragmentToProfile", id)
-//                        startActivity(intent)
                     }
                 }
             listDataDiscoveredAdapter.nextlistener =
