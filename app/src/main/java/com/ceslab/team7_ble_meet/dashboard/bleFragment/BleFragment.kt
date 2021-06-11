@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.location.LocationListener
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -28,7 +29,6 @@ import com.ceslab.team7_ble_meet.chat.ChatActivity
 import com.ceslab.team7_ble_meet.databinding.FragmentBleBinding
 import com.ceslab.team7_ble_meet.db.BleDataScannedDataBase
 
-//import com.ceslab.team7_ble_meet.model.BleDataScanned
 
 class BleFragment : Fragment() {
 
@@ -43,6 +43,8 @@ class BleFragment : Fragment() {
 
     // Initializes Bluetooth adapter.
     private lateinit var bluetoothAdapter: BluetoothAdapter
+
+    private lateinit var locationListener: LocationListener
 
     //adapter for recycler view
     private var listDataDiscoveredAdapter = ListBleDataScannedAdapter()

@@ -36,7 +36,6 @@ class BleFragmentViewModel() : ViewModel() {
     private var instance = UsersFireStoreHandler()
     private var characteristicUser: MutableList<Int> = mutableListOf(0,0,0,0,0,0,0,0,0)
     lateinit var characteristicUser2ByteArray: ByteArray
-    private var dataReady = false
     var context: Context? = null
 
 
