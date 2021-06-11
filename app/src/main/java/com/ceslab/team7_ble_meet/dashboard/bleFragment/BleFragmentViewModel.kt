@@ -39,14 +39,12 @@ class BleFragmentViewModel() : ViewModel() {
     private var dataReady = false
     var context: Context? = null
 
-    lateinit var listener : ListenerRegistration
+
+    var listener : ListenerRegistration
 
     init{
         setUpData2Advertise()
-        Log.d(TAG, "BleFragmentViewModel init")
         listener = UsersFireStoreHandler().setTagChangedListener(){listTag ->
-            Log.d(TAG,"something changed on firebase")
-            Log.d(TAG, listTag.toString())
             for (i in 0..4) {
                 val digit: Int = Characteristic.Tag.filterValues {
                     it == listTag[i]
@@ -61,16 +59,15 @@ class BleFragmentViewModel() : ViewModel() {
                 deleteBleDataScanned(it)
             }
         }
+
     }
 
     private fun setUpData2Advertise(){
-        Log.d(TAG, "BleFragmentViewModel set up data to advertise")
         instance.userRef.document(KeyValueDB.getUserShortId())
             .get()
             .addOnSuccessListener { data ->
                 //add id
                 characteristicUser[0] = KeyValueDB.getUserShortId().toInt()
-                Log.d(TAG, characteristicUser.toString())
 
                 if(data != null){
                     //add age
@@ -87,11 +84,7 @@ class BleFragmentViewModel() : ViewModel() {
                     }
                     characteristicUser[3] = genderOrientation
 
-                    val list: List<String> = data["Tag"] as List<String>
-                    for (i in 0..4) {
-                        val digit: Int = Characteristic.Tag.filterValues { it == list[i] }.keys.first()
-                        characteristicUser[4 + i] = digit
-                    }
+                    Log.d(TAG, "BleFragmentViewModel: set up data to advertise $characteristicUser")
                     characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
                 }
             }
@@ -99,58 +92,31 @@ class BleFragmentViewModel() : ViewModel() {
             }
     }
 
-    fun changeBluetoothStatus(isChecked: Boolean) {
-        if (isChecked) {
-            bluetoothAdapter.enable()
-            isBluetoothOn = true
-            Log.d(TAG, "BLE is enable")
-        } else {
-            bluetoothAdapter.disable()
-            isBluetoothOn = false
-            Log.d(TAG, "BLE is disable")
-        }
-    }
-
-    fun handlerStartFindFriendClicked(){
+    fun handleStartFindFriendClicked(){
         startFindFriendClicked = true
         context?.let { startFindFriend(it) }
-
     }
 
     fun findFriend(context: Context) {
         if (isRunning.value == true) {
             stopFindFriend(context)
         } else {
-            startFindFriend(context)
+            handleStartFindFriendClicked()
         }
     }
 
-    fun startFindFriend(context: Context) {
-        Log.d(TAG, "start find friend")
-        Log.d(TAG,characteristicUser.toString())
-        isRunning.value = true
-        val handler = Handler()
-        handler.postDelayed(
-            Runnable {
-                Log.d(TAG, "stop delay")
-                dataReady = true
-                Log.d(TAG,characteristicUser.toString())
-                if (bluetoothAdapter.isEnabled) {
-                    if(dataReady){
-                        val intent = Intent(context, BleService::class.java)
-                        val bundle = Bundle()
-                        bundle.putByteArray("dataFromBleViewModel2BleService", characteristicUser2ByteArray)
-                        intent.putExtras(bundle)
-                        context.startService(intent)
-                        dataReady = false
-                    } else {
-                        Toast.makeText(context, "Data is not ready, wait a moment", Toast.LENGTH_SHORT).show()
-                    }
-                } else {
-                    Toast.makeText(context, "Please turn on Bluetooth", Toast.LENGTH_SHORT).show()
-                }
-            }, 5000
-        )
+    private fun startFindFriend(context: Context) {
+        Log.d(TAG, "BleFragmentViewModel: start find friend: $characteristicUser")
+        if (bluetoothAdapter.isEnabled) {
+            val intent = Intent(context, BleService::class.java)
+            val bundle = Bundle()
+            bundle.putByteArray("dataFromBleViewModel2BleService", characteristicUser2ByteArray)
+            intent.putExtras(bundle)
+            context.startService(intent)
+            isRunning.value = true
+        } else {
+            Toast.makeText(context, "Please turn on Bluetooth", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun convertListCharacteristic2ByteArray(input: MutableList<Int>): ByteArray {
@@ -204,5 +170,17 @@ class BleFragmentViewModel() : ViewModel() {
     fun deleteBleDataScanned(context: Context){
         BleDataScannedDataBase.getDatabase(context).bleDataScannedDao().deleteAll()
         isBleDataScannedDisplay.value = false
+    }
+
+    fun changeBluetoothStatus(isChecked: Boolean) {
+        if (isChecked) {
+            bluetoothAdapter.enable()
+            isBluetoothOn = true
+            Log.d(TAG, "BLE is enable")
+        } else {
+            bluetoothAdapter.disable()
+            isBluetoothOn = false
+            Log.d(TAG, "BLE is disable")
+        }
     }
 }

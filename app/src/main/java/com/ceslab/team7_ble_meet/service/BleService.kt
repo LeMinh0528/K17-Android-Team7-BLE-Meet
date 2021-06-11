@@ -4,6 +4,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.MutableLiveData
 import com.ceslab.team7_ble_meet.*
 import com.ceslab.team7_ble_meet.ble.BleDataScanned
 import com.ceslab.team7_ble_meet.ble.BleHandle
@@ -17,27 +18,25 @@ class BleService: LifecycleService() {
     val CHANNEL_ID = "channel_ble"
 
     private lateinit var bleHandle: BleHandle
-    private lateinit var target: List<Int>
+    private lateinit var filter: List<Int>
 
+    var change: MutableLiveData<Boolean> = MutableLiveData(false)
     override fun onCreate() {
         super.onCreate()
-        Log.d(TAG, "BleService on create")
         bleHandle = BleHandle()
         bleHandle.bleDataScanned.observe(this, {
-//            Log.d(TAG, "BleService ble data scanned")
+            Log.d(TAG, "BleService ble data scanned")
             handleDataDiscovered(it)
         })
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-        Log.d(TAG, "BleService on start command")
         if (intent != null) {
             intent.getByteArrayExtra("dataFromBleViewModel2BleService")?.let {
                 bleHandle.startAdvertise(it)
-                target = convertDataDiscovered(it)
-                Log.d(TAG, it.toString())
-                Log.d(TAG, "target: $target")
+                filter = convertByteArray2ListCharacteristic(it)
+                Log.d(TAG, "BLE Service filter: $filter")
             }
         }
         bleHandle.scan()
@@ -56,13 +55,9 @@ class BleService: LifecycleService() {
     }
 
     private fun handleDataDiscovered(data: ByteArray) {
-        Log.d(TAG, bytesToHex(data))
         val dataDiscovered = data.drop(4)
-        Log.d(TAG,bytesToHex(dataDiscovered.toByteArray()))
-        val listOfCharacteristic = convertDataDiscovered(dataDiscovered.toByteArray())
-        Log.d(TAG,listOfCharacteristic.toString())
-        if (checkCharacteristic(listOfCharacteristic, target)) {
-            Log.d(TAG,"handlerDataDiscoverd successful")
+        val listOfCharacteristic = convertByteArray2ListCharacteristic(dataDiscovered.toByteArray())
+        if (checkCharacteristic(listOfCharacteristic, filter)) {
             addUser(listOfCharacteristic)
         }
     }
@@ -74,7 +69,7 @@ class BleService: LifecycleService() {
         BleDataScannedDataBase.getDatabase(this).dataChanged()
     }
 
-    private fun convertDataDiscovered(data: ByteArray): List<Int> {
+    private fun convertByteArray2ListCharacteristic(data: ByteArray): List<Int> {
         val rawData = ArrayList<Int>()
         Log.d(TAG, bytesToHex(data))
         val sizeEachCharacter = mutableListOf(24, 8, 1, 2, 8, 8, 8, 8, 8)
@@ -103,7 +98,6 @@ class BleService: LifecycleService() {
     }
 
     private fun checkCharacteristic(input: List<Int>, filter: List<Int>): Boolean {
-
         var score = 0
         for (i in 4..8){
             for (j in 4..8){
@@ -120,6 +114,7 @@ class BleService: LifecycleService() {
 
     override fun onDestroy() {
         super.onDestroy()
+        bleHandle.stopAdvertise()
         Log.d(TAG, "stop ble service")
     }
 }
