@@ -4,7 +4,6 @@ import android.content.Intent
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
-import androidx.lifecycle.MutableLiveData
 import com.ceslab.team7_ble_meet.*
 import com.ceslab.team7_ble_meet.ble.BleDataScanned
 import com.ceslab.team7_ble_meet.ble.BleHandle
@@ -20,7 +19,6 @@ class BleService: LifecycleService() {
     private lateinit var bleHandle: BleHandle
     private lateinit var filter: List<Int>
 
-    var change: MutableLiveData<Boolean> = MutableLiveData(false)
     override fun onCreate() {
         super.onCreate()
         bleHandle = BleHandle()

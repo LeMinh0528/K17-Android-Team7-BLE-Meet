@@ -14,58 +14,55 @@ class BleHandle {
     private val manuId: Int = 0x6969
 
     private val advertiser = BluetoothAdapter.getDefaultAdapter().bluetoothLeAdvertiser
+    private var advertiseSettings: AdvertiseSettings
+    private var advertiseCallback: AdvertiseCallback
+    private var isStart = false
+
+
     lateinit var backupData: ByteArray
-    private lateinit var advertisingCallback: AdvertiseCallback
 
     private val scanner = BluetoothAdapter.getDefaultAdapter().bluetoothLeScanner
     var bleDataScanned: MutableLiveData<ByteArray> = MutableLiveData()
 
     private var reAdvertise = 0
 
-    fun startAdvertise(input: ByteArray) {
-        Log.d(TAG,"BleHandle: start advertise function called: " + bytesToHex(input))
-        backupData = input
-        val settings = AdvertiseSettings.Builder()
+    init {
+        Log.d(TAG, "BleHandle: inti")
+        advertiseSettings = AdvertiseSettings.Builder()
             .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY)
             .setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_MEDIUM)
             .setTimeout(0)
             .setConnectable(false)
             .build()
-        val data: AdvertiseData = AdvertiseData.Builder()
-            .setIncludeDeviceName(false)
-            .addManufacturerData(manuId, input)
-            .build()
 
-        advertisingCallback = object : AdvertiseCallback() {
+
+        advertiseCallback = object : AdvertiseCallback() {
             override fun onStartSuccess(settingsInEffect: AdvertiseSettings) {
                 super.onStartSuccess(settingsInEffect)
                 Log.d(TAG, "BleHandler: Advertise Successfully")
-                Log.d(TAG, "BlEHandler: $data")
             }
 
             override fun onStartFailure(errorCode: Int) {
                 super.onStartFailure(errorCode)
                 Log.e(TAG, "BleHandler: Advertise Failed $errorCode")
-//                stopAdvertise()
-//                reAdvertise ++
-//                val handler = Handler()
-//                handler.postDelayed(
-//                    Runnable {
-//                        if(reAdvertise == 1){
-//                            startAdvertise(backupData)
-//                            reAdvertise = 0
-//                        } else {
-//                            reAdvertise--
-//                        }
-//                    }, 10000)
             }
         }
-        advertiser.startAdvertising(settings, data, advertisingCallback)
+    }
+
+    fun startAdvertise(input: ByteArray) {
+        stopAdvertise()
+        Log.d(TAG, "BleHandle: start advertise function called: " + bytesToHex(input))
+        backupData = input
+        val data: AdvertiseData = AdvertiseData.Builder()
+            .setIncludeDeviceName(false)
+            .addManufacturerData(manuId, input)
+            .build()
+        advertiser.startAdvertising(advertiseSettings, data, advertiseCallback)
     }
 
     fun stopAdvertise(){
-        Log.d(TAG,"stop advertise function called")
-        advertiser.stopAdvertising(advertisingCallback)
+        Log.d(TAG,"BleHandle: stop advertise function called")
+        advertiser.stopAdvertising(advertiseCallback)
     }
 
     fun scan() {
@@ -94,7 +91,8 @@ class BleHandle {
 
         val filter = ScanFilter.Builder().build()
         val filters = listOf(filter)
-        val settings = ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build()
+        val settings =
+            ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build()
         scanner.startScan(filters, settings, scanCallback)
     }
 }
