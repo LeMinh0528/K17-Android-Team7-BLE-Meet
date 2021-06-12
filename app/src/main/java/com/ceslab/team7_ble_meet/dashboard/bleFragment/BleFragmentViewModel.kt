@@ -39,25 +39,10 @@ class BleFragmentViewModel() : ViewModel() {
     var context: Context? = null
 
 
-    var listener : ListenerRegistration
+    lateinit var listener : ListenerRegistration
 
     init{
         setUpData2Advertise()
-        listener = UsersFireStoreHandler().setTagChangedListener(){listTag ->
-            for (i in 0..4) {
-                val digit: Int = Characteristic.Tag.filterValues {
-                    it == listTag[i]
-                }.keys.first()
-                characteristicUser[4 + i] = digit
-            }
-            characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
-            context?.let {
-                if(startFindFriendClicked){
-                    startFindFriend(it)
-                }
-                deleteBleDataScanned(it)
-            }
-        }
 
     }
 
@@ -85,6 +70,23 @@ class BleFragmentViewModel() : ViewModel() {
 
                     Log.d(TAG, "BleFragmentViewModel: set up data to advertise $characteristicUser")
                     characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
+
+                    listener = UsersFireStoreHandler().setTagChangedListener(){listTag ->
+                        for (i in 0..4) {
+                            val digit: Int = Characteristic.Tag.filterValues {
+                                it == listTag[i]
+                            }.keys.first()
+                            characteristicUser[4 + i] = digit
+                        }
+                        characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
+                        context?.let {
+                            if(startFindFriendClicked){
+                                startFindFriend(it)
+                            }
+                            deleteBleDataScanned(it)
+                            isBleDataScannedDisplay.value = false
+                        }
+                    }
                 }
             }
             .addOnFailureListener{

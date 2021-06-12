@@ -16,7 +16,11 @@ class BleHandle {
     private val advertiser = BluetoothAdapter.getDefaultAdapter().bluetoothLeAdvertiser
     private var advertiseSettings: AdvertiseSettings
     private var advertiseCallback: AdvertiseCallback
-    private var isStart = false
+
+    private var scanCallback: ScanCallback
+    private val filter: ScanFilter
+    private val filters: List<ScanFilter>
+    private val settings: ScanSettings
 
 
     lateinit var backupData: ByteArray
@@ -47,6 +51,32 @@ class BleHandle {
                 Log.e(TAG, "BleHandler: Advertise Failed $errorCode")
             }
         }
+
+        scanCallback = object : ScanCallback() {
+            override fun onScanResult(callbackType: Int, result: ScanResult) {
+                super.onScanResult(callbackType, result)
+                val adType = result.scanRecord?.bytes?.get(1)?.toInt()
+                val manuIdUpper = result.scanRecord?.bytes?.get(2)?.toInt()
+                val manuIdLower = result.scanRecord?.bytes?.get(3)?.toInt()
+                if (adType == -1 && manuIdUpper == 105 && manuIdLower == 105) {
+//                    Log.d(TAG, "Scan result:" + bytesToHex(result.scanRecord!!.bytes))
+                    bleDataScanned.value = result.scanRecord!!.bytes
+                }
+            }
+            override fun onBatchScanResults(results: List<ScanResult?>?) {
+                super.onBatchScanResults(results)
+            }
+
+            override fun onScanFailed(errorCode: Int) {
+                super.onScanFailed(errorCode)
+                Log.e(TAG, "Scan failed: $errorCode")
+            }
+        }
+
+        filter = ScanFilter.Builder().build()
+        filters = listOf(filter)
+
+        settings = ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build()
     }
 
     fun startAdvertise(input: ByteArray) {
@@ -65,34 +95,14 @@ class BleHandle {
         advertiser.stopAdvertising(advertiseCallback)
     }
 
-    fun scan() {
-        Log.d(TAG, "Scan function called")
-        val scanCallback: ScanCallback = object : ScanCallback() {
-            override fun onScanResult(callbackType: Int, result: ScanResult) {
-                super.onScanResult(callbackType, result)
-                val adType = result.scanRecord?.bytes?.get(1)?.toInt()
-                val manuIdUpper = result.scanRecord?.bytes?.get(2)?.toInt()
-                val manuIdLower = result.scanRecord?.bytes?.get(3)?.toInt()
-                if (adType == -1 && manuIdUpper == 105 && manuIdLower == 105) {
-//                    Log.d(TAG, "Scan result:" + bytesToHex(result.scanRecord!!.bytes))
-                    bleDataScanned.value = result.scanRecord!!.bytes
-                }
-            }
-
-            override fun onBatchScanResults(results: List<ScanResult?>?) {
-                super.onBatchScanResults(results)
-            }
-
-            override fun onScanFailed(errorCode: Int) {
-                super.onScanFailed(errorCode)
-                Log.e(TAG, "Scan failed: $errorCode")
-            }
-        }
-
-        val filter = ScanFilter.Builder().build()
-        val filters = listOf(filter)
-        val settings =
-            ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build()
+    fun startScan() {
+        Log.d(TAG, "Start scan function called")
+//        stopScan()
         scanner.startScan(filters, settings, scanCallback)
+    }
+
+    fun stopScan(){
+        Log.d(TAG, "Stop scan function called")
+        scanner.stopScan(scanCallback)
     }
 }

@@ -37,7 +37,7 @@ class BleService: LifecycleService() {
                 Log.d(TAG, "BLE Service filter: $filter")
             }
         }
-        bleHandle.scan()
+        bleHandle.startScan()
         sendBleNotification()
         return START_STICKY
     }
@@ -104,8 +104,8 @@ class BleService: LifecycleService() {
                 }
             }
         }
-        Log.d(TAG,"input $input")
-        Log.d(TAG,"filter: $filter")
+//        Log.d(TAG,"input $input")
+//        Log.d(TAG,"filter: $filter")
         Log.d(TAG,"score $score")
         return score >= 3
     }

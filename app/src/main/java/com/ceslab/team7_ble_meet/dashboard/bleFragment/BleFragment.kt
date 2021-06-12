@@ -127,7 +127,12 @@ class BleFragment : Fragment() {
     }
 
     private fun setUpUI(inflater: LayoutInflater, container: ViewGroup?) {
-        bleFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_ble, container, false)
+        bleFragmentBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_ble,
+            container,
+            false
+        )
         bleFragmentBinding.apply {
             if (bluetoothAdapter.isEnabled) {
                 swTurnOnOffBLE.isChecked = true
@@ -163,6 +168,7 @@ class BleFragment : Fragment() {
             bleFragmentViewModel.setUpListDataScanned(requireContext(), requireActivity())
             rcListBleDataScanned.adapter = listDataDiscoveredAdapter
             bleFragmentViewModel.isBleDataScannedDisplay.observe(requireActivity(), {
+                Log.d(TAG, "display the list: $it")
                 if (it) {
                     btnFindFriend.isGone = true
                     vRipple.isGone = true
@@ -172,6 +178,7 @@ class BleFragment : Fragment() {
                         .bleDataScannedDao()
                         .getUserDiscover() as ArrayList<BleDataScanned>
                 } else {
+                    Log.e(TAG, "hide the list")
                     btnFindFriend.isGone = false
                     vRipple.isGone = false
                     rcListBleDataScanned.visibility = View.GONE
