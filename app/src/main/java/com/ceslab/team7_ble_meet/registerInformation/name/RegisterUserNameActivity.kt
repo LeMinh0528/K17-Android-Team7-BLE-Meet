@@ -16,6 +16,7 @@ import com.ceslab.team7_ble_meet.login.LogInActivity
 import com.ceslab.team7_ble_meet.registerInformation.gender.RegisterGenderActivity
 import com.ceslab.team7_ble_meet.signup.SignUpActivity
 import com.ceslab.team7_ble_meet.toast
+import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_register_user_name.*
 
 class RegisterUserNameActivity : AppCompatActivity() {
@@ -39,6 +40,22 @@ class RegisterUserNameActivity : AppCompatActivity() {
                 progressbar.visibility = View.VISIBLE
                 tv_btn.visibility = View.GONE
                 viewmodel?.registerName()
+            }
+            btnBack.setOnClickListener{
+                confirmDialog = showConfirm(message = "Do you want to cancel process, all your data will be delete?",
+                    title = getString(R.string.confirmation),
+                    textYes = "Yes",
+                    textCancel = "Cancel",
+                    object: ConfirmDialogListener{
+                        override fun cancel() {
+                            confirmDialog?.dismiss()
+                        }
+
+                        override fun confirm() {
+                            clearData()
+                            goToSignUp()
+                        }
+                    })
             }
         }
         viewModel.userResp.observe(this, Observer { response ->

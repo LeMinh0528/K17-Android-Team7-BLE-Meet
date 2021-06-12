@@ -46,7 +46,7 @@ class BleService: LifecycleService() {
         val bleNotification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("BLE MEET")
             .setContentText("Find friend is running")
-            .setSmallIcon(R.drawable.ic_both)
+            .setSmallIcon(R.drawable.ic_layout)
             .build()
 
         startForeground(1, bleNotification)

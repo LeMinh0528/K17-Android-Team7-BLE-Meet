@@ -20,32 +20,38 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:background="@color/white">
+
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginRight="18dp"
                     android:gravity="center"
-                    android:orientation="horizontal"
-                    android:layout_marginRight="18dp">
+                    android:orientation="horizontal">
+
                     <LinearLayout
+                        android:id="@+id/btn_back"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_centerVertical="true"
                         android:clickable="true"
                         android:gravity="center">
+
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:background="@drawable/left_arrow"
                             android:paddingTop="10dp" />
                     </LinearLayout>
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginRight="25dp"
+                        android:layout_weight="1"
                         android:gravity="center"
                         android:text="Register Profile"
                         android:textColor="@color/black"

@@ -56,7 +56,9 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         bindView()
+        getUserInfo()
         setChannel()
+
     }
 
     private fun bindView() {
@@ -66,15 +68,15 @@ class ChatActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewmodel
         Log.d(TAG,"name: ${intent.getStringExtra(AppConstants.USER_NAME)}")
-        viewmodel.userName = intent.getStringExtra(AppConstants.USER_NAME)
-        GlideApp.with(this)
-            .load(intent.getStringExtra(AppConstants.AVATAR)?.let {
-                ImagesStorageUtils.pathToReference(
-                    it
-                )
-            })
-            .placeholder(R.drawable.ic_user)
-            .into(binding.avatar)
+//        viewmodel.userName = intent.getStringExtra(AppConstants.USER_NAME)
+//        GlideApp.with(this)
+//            .load(intent.getStringExtra(AppConstants.AVATAR)?.let {
+//                ImagesStorageUtils.pathToReference(
+//                    it
+//                )
+//            })
+//            .placeholder(R.drawable.ic_user)
+//            .into(binding.avatar)
 
         binding.apply {
             btnBack.setOnClickListener {
@@ -82,6 +84,19 @@ class ChatActivity : AppCompatActivity() {
 //                backToDashBoard()
             }
 
+        }
+    }
+
+    private fun getUserInfo(){
+        otherUserId = intent.getStringExtra(AppConstants.USER_ID)
+        otherUserId?.let {
+            viewmodel.getInit(it){  user ->
+                GlideApp.with(this)
+                    .load(user.avatar?.let { it1 -> ImagesStorageUtils.pathToReference(it1) })
+                    .placeholder(R.drawable.ic_user)
+                    .into(binding.avatar)
+                binding.tvName.text = user.Name
+            }
         }
     }
 
