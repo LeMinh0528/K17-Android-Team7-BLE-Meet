@@ -19,7 +19,7 @@ import com.google.android.material.chip.ChipGroup
 class EditPassionsActivity : AppCompatActivity() {
     lateinit var chipGroup : ChipGroup
     lateinit var tv_countselect: TextView
-    lateinit var btn_back : LinearLayout
+    lateinit var btnBack : LinearLayout
     private var confirmDialog: ReadDialog? = null
     lateinit var viewmodel : EditPassionViewModel
     private var listChip = arrayListOf<String>("Intimate Chat","Karaoke","Walking","17DTV","Sushi","Trying New Things","Swimming",
@@ -37,28 +37,46 @@ class EditPassionsActivity : AppCompatActivity() {
         bindView()
         setupChip()
         initData()
-
-        backintent()
-
+        backIntent()
     }
 
-    private fun backintent() {
-        btn_back.setOnClickListener {
-            if (listChooser.size < 4)
-            {
-                Log.d("RegisterTagActivity",listChooser.size.toString())
-                onBackPressed()
-            }
-        }
-    }
+
 
     fun bindView(){
         viewmodel = ViewModelProvider(this).get(EditPassionViewModel::class.java)
         chipGroup = findViewById(R.id.chipGroup1)
         tv_countselect = findViewById(R.id.tv_CountSelect)
-        btn_back = findViewById(R.id.btn_back)
+        btnBack = findViewById(R.id.btn_back)
     }
-    fun setupChip(){
+
+    private fun backIntent() {
+        btnBack.setOnClickListener {
+            Log.d("EditPassionActivity","set onclick btn back")
+            if (listChooser.size < 5) {
+                confirmDialog =
+                    showConfirm(message = "To have passions display on your profile, you must select at least 5 passions",
+                        title = getString(R.string.needpassions),
+                        textYes = "Okay",
+                        object : ReadDialogListener {
+                            override fun ok() {
+                                confirmDialog?.dismiss()
+                            }
+                        })
+            }else{
+                viewmodel.updateTag(listChooser){
+                    if(it == "SUCCESS"){
+                        toast("Update tag successful!")
+                    }else{
+                        toast("Error update tag")
+                    }
+                    super.onBackPressed()
+                }
+
+            }
+        }
+    }
+
+    private fun setupChip(){
         for(i in listChip){
             val chip = layoutInflater.inflate(R.layout.item_chip_filter,chipGroup,false) as Chip
             chip.text = i
@@ -66,7 +84,7 @@ class EditPassionsActivity : AppCompatActivity() {
             chipGroup.addView(chip)
         }
     }
-    fun initData(){
+    private fun initData(){
         viewmodel.getTags {
             if(it.isNotEmpty()){
                 for(i in it){
@@ -80,8 +98,8 @@ class EditPassionsActivity : AppCompatActivity() {
             setupChipListener()
             updateText()
         }
-
     }
+
     private fun setupChipListener(){
         for(index in 0 until chipGroup.childCount){
             val chip: Chip = chipGroup.getChildAt(index) as Chip
@@ -131,6 +149,11 @@ class EditPassionsActivity : AppCompatActivity() {
 
         }
     }
+
+    private fun checkCount(){
+
+    }
+
     private fun updateText(){
         Log.d("EditPassionsActivity","listchoosesize: ${listChooser.size}")
         tv_countselect.text = "(${listChooser.size}/5)"
