@@ -12,7 +12,80 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity"
         tools:ignore="UseSwitchCompatOrMaterialXml">
-
+        <LinearLayout
+            android:layout_marginHorizontal="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/btnStartFindFriend"
+                android:clickable="true"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:background="@drawable/bg_selected"
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:text="Start"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/btnStopFindFriend"
+                    android:background="@drawable/bg_selected"
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:text="Stop" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/btnDelete"
+                    android:clickable="true"
+                    android:background="@drawable/bg_selected"
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="Delete"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
         <com.skyfishjy.library.RippleBackground
             android:layout_width="match_parent"
             android:layout_height="564dp"
@@ -52,37 +125,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp" />
 
-        <Button
-            android:id="@+id/btnDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="32dp"
-            android:text="@string/delete_3" />
 
-        <Button
-            android:id="@+id/btnStopFindFriend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="161.5dp"
-            android:layout_marginEnd="161.5dp"
-            android:layout_marginBottom="32dp"
-            android:text="@string/stop_3" />
-
-        <Button
-            android:id="@+id/btnStartFindFriend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="32dp"
-            android:layout_marginBottom="32dp"
-            android:text="@string/start_3" />
 
     </RelativeLayout>
 </layout>
