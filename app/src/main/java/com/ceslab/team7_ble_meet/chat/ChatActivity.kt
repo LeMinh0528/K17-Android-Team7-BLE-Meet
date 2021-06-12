@@ -25,6 +25,7 @@ import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.UsersFireStoreHandler
 import com.ceslab.team7_ble_meet.dashboard.DashBoardActivity
 import com.ceslab.team7_ble_meet.databinding.ActivityChatBinding
+import com.ceslab.team7_ble_meet.detail.DetailActivity
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ceslab.team7_ble_meet.service.MyApplication.Companion.context
 import com.ceslab.team7_ble_meet.toast
@@ -58,6 +59,7 @@ class ChatActivity : AppCompatActivity() {
         bindView()
         getUserInfo()
         setChannel()
+        setAction()
 
     }
 
@@ -78,10 +80,20 @@ class ChatActivity : AppCompatActivity() {
 //            .placeholder(R.drawable.ic_user)
 //            .into(binding.avatar)
 
+
+    }
+
+    private fun setAction(){
         binding.apply {
             btnBack.setOnClickListener {
                 finish()
 //                backToDashBoard()
+            }
+            avatar.setOnClickListener{
+                Log.d("ChatActivity","avatarsssssss")
+                val t = Intent(this@ChatActivity,DetailActivity::class.java)
+                t.putExtra(AppConstants.USER_ID,otherUserId)
+                startActivity(t)
             }
 
         }

@@ -62,8 +62,8 @@
                             android:textColor="@color/black"
                             android:textSize="15dp" />
                         <de.hdodenhof.circleimageview.CircleImageView
-                            android:clickable="true"
                             android:id="@+id/avatar"
+                            android:clickable="true"
                             android:layout_marginLeft="10dp"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
