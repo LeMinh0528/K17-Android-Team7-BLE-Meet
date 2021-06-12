@@ -31,7 +31,6 @@ class BleHandle {
     private var reAdvertise = 0
 
     init {
-        Log.d(TAG, "BleHandle: inti")
         advertiseSettings = AdvertiseSettings.Builder()
             .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY)
             .setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_MEDIUM)

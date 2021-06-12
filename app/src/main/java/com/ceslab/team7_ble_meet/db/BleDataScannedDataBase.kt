@@ -37,6 +37,5 @@ public abstract class BleDataScannedDataBase : RoomDatabase() {
 
     fun dataChanged() {
         isDataChanged.value = true
-        Log.d(TAG, "add Data value: ${isDataChanged.value}")
     }
 }

@@ -44,8 +44,6 @@ class BleFragment : Fragment() {
     // Initializes Bluetooth adapter.
     private lateinit var bluetoothAdapter: BluetoothAdapter
 
-    private lateinit var locationListener: LocationListener
-
     //adapter for recycler view
     private var listDataDiscoveredAdapter = ListBleDataScannedAdapter()
 

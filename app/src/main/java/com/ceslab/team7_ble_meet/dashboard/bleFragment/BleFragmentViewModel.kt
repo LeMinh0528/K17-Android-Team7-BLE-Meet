@@ -32,7 +32,6 @@ class BleFragmentViewModel() : ViewModel() {
     var startFindFriendClicked = false
     var isRunning: MutableLiveData<Boolean> = MutableLiveData(false)
     var isBleDataScannedDisplay: MutableLiveData<Boolean> = MutableLiveData(false)
-
     private var instance = UsersFireStoreHandler()
     private var characteristicUser: MutableList<Int> = mutableListOf(0,0,0,0,0,0,0,0,0)
     lateinit var characteristicUser2ByteArray: ByteArray
@@ -164,7 +163,9 @@ class BleFragmentViewModel() : ViewModel() {
 
         BleDataScannedDataBase.getDatabase(context).isDataChanged.observe(lifecycleOwner,
             {
-                isBleDataScannedDisplay.value = it
+                isBleDataScannedDisplay.value =
+                    BleDataScannedDataBase.getDatabase(context).bleDataScannedDao().getUserDiscover()
+                        .isNotEmpty()
             })
     }
 

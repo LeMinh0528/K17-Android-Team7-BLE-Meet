@@ -23,7 +23,6 @@ class BleService: LifecycleService() {
         super.onCreate()
         bleHandle = BleHandle()
         bleHandle.bleDataScanned.observe(this, {
-            Log.d(TAG, "BleService ble data scanned")
             handleDataDiscovered(it)
         })
     }
@@ -34,7 +33,6 @@ class BleService: LifecycleService() {
             intent.getByteArrayExtra("dataFromBleViewModel2BleService")?.let {
                 bleHandle.startAdvertise(it)
                 filter = convertByteArray2ListCharacteristic(it)
-                Log.d(TAG, "BLE Service filter: $filter")
             }
         }
         bleHandle.startScan()
@@ -69,7 +67,6 @@ class BleService: LifecycleService() {
 
     private fun convertByteArray2ListCharacteristic(data: ByteArray): List<Int> {
         val rawData = ArrayList<Int>()
-        Log.d(TAG, bytesToHex(data))
         val sizeEachCharacter = mutableListOf(24, 8, 1, 2, 8, 8, 8, 8, 8)
         var posByte = 0
         var posBit = 7
@@ -104,8 +101,6 @@ class BleService: LifecycleService() {
                 }
             }
         }
-//        Log.d(TAG,"input $input")
-//        Log.d(TAG,"filter: $filter")
         Log.d(TAG,"score $score")
         return score >= 3
     }
