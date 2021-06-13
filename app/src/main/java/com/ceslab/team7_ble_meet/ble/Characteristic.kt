@@ -78,6 +78,7 @@ object Characteristic {
         put(63,"Fashion")
         put(64,"Gardening")
         put(65,"StreetFood")
+        put(66,"Sushi")
     }
 }
 
