@@ -18,7 +18,6 @@ class BleHandle {
     private var advertiseCallback: AdvertiseCallback
 
     private var scanCallback: ScanCallback
-    private val filter: ScanFilter
     private val filters: List<ScanFilter>
     private val settings: ScanSettings
 
@@ -72,7 +71,7 @@ class BleHandle {
             }
         }
 
-        filter = ScanFilter.Builder().build()
+        val filter = ScanFilter.Builder().build()
         filters = listOf(filter)
 
         settings = ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build()

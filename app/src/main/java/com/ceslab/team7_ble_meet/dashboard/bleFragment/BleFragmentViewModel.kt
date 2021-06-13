@@ -17,106 +17,121 @@ import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ceslab.team7_ble_meet.service.BleService
 import java.util.*
 import kotlin.experimental.or
-import android.os.Handler
 import com.google.firebase.firestore.ListenerRegistration
-import kotlinx.android.synthetic.main.item_person.*
 
 
 class BleFragmentViewModel() : ViewModel() {
-
     private val TAG = "Ble_Lifecycle"
 
-    // Initializes Bluetooth adapter.
-    private var bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-    var isBluetoothOn: Boolean = false
-    var startFindFriendClicked = false
-    var isRunning: MutableLiveData<Boolean> = MutableLiveData(false)
-    var isBleDataScannedDisplay: MutableLiveData<Boolean> = MutableLiveData(false)
-    private var instance = UsersFireStoreHandler()
-    private var characteristicUser: MutableList<Int> = mutableListOf(0,0,0,0,0,0,0,0,0)
-    lateinit var characteristicUser2ByteArray: ByteArray
     var context: Context? = null
 
+    // Init Bluetooth adapter controlling state of bluetooth
+    var bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+    var isBluetoothOn: Boolean = false
 
-    lateinit var listener : ListenerRegistration
+    // Init state of service (running or not)
+    var isRunning: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    init{
+    var isBleDataScannedDisplay: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    //Instance to use Firebase
+    private var instance = UsersFireStoreHandler()
+
+    private var characteristicUser: MutableList<Int> = mutableListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
+    lateinit var characteristicUser2ByteArray: ByteArray
+
+    lateinit var listener: ListenerRegistration
+
+    init {
         setUpData2Advertise()
-
     }
 
-    private fun setUpData2Advertise(){
-        instance.userRef.document(KeyValueDB.getUserShortId())
-            .get()
-            .addOnSuccessListener { data ->
-                //add id
-                characteristicUser[0] = KeyValueDB.getUserShortId().toInt()
-
-                if(data != null){
-                    //add age
-                    val current: Int = Calendar.getInstance().get(Calendar.YEAR);
-                    val yearOfBirth = data["DayOfBirth"].toString().split("/")[2].toInt()
-                    val age = (current - yearOfBirth)
-                    characteristicUser[1] = age
-
-                    val sex = if(data["Gender"].toString() == "Male") 0 else 1
-                    characteristicUser[2] = sex
-
-                    val genderOrientation = if(data["Interested"].toString() == "Male") 0 else {
-                        if (data["Interested"].toString() != "Female") 1 else 2
-                    }
-                    characteristicUser[3] = genderOrientation
-
-                    Log.d(TAG, "BleFragmentViewModel: set up data to advertise $characteristicUser")
-                    characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
-
-                    listener = UsersFireStoreHandler().setTagChangedListener(){listTag ->
-                        for (i in 0..4) {
-                            val digit: Int = Characteristic.Tag.filterValues {
-                                it == listTag[i]
-                            }.keys.first()
-                            characteristicUser[4 + i] = digit
-                        }
-                        characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
-                        context?.let {
-                            if(startFindFriendClicked){
-                                startFindFriend(it)
-                            }
-                            deleteBleDataScanned(it)
-                            isBleDataScannedDisplay.value = false
-                        }
-                    }
-                }
-            }
-            .addOnFailureListener{
-            }
-    }
-
-    fun handleStartFindFriendClicked(){
-        startFindFriendClicked = true
-        context?.let { startFindFriend(it) }
-    }
-
-    fun findFriend(context: Context) {
-        if (isRunning.value == true) {
-            stopFindFriend(context)
+    fun changeBluetoothStatus(isChecked: Boolean) {
+        if (isChecked) {
+            bluetoothAdapter.enable()
+            isBluetoothOn = true
+            Log.d(TAG, "BLE is enable")
         } else {
-            handleStartFindFriendClicked()
+            bluetoothAdapter.disable()
+            isBluetoothOn = false
+            Log.d(TAG, "BLE is disable")
         }
     }
 
-    private fun startFindFriend(context: Context) {
+    fun findFriend() {
+        if (isRunning.value == true) {
+            stopFindFriend()
+        } else {
+            startFindFriend()
+        }
+    }
+
+    fun stopFindFriend() {
+        val intent = Intent(context, BleService::class.java)
+        context?.stopService(intent)
+        isRunning.value = false
+    }
+
+    fun startFindFriend() {
         Log.d(TAG, "BleFragmentViewModel: start find friend: $characteristicUser")
         if (bluetoothAdapter.isEnabled) {
             val intent = Intent(context, BleService::class.java)
             val bundle = Bundle()
             bundle.putByteArray("dataFromBleViewModel2BleService", characteristicUser2ByteArray)
             intent.putExtras(bundle)
-            context.startService(intent)
+            context?.startService(intent)
             isRunning.value = true
         } else {
             Toast.makeText(context, "Please turn on Bluetooth", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun setUpData2Advertise() {
+        instance.userRef.document(KeyValueDB.getUserShortId())
+            .get()
+            .addOnSuccessListener { data ->
+                //Add id
+                characteristicUser[0] = KeyValueDB.getUserShortId().toInt()
+
+                if (data != null) {
+                    //Add age
+                    val current: Int = Calendar.getInstance().get(Calendar.YEAR);
+                    val yearOfBirth = data["DayOfBirth"].toString().split("/")[2].toInt()
+                    val age = (current - yearOfBirth)
+                    characteristicUser[1] = age
+
+                    //Add sex key
+                    val sex = if (data["Gender"].toString() == "Male") 0 else 1
+                    characteristicUser[2] = sex
+
+                    //Add sex orientation key
+                    val genderOrientation = if (data["Interested"].toString() == "Male") 0 else {
+                        if (data["Interested"].toString() != "Female") 1 else 2
+                    }
+                    characteristicUser[3] = genderOrientation
+
+                    Log.d(TAG, "BleFragmentViewModel: set up data to advertise $characteristicUser")
+                    characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
+                }
+                //Add TAG
+                listener = UsersFireStoreHandler().setTagChangedListener() { listTag ->
+                    for (i in 0 until listTag.size) {
+                        val digit: Int = Characteristic.Tag.filterValues {
+                            it == listTag[i]
+                        }.keys.first()
+                        characteristicUser[4 + i] = digit
+                    }
+                    characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
+                    context?.let {
+                        if (isRunning.value == true) {
+                            startFindFriend()
+                        }
+                        deleteBleDataScanned(it)
+                    }
+                }
+            }
+            .addOnFailureListener {
+            }
     }
 
     private fun convertListCharacteristic2ByteArray(input: MutableList<Int>): ByteArray {
@@ -149,40 +164,23 @@ class BleFragmentViewModel() : ViewModel() {
         return output
     }
 
-    fun stopFindFriend(context: Context) {
-        val intent = Intent(context, BleService::class.java)
-        context.stopService(intent)
-        startFindFriendClicked = false
-        isRunning.value = false
-    }
-
     fun setUpListDataScanned(context: Context, lifecycleOwner: LifecycleOwner) {
-        isBleDataScannedDisplay.value =
-            BleDataScannedDataBase.getDatabase(context).bleDataScannedDao().getUserDiscover()
-                .isNotEmpty()
+        isBleDataScannedDisplay.value = BleDataScannedDataBase.getDatabase(context)
+            .bleDataScannedDao()
+            .getUserDiscover()
+            .isNotEmpty()
 
         BleDataScannedDataBase.getDatabase(context).isDataChanged.observe(lifecycleOwner,
             {
-                isBleDataScannedDisplay.value =
-                    BleDataScannedDataBase.getDatabase(context).bleDataScannedDao().getUserDiscover()
-                        .isNotEmpty()
+                isBleDataScannedDisplay.value = BleDataScannedDataBase.getDatabase(context)
+                    .bleDataScannedDao()
+                    .getUserDiscover()
+                    .isNotEmpty()
             })
     }
 
-    fun deleteBleDataScanned(context: Context){
+    fun deleteBleDataScanned(context: Context) {
         BleDataScannedDataBase.getDatabase(context).bleDataScannedDao().deleteAll()
         isBleDataScannedDisplay.value = false
-    }
-
-    fun changeBluetoothStatus(isChecked: Boolean) {
-        if (isChecked) {
-            bluetoothAdapter.enable()
-            isBluetoothOn = true
-            Log.d(TAG, "BLE is enable")
-        } else {
-            bluetoothAdapter.disable()
-            isBluetoothOn = false
-            Log.d(TAG, "BLE is disable")
-        }
     }
 }
