@@ -1,5 +1,6 @@
 package com.ceslab.team7_ble_meet.setting
 
+import android.app.NotificationManager
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -69,6 +70,8 @@ class SettingActivity : AppCompatActivity() {
             Log.d("SettingActivity","status: $status")
             if(status == "SUCCESS"){
                 BleDataScannedDataBase.getDatabase(this).bleDataScannedDao().deleteAll()
+                val notification = getSystemService(AppCompatActivity.NOTIFICATION_SERVICE) as NotificationManager
+                notification.cancelAll()
                 goToLogIn()
             }else{
                 toast("Error: cannot logout")

@@ -64,7 +64,9 @@ class InformationFragment : Fragment() {
             if (user.bio != "") {
                 binding.tvBio.text = user.bio
             }
+            binding.icGender.visibility = View.VISIBLE
             if (user.gender == "Male") {
+
                 binding.icGender.setImageResource(R.drawable.ic_baseline_male)
             } else {
                 binding.icGender.setImageResource(R.drawable.ic_baseline_female)
@@ -74,7 +76,7 @@ class InformationFragment : Fragment() {
             val current = dob[2].toInt()
             binding.tvAge.text = (year - current).toString()
             binding.tvBio.text = user.bio
-            binding.tvId.text = "ID: ${KeyValueDB.getUserShortId()}"
+            binding.tvId.text = KeyValueDB.getUserShortId()
             GlideApp.with(this)
                 .load(user.avatar?.let { ImagesStorageUtils.pathToReference(it) })
                 .placeholder(R.drawable.ic_user)

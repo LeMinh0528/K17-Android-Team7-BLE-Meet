@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -42,6 +43,7 @@ class DetailActivity:AppCompatActivity() {
                 if (user.bio != "") {
                     binding.tvBio.text = user.bio
                 }
+                binding.icGender.visibility = View.VISIBLE
                 if (user.gender == "Male") {
                     binding.icGender.setImageResource(R.drawable.ic_baseline_male)
                 } else {
