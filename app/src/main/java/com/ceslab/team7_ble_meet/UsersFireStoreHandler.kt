@@ -304,19 +304,24 @@ class UsersFireStoreHandler {
     }
 
     fun logInUser(email: String, pass: String) {
+        Log.d("UserFireStoreHandler","goto login $email , $pass")
         mAuth.signInWithEmailAndPassword(email, pass)
             .addOnCompleteListener { task ->
+                Log.d("UserFireStoreHandler","TASK $task")
+                Log.d("UserFireStoreHandler","TASK complete ${task.isComplete}")
+                Log.d("UserFireStoreHandler","TASK success ${task.isSuccessful}")
+                Log.d("UserFireStoreHandler","TASK cancled ${task.isCanceled}")
+                Log.d("UserFireStoreHandler","TASK ${task.exception}")
                 if (task.isSuccessful) {
                     Log.d("UserFireStoreHandler", "${mAuth.currentUser}")
                     getUserSetting()
-//                    KeyValueDB.setUserId(mAuth.currentUser.uid)
-//                    KeyValueDB.setUserShortId(getUserShortId())
-//                    KeyValueDB.setRegister(true)
-//                    userResp.postValue(Resp("NONE","SUCCESS","Login successful!"))
                 } else if (task.isCanceled) {
                     mAuth.currentUser?.let { KeyValueDB.setUserId(it.uid) }
                     userResp.postValue(Resp("NONE", "SUCCESS", "Login failed!"))
                 }
+            }
+            .addOnCanceledListener {
+                userResp.postValue(Resp("NONE", "FAILED", "Login failed!"))
             }
             .addOnFailureListener {
                 userResp.postValue(Resp("NONE", "FAILED", "Login failed! ${it.message}"))
