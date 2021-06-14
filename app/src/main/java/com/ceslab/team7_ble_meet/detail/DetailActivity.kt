@@ -54,7 +54,7 @@ class DetailActivity:AppCompatActivity() {
                 val current = dob[2].toInt()
                 binding.tvAge.text = (year - current).toString()
                 binding.tvBio.text = user.bio
-                binding.tvId.text = "ID: $otherUserId"
+                binding.tvId.text = otherUserId
                 GlideApp.with(this)
                     .load(user.avatar?.let { ImagesStorageUtils.pathToReference(it) })
                     .placeholder(R.drawable.ic_user)
