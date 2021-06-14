@@ -1,5 +1,6 @@
 package com.ceslab.team7_ble_meet.detail
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
@@ -32,6 +33,7 @@ class DetailActivity:AppCompatActivity() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun getFirstData() {
         val otherUserId = intent.getStringExtra(AppConstants.USER_ID)
         if (otherUserId != null) {
@@ -50,7 +52,7 @@ class DetailActivity:AppCompatActivity() {
                 val current = dob[2].toInt()
                 binding.tvAge.text = (year - current).toString()
                 binding.tvBio.text = user.bio
-
+                binding.tvId.text = "ID: $otherUserId"
                 GlideApp.with(this)
                     .load(user.avatar?.let { ImagesStorageUtils.pathToReference(it) })
                     .placeholder(R.drawable.ic_user)

@@ -3,6 +3,7 @@ package com.ceslab.team7_ble_meet.setting
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.ceslab.team7_ble_meet.R
@@ -18,6 +19,7 @@ import com.ceslab.team7_ble_meet.toast
 class SettingActivity : AppCompatActivity() {
     lateinit var btnLogout: CardView
     lateinit var btnChangePassword : CardView
+    lateinit var btnBack : LinearLayout
     private var instance = UsersFireStoreHandler()
     private var confirmDialog: ConfirmDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +33,7 @@ class SettingActivity : AppCompatActivity() {
     fun bindView(){
         btnLogout = findViewById(R.id.btn_logout)
         btnChangePassword = findViewById(R.id.btn_changePassword)
+        btnBack = findViewById(R.id.btn_back)
     }
 
     fun bindAction(){
@@ -48,6 +51,9 @@ class SettingActivity : AppCompatActivity() {
 
                     }
                 })
+        }
+        btnBack.setOnClickListener {
+            finish()
         }
     }
 

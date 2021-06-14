@@ -1,6 +1,7 @@
 package com.ceslab.team7_ble_meet.dashboard.inforFragment
 
 import Activity.EditProfileActivity
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.databinding.FragmentInformationBinding
+import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ceslab.team7_ble_meet.setting.SettingActivity
 import com.ceslab.team7_ble_meet.utils.GlideApp
 import com.ceslab.team7_ble_meet.utils.ImagesStorageUtils
@@ -55,6 +57,7 @@ class InformationFragment : Fragment() {
         getFirstData()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun getFirstData() {
         handler.getInit { user ->
             binding.tvName.text = user.Name
@@ -71,7 +74,7 @@ class InformationFragment : Fragment() {
             val current = dob[2].toInt()
             binding.tvAge.text = (year - current).toString()
             binding.tvBio.text = user.bio
-
+            binding.tvId.text = "ID: ${KeyValueDB.getUserShortId()}"
             GlideApp.with(this)
                 .load(user.avatar?.let { ImagesStorageUtils.pathToReference(it) })
                 .placeholder(R.drawable.ic_user)
