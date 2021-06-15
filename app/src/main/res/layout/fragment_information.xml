@@ -19,7 +19,7 @@
                 <ImageView
                     android:id="@+id/ln"
                     android:layout_width="match_parent"
-                    android:layout_height="330dp"
+                    android:layout_height="250dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/backgroud_default"
                     app:layout_constraintTop_toTopOf="parent"
@@ -34,8 +34,8 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="40dp"
-                        android:layout_marginEnd="40dp"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginEnd="30dp"
                         android:layout_marginBottom="15dp"
                         app:cardCornerRadius="8dp"
                         app:cardBackgroundColor="@color/colorwhite"
@@ -54,96 +54,31 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
                                 <TextView
-                                    android:textColor="#A3586D"
-                                    android:textStyle="italic"
-                                    android:text="ID"
-                                    android:textSize="15dp"
+                                    android:textColor="@color/colorgray800"
+                                    android:id="@+id/tv_name"
+                                    android:textStyle="bold"
+                                    android:textSize="18dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_gravity="center_horizontal"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
                                 <TextView
                                     android:textColor="@color/colorgray800"
                                     android:id="@+id/tv_id"
-                                    android:textSize="18dp"
+                                    android:textSize="15dp"
                                     android:textStyle="bold"
                                     android:layout_marginBottom="10dp"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
-                                <View
-                                    android:background="@color/colorgray200"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0.5dp"/>
-                                <TextView
-                                    android:textColor="#5C4A72"
-                                    android:text="Name"
-                                    android:textStyle="italic"
-                                    android:textSize="15dp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"/>
-                                <TextView
-                                    android:textColor="@color/colorgray800"
-                                    android:id="@+id/tv_name"
-                                    android:textStyle="bold"
-                                    android:textSize="18dp"
-                                    android:layout_marginBottom="10dp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"/>
-                                <View
-                                    android:background="@color/colorgray200"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0.5dp"/>
-                                <TextView
-                                    android:textColor="#F4874B"
-                                    android:text="Gender/Age"
-                                    android:textStyle="italic"
-                                    android:textSize="15dp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"/>
-                                <LinearLayout
-                                    android:id="@+id/ln_age"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:layout_marginBottom="10dp"
-                                    android:orientation="horizontal"
-                                    app:layout_constraintTop_toBottomOf="@+id/tv_name">
-                                    <TextView
-                                        android:id="@+id/tv_age"
-                                        android:textSize="18dp"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="#2C2C2C" />
-                                    <ImageView
-                                        android:visibility="gone"
-                                        android:id="@+id/ic_gender"
-                                        android:layout_width="20dp"
-                                        android:layout_height="20dp"
-                                        android:src="@drawable/icon_gender_female"/>
-                                </LinearLayout>
+
                                 <View
                                     android:background="@color/colorgray200"
                                     android:layout_width="match_parent"
                                     android:layout_height="0.5dp"/>
 
-                                <TextView
-                                    android:textColor="@color/colorblue100"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Bio"
-                                    android:textSize="15dp"
-                                    android:textStyle="italic" />
 
-                                <TextView
-                                    android:textColor="@color/colorgray800"
-                                    android:id="@+id/tv_bio"
-                                    android:textSize="15dp"
-                                    android:textAlignment="center"
-                                    android:text="Describe your self"
-                                    android:layout_marginBottom="10dp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"/>
+
                             </LinearLayout>
                             <View
                                 app:layout_constraintTop_toBottomOf="@+id/layout"
@@ -253,8 +188,8 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="40dp"
-                        android:layout_marginEnd="40dp"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginEnd="30dp"
                         android:layout_marginBottom="15dp"
                         app:cardCornerRadius="8dp"
                         app:cardBackgroundColor="@color/colorwhite"
@@ -266,22 +201,97 @@
                             android:paddingBottom="20dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
-                            <TextView
-                                android:text="TAGS"
-                                android:textColor="#F46A4E"
-                                android:textStyle="bold"
+                            <LinearLayout
                                 android:layout_marginTop="8dp"
-                                android:layout_marginHorizontal="20dp"
-                                android:layout_marginBottom="8dp"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="3dp"
+                                android:background="@drawable/bg_peach"
+                                android:layout_marginHorizontal="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:textColor="#30A135"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Bio"
+                                    android:textSize="12dp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                            <TextView
+                                android:textColor="@color/colorgray800"
+                                android:id="@+id/tv_bio"
+                                android:textSize="15dp"
+                                android:textAlignment="center"
+                                android:text="Describe your self"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginHorizontal="10dp"
+                                android:layout_gravity="center_horizontal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                             <View
-                                android:background="@color/colorgray400"
+                                android:background="@color/colorgray200"
                                 android:layout_width="match_parent"
-                                android:layout_height="0.5dp" />
+                                android:layout_height="1.5dp"/>
+                            <LinearLayout
+                                android:background="@drawable/bg_scarlet"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="3dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginHorizontal="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:textSize="12dp"
+                                    android:textColor="#b85042"
+                                    android:text="Gender|Age"
+                                    android:textStyle="bold"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/ln_age"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_marginBottom="10dp"
+                                android:orientation="horizontal"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_name">
+                                <TextView
+                                    android:id="@+id/tv_age"
+                                    android:textSize="18dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#2C2C2C" />
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:id="@+id/ic_gender"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:src="@drawable/icon_gender_female"/>
+                            </LinearLayout>
+                            <View
+                                android:background="@color/colorgray200"
+                                android:layout_width="match_parent"
+                                android:layout_height="1.5dp"/>
+                            <LinearLayout
+                                android:background="@drawable/bg_teal"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="3dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginHorizontal="12dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Tags"
+                                    android:textSize="12dp"
+                                    android:textColor="#315f72"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
                             <com.google.android.material.chip.ChipGroup
                                 android:id="@+id/chipGroup"
-                                android:layout_marginTop="8dp"
                                 android:layout_marginHorizontal="20dp"
                                 android:paddingVertical="5dp"
                                 android:layout_width="match_parent"
