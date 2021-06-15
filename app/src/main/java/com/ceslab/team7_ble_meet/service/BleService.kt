@@ -28,7 +28,7 @@ class BleService: LifecycleService() {
 
     private var characteristicUser: MutableList<Int> = mutableListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
     lateinit var characteristicUser2ByteArray: ByteArray
-    private lateinit var filter: List<Int>
+    private var filter: MutableList<Int> = mutableListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
     lateinit var listener: ListenerRegistration
 
     override fun onCreate() {
@@ -85,11 +85,11 @@ class BleService: LifecycleService() {
 //                    Log.d(TAG,"Ble Service: filter from firebase: $filter")
                     characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
                     bleHandle.startAdvertise(characteristicUser2ByteArray)
-//                    bleHandle.startScan()
                 }
             }
             .addOnFailureListener {
             }
+        bleHandle.startScan()
     }
 
     private fun convertListCharacteristic2ByteArray(input: MutableList<Int>): ByteArray {
@@ -187,7 +187,7 @@ class BleService: LifecycleService() {
             }
         }
         Log.d(TAG,"input: $input")
-        Log.d(TAG,"input: $filter")
+        Log.d(TAG,"filter: $filter")
         Log.d(TAG,"score $score")
         return score >= 3
     }

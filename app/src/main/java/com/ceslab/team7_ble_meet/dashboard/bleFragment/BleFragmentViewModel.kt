@@ -37,14 +37,12 @@ class BleFragmentViewModel() : ViewModel() {
         Log.d(TAG, "Manager: $manager")
         if (manager != null) {
             for (service in manager.getRunningServices(Integer.MAX_VALUE)) {
-                Log.d(TAG,"Ble Fragment View Model: check service 2: $service")
                 if ("com.ceslab.team7_ble_meet.service.BleService" == service.service.className) {
-                    Log.d(TAG, "Ble Fragment View Model: service is running 2")
                     isRunning.value = true
+                    return
                 }
             }
         }
-        Log.d(TAG, "service is no running")
         isRunning.value = false
     }
 
