@@ -27,8 +27,6 @@ class BleHandle {
     private val scanner = BluetoothAdapter.getDefaultAdapter().bluetoothLeScanner
     var bleDataScanned: MutableLiveData<ByteArray> = MutableLiveData()
 
-    private var reAdvertise = 0
-
     init {
         advertiseSettings = AdvertiseSettings.Builder()
             .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY)
@@ -41,7 +39,6 @@ class BleHandle {
         advertiseCallback = object : AdvertiseCallback() {
             override fun onStartSuccess(settingsInEffect: AdvertiseSettings) {
                 super.onStartSuccess(settingsInEffect)
-                Log.d(TAG, "BleHandler: Advertise Successfully")
             }
 
             override fun onStartFailure(errorCode: Int) {
@@ -79,7 +76,6 @@ class BleHandle {
 
     fun startAdvertise(input: ByteArray) {
         stopAdvertise()
-        Log.d(TAG, "BleHandle: start advertise function called: " + bytesToHex(input))
         backupData = input
         val data: AdvertiseData = AdvertiseData.Builder()
             .setIncludeDeviceName(false)
@@ -89,7 +85,6 @@ class BleHandle {
     }
 
     fun stopAdvertise(){
-        Log.d(TAG,"BleHandle: stop advertise function called")
         advertiser.stopAdvertising(advertiseCallback)
     }
 

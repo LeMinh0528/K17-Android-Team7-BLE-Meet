@@ -7,9 +7,14 @@ import androidx.lifecycle.LifecycleService
 import com.ceslab.team7_ble_meet.*
 import com.ceslab.team7_ble_meet.ble.BleDataScanned
 import com.ceslab.team7_ble_meet.ble.BleHandle
+import com.ceslab.team7_ble_meet.ble.Characteristic
 import com.ceslab.team7_ble_meet.db.BleDataScannedDataBase
+import com.ceslab.team7_ble_meet.repository.KeyValueDB
+import com.google.firebase.firestore.ListenerRegistration
+import java.util.*
 //import com.ceslab.team7_ble_meet.model.BleDataScanned
 import kotlin.collections.ArrayList
+import kotlin.experimental.or
 
 
 class BleService: LifecycleService() {
@@ -17,27 +22,104 @@ class BleService: LifecycleService() {
     val CHANNEL_ID = "channel_ble"
 
     private lateinit var bleHandle: BleHandle
+
+    //Instance to use Firebase
+    private var instance = UsersFireStoreHandler()
+
+    private var characteristicUser: MutableList<Int> = mutableListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
+    lateinit var characteristicUser2ByteArray: ByteArray
     private lateinit var filter: List<Int>
+    lateinit var listener: ListenerRegistration
 
     override fun onCreate() {
         super.onCreate()
         bleHandle = BleHandle()
         bleHandle.bleDataScanned.observe(this, {
+            Log.d(TAG, "Ble Service: ble data received")
             handleDataDiscovered(it)
         })
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-        if (intent != null) {
-            intent.getByteArrayExtra("dataFromBleViewModel2BleService")?.let {
-                bleHandle.startAdvertise(it)
-                filter = convertByteArray2ListCharacteristic(it)
-            }
-        }
-        bleHandle.startScan()
+        setUpData2Advertise()
         sendBleNotification()
         return START_STICKY
+    }
+
+    private fun setUpData2Advertise() {
+        instance.userRef.document(KeyValueDB.getUserShortId())
+            .get()
+            .addOnSuccessListener { data ->
+                //Add id
+                characteristicUser[0] = KeyValueDB.getUserShortId().toInt()
+
+                if (data != null) {
+                    //Add age
+                    val current: Int = Calendar.getInstance().get(Calendar.YEAR);
+                    val yearOfBirth = data["DayOfBirth"].toString().split("/")[2].toInt()
+                    val age = (current - yearOfBirth)
+                    characteristicUser[1] = age
+
+                    //Add sex key
+                    val sex = if (data["Gender"].toString() == "Male") 0 else 1
+                    characteristicUser[2] = sex
+
+                    //Add sex orientation key
+                    val genderOrientation = if (data["Interested"].toString() == "Male") 0 else {
+                        if (data["Interested"].toString() != "Female") 1 else 2
+                    }
+                    characteristicUser[3] = genderOrientation
+                    characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
+                }
+                //Add TAG
+                listener = UsersFireStoreHandler().setTagChangedListener() { listTag ->
+                    for (i in 0 until listTag.size) {
+                        val digit: Int = Characteristic.Tag.filterValues {
+                            it == listTag[i]
+                        }.keys.first()
+                        characteristicUser[4 + i] = digit
+                    }
+                    filter = characteristicUser
+//                    Log.d(TAG,"Ble Service: data from firebase: $characteristicUser")
+//                    Log.d(TAG,"Ble Service: filter from firebase: $filter")
+                    characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
+                    bleHandle.startAdvertise(characteristicUser2ByteArray)
+//                    bleHandle.startScan()
+                }
+            }
+            .addOnFailureListener {
+            }
+    }
+
+    private fun convertListCharacteristic2ByteArray(input: MutableList<Int>): ByteArray {
+        val output = ByteArray(24)
+        val sizeEachCharacter = mutableListOf(24, 8, 1, 2, 8, 8, 8, 8, 8)
+        var posBit = 0
+        var posByte = 0
+        for (i in 0 until input.size) {
+            var value = input[i]
+            while (sizeEachCharacter[i] > 0) {
+                val bitNeed = 8 - posBit
+                if (sizeEachCharacter[i] >= bitNeed) {
+                    val bitShift = sizeEachCharacter[i] - bitNeed
+                    output[posByte] = output[posByte] or (value ushr bitShift).toByte()
+                    value = getLastBits(value, bitShift)
+                    posBit += bitNeed
+                    sizeEachCharacter[i] -= bitNeed
+                } else {
+                    val bitShift = bitNeed - sizeEachCharacter[i]
+                    output[posByte] = output[posByte] or (value shl bitShift).toByte()
+                    posBit += sizeEachCharacter[i]
+                    sizeEachCharacter[i] = 0
+                }
+                if (posBit >= 8) {
+                    posBit -= 8
+                    posByte++
+                }
+            }
+        }
+        return output
     }
 
     private fun sendBleNotification() {
@@ -51,6 +133,7 @@ class BleService: LifecycleService() {
     }
 
     private fun handleDataDiscovered(data: ByteArray) {
+        Log.d(TAG,"handle data: ${bytesToHex(data)}")
         val dataDiscovered = data.drop(4)
         val listOfCharacteristic = convertByteArray2ListCharacteristic(dataDiscovered.toByteArray())
         if (checkCharacteristic(listOfCharacteristic, filter)) {
@@ -94,13 +177,17 @@ class BleService: LifecycleService() {
 
     private fun checkCharacteristic(input: List<Int>, filter: List<Int>): Boolean {
         var score = 0
-        for (i in 4..8){
-            for (j in 4..8){
-                if(input[i] == filter[j]){
-                    score ++
+        if(input[2] == filter[3] || filter[3] == 2){
+            for (i in 4..8){
+                for (j in 4..8){
+                    if(input[i] == filter[j]){
+                        score ++
+                    }
                 }
             }
         }
+        Log.d(TAG,"input: $input")
+        Log.d(TAG,"input: $filter")
         Log.d(TAG,"score $score")
         return score >= 3
     }
@@ -144,46 +231,4 @@ class BleService: LifecycleService() {
 //        }
 //    }
 //    return output
-//}
-
-//private fun checkCharacteristic(input: MutableList<Int>, filter: MutableList<Int>): Boolean {
-//    var score = 0
-//    if (filter[0] < input[0] && input[0] < filter[1]) score++
-//    for (i in 2..4) {
-//        if(input[1] == filter[i]) score++
-//    }
-//    for (i in 5..7) {
-//        if(input[2] == filter[i]) score++
-//    }
-//    if (filter[8] < input[3] && input[3] < filter[9]) score++
-//    if (filter[10] < input[4] && input[4] < filter[11]) score++
-//    for (i in 12..13) {
-//        if(input[5] == filter[i]) score++
-//    }
-//    for (i in 6..8) {
-//        for (j in 14..16) {
-//            if (input[i] == filter[j]) score++
-//        }
-//    }
-//    for (i in 9..11) {
-//        for (j in 17..19) {
-//            if (input[i] == filter[j]) score++
-//        }
-//    }
-//    for (i in 12..14) {
-//        for (j in 20..22) {
-//            if (input[i] == filter[j]) score++
-//        }
-//    }
-//    for (i in 15..17) {
-//        for (j in 23..25) {
-//            if (input[i] == filter[j]) score++
-//        }
-//    }
-//    for (i in 18..20) {
-//        for (j in 26..28) {
-//            if (input[i] == filter[j]) score++
-//        }
-//    }
-//    return score >= 3
 //}

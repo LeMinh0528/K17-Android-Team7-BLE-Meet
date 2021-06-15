@@ -72,7 +72,7 @@ class BleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         checkPermissions()
-        setUpUI(inflater, container)
+        setUpBleFragmentViewModelBinding(inflater, container)
         setUpBle()
         return bleFragmentBinding.root
     }
@@ -122,10 +122,11 @@ class BleFragment : Fragment() {
         }
     }
 
-    private fun setUpUI(inflater: LayoutInflater, container: ViewGroup?) {
+    private fun setUpBleFragmentViewModelBinding(inflater: LayoutInflater, container: ViewGroup?) {
         //set up view model
         bleFragmentViewModel = ViewModelProvider(requireActivity()).get(BleFragmentViewModel::class.java)
         bleFragmentViewModel.context = requireContext()
+        bleFragmentViewModel.isMyServiceRunning()
 
         //set up data binding
         bleFragmentBinding = DataBindingUtil.inflate(
@@ -171,7 +172,6 @@ class BleFragment : Fragment() {
             bleFragmentViewModel.setUpListDataScanned(requireContext(), requireActivity())
             rcListBleDataScanned.adapter = listDataDiscoveredAdapter
             bleFragmentViewModel.isBleDataScannedDisplay.observe(requireActivity(), {
-                Log.d(TAG, "display the list: $it")
                 if (it) {
                     btnFindFriend.isGone = true
                     vRipple.isGone = true

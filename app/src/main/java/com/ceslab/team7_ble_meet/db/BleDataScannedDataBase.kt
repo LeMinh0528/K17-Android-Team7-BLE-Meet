@@ -12,6 +12,8 @@ import com.ceslab.team7_ble_meet.ble.BleDataScanned
 @Database(entities = [BleDataScanned::class], version = 1, exportSchema = false)
 public abstract class BleDataScannedDataBase : RoomDatabase() {
 
+    private val TAG = "Ble_Lifecycle"
+
     abstract fun bleDataScannedDao(): BleDataScannedDao
     var isDataChanged: MutableLiveData<Boolean> = MutableLiveData(false)
 
