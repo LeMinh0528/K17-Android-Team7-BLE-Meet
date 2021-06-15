@@ -177,7 +177,7 @@ class BleService: LifecycleService() {
 
     private fun checkCharacteristic(input: List<Int>, filter: List<Int>): Boolean {
         var score = 0
-        if(input[2] == filter[3] || filter[3] == 2){
+        if((input[2] == filter[3] || filter[3] == 2) && input[3] == filter[2]){
             for (i in 4..8){
                 for (j in 4..8){
                     if(input[i] == filter[j]){
