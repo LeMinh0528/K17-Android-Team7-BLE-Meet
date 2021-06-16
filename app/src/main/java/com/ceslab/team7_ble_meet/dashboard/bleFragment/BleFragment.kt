@@ -2,10 +2,7 @@ package com.ceslab.team7_ble_meet.dashboard.bleFragment
 
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle

@@ -32,9 +32,7 @@ class BleFragmentViewModel() : ViewModel() {
     lateinit var listener: ListenerRegistration
 
     fun isMyServiceRunning(){
-        Log.d(TAG, "Context: $context")
         val manager = context?.getSystemService(ACTIVITY_SERVICE) as ActivityManager?
-        Log.d(TAG, "Manager: $manager")
         if (manager != null) {
             for (service in manager.getRunningServices(Integer.MAX_VALUE)) {
                 if ("com.ceslab.team7_ble_meet.service.BleService" == service.service.className) {
