@@ -28,14 +28,12 @@ class BleService: LifecycleService() {
 
     private var characteristicUser: MutableList<Int> = mutableListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
     lateinit var characteristicUser2ByteArray: ByteArray
-    private var filter: MutableList<Int> = mutableListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
     lateinit var listener: ListenerRegistration
 
     override fun onCreate() {
         super.onCreate()
         bleHandle = BleHandle()
         bleHandle.bleDataScanned.observe(this, {
-            Log.d(TAG, "Ble Service: ble data received")
             handleDataDiscovered(it)
         })
     }
@@ -80,14 +78,12 @@ class BleService: LifecycleService() {
                         }.keys.first()
                         characteristicUser[4 + i] = digit
                     }
-                    filter = characteristicUser
-//                    Log.d(TAG,"Ble Service: data from firebase: $characteristicUser")
-//                    Log.d(TAG,"Ble Service: filter from firebase: $filter")
                     characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
                     bleHandle.startAdvertise(characteristicUser2ByteArray)
                 }
             }
             .addOnFailureListener {
+                Log.d(TAG, "Ble: Service no internet")
             }
         bleHandle.startScan()
     }
@@ -136,7 +132,7 @@ class BleService: LifecycleService() {
         Log.d(TAG,"handle data: ${bytesToHex(data)}")
         val dataDiscovered = data.drop(4)
         val listOfCharacteristic = convertByteArray2ListCharacteristic(dataDiscovered.toByteArray())
-        if (checkCharacteristic(listOfCharacteristic, filter)) {
+        if (checkCharacteristic(listOfCharacteristic, characteristicUser)) {
             addUser(listOfCharacteristic)
         }
     }
@@ -175,19 +171,20 @@ class BleService: LifecycleService() {
         return rawData
     }
 
-    private fun checkCharacteristic(input: List<Int>, filter: List<Int>): Boolean {
+    private fun checkCharacteristic(input: List<Int>, self: List<Int>): Boolean {
         var score = 0
-        if((input[2] == filter[3] || filter[3] == 2) && input[3] == filter[2]){
+        if((self[3] == input[2] && self[3] == 2) && (input[3] == self[2] || input[3] == 2)){
+            Log.d(TAG,"match gender")
             for (i in 4..8){
                 for (j in 4..8){
-                    if(input[i] == filter[j]){
+                    if(input[i] == self[j]){
                         score ++
                     }
                 }
             }
         }
         Log.d(TAG,"input: $input")
-        Log.d(TAG,"filter: $filter")
+        Log.d(TAG,"filter: $self")
         Log.d(TAG,"score $score")
         return score >= 3
     }

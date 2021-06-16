@@ -53,7 +53,6 @@ class BleHandle {
                 val adType = result.scanRecord?.bytes?.get(1)?.toInt()
                 val manuIdUpper = result.scanRecord?.bytes?.get(2)?.toInt()
                 val manuIdLower = result.scanRecord?.bytes?.get(3)?.toInt()
-                Log.d(TAG, "Scan result:" + bytesToHex(result.scanRecord!!.bytes))
                 if (adType == -1 && manuIdUpper == 105 && manuIdLower == 105) {
                     bleDataScanned.value = result.scanRecord!!.bytes
                 }
