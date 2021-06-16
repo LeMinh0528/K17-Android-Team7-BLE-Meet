@@ -59,7 +59,7 @@ class RegisterTagActivity : AppCompatActivity() {
             progressbar.visibility = View.VISIBLE
             tv_btn.visibility = View.GONE
             if (!NetworkUtils.isNetworkAvailable(this)){
-               toast("Error wifi connection!")
+               toast("Error internet connection!")
             }else{
                 viewModel.register(listChooser){
                     btn_continue.isEnabled = true
@@ -74,19 +74,6 @@ class RegisterTagActivity : AppCompatActivity() {
             }
 
         }
-//        viewModel.userResp.observe(this, Observer { result ->
-//            btn_continue.isEnabled = true
-//            progressbar.visibility = View.GONE
-//            tv_btn.visibility = View.VISIBLE
-//
-//            Log.d("RegisterTagActivity","registertag observer")
-//            if(result != null){
-//                toast("result: ${result.message}")
-//                if(result.type == "NONE" && result.status == "SUCCESS"){
-//                    gotoRegisterPicture()
-//                }
-//            }
-//        })
         btn_backpress.setOnClickListener {
             onBackPressed()
         }

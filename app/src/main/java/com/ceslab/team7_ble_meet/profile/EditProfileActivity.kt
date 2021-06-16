@@ -107,7 +107,7 @@ class EditProfileActivity : AppCompatActivity() {
                         override fun confirm(result: String) {
                             Log.d("EditProfileActivity","result: $result")
                             if(!NetworkUtils.isNetworkAvailable(this@EditProfileActivity)){
-                                toast("Error wifi connection!")
+                                toast("Error internet connection!")
                             }else{
                                 viewModel.updateBio(result){ status, bio ->
                                     if(status == "SUCCESS"){
@@ -190,7 +190,7 @@ class EditProfileActivity : AppCompatActivity() {
                     val outputStream = ByteArrayOutputStream()
                     selectedImageBmp.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
                     if(!NetworkUtils.isNetworkAvailable(this)){
-                        toast("Error wifi connection!")
+                        toast("Error internet connection!")
                     }else{
                         if(setAvatar){
                             viewModel.updateAvatar(outputStream.toByteArray()){ status, path ->

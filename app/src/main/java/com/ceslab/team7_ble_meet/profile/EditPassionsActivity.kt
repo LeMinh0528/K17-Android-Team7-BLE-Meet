@@ -139,7 +139,7 @@ class EditPassionsActivity : AppCompatActivity() {
                     })
         }else{
             if(!NetworkUtils.isNetworkAvailable(this)){
-                toast("Error wifi connection!")
+                toast("Error internet connection!")
                 super.onBackPressed()
             }else{
                 viewmodel.updateTag(listChooser){

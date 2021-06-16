@@ -60,8 +60,4 @@ class EditProfileViewModel: ViewModel() {
 
     }
 
-    fun updateTag(){
-
-    }
-
 }

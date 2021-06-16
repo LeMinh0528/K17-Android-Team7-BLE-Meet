@@ -17,19 +17,15 @@ class RegisterUserNameViewModel : ViewModel() {
     fun registerName(){
         if(username.isEmpty()) {
             userResp.postValue(UsersFireStoreHandler.Resp("NONE","FAILED", "Empty field!"))
-        }else if (NetworkUtils.isNetworkAvailable(context)){
-            userResp.postValue(UsersFireStoreHandler.Resp("NONE","FAILED","Error wifi connection!"))
+        }else if (!NetworkUtils.isNetworkAvailable(context)){
+            userResp.postValue(UsersFireStoreHandler.Resp("NONE","FAILED","Error internet connection!"))
         }else{
             instance.updateName(username)
         }
     }
 
     fun deleteUser(){
-        if(!NetworkUtils.isNetworkAvailable(context)){
-            userResp.postValue(UsersFireStoreHandler.Resp("DELETE","FAILED","Error wifi connection!"))
-        }else{
-            instance.deleteData()
-        }
+        instance.deleteData()
     }
 
 }

@@ -15,7 +15,7 @@ class RegisterGenderViewModel: ViewModel() {
     var context: Context? = null
     fun register(gender:String?,inter:String){
         if(!NetworkUtils.isNetworkAvailable(context)){
-            userResp.postValue(UsersFireStoreHandler.Resp("DELETE","FAILED","Error wifi connection!"))
+            userResp.postValue(UsersFireStoreHandler.Resp("DELETE","FAILED","Error internet connection!"))
         }else{
             Log.d("RegisterGenderViewModel","gender: $gender")
             Log.d("RegisterGenderViewModel","inter: $inter")

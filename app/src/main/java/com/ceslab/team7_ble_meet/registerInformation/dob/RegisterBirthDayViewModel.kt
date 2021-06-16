@@ -22,7 +22,7 @@ class RegisterBirthDayViewModel: ViewModel() {
 
     fun updateBirthDay(){
         if (!NetworkUtils.isNetworkAvailable(context)){
-            userResp.postValue(UsersFireStoreHandler.Resp("NONE","FAILED","Error wifi connection!"))
+            userResp.postValue(UsersFireStoreHandler.Resp("NONE","FAILED","Error internet connection!"))
         }else{
             val dof = "$day/$month/$year"
             instance.updateBirthDay(dof)

@@ -30,7 +30,7 @@ class RegisterPictureViewModel: ViewModel() {
                 UsersFireStoreHandler.Resp(
                     "NONE",
                     "FAILED",
-                    "Error wifi connection!"
+                    "Error internet connection!"
                 )
             )
         } else {
