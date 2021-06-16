@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/colorblue100</item>
         <item name="colorPrimaryDark">@color/colorblue100</item>
         <item name="android:statusBarColor">@color/colorblue100</item>
-        <item name="colorAccent">@color/colorgreen</item>
+        <item name="colorAccent">@color/colorblue100</item>
     </style>
     <style name="CustomChipChoice" parent="@style/Widget.MaterialComponents.Chip.Choice">
         <item name="chipBackgroundColor">@color/bg_chip_color</item>
