@@ -21,12 +21,17 @@ class RegisterBirthDayViewModel: ViewModel() {
     var userResp: MutableLiveData<UsersFireStoreHandler.Resp?> = instance.userResp
 
     fun updateBirthDay(){
+        val c= Calendar.getInstance()
+        val curentYear= c.get(Calendar.YEAR)
         if (!NetworkUtils.isNetworkAvailable(context)){
             userResp.postValue(UsersFireStoreHandler.Resp("NONE","FAILED","Error internet connection!"))
-        }else{
+        }else if (curentYear-year.toInt() <0){
+            userResp.postValue(UsersFireStoreHandler.Resp("NONE","FAILED","Please set right age!"))
+        } else{
             val dof = "$day/$month/$year"
             instance.updateBirthDay(dof)
         }
+
     }
 
 }

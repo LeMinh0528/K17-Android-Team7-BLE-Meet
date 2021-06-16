@@ -16,7 +16,7 @@
             android:text="Content"
             android:textSize="18dp"
             android:textColor="@color/colorblue100"
-            android:fontFamily="@font/roboto_black"
+
             android:gravity="left|center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

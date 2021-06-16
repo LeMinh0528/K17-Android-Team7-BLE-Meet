@@ -15,12 +15,12 @@ class RegisterUserNameViewModel : ViewModel() {
     var userResp: MutableLiveData<UsersFireStoreHandler.Resp?> = instance.userResp
 
     fun registerName(){
-        if(username.isEmpty()) {
+        if(username.trim().isEmpty()) {
             userResp.postValue(UsersFireStoreHandler.Resp("NONE","FAILED", "Empty field!"))
         }else if (!NetworkUtils.isNetworkAvailable(context)){
             userResp.postValue(UsersFireStoreHandler.Resp("NONE","FAILED","Error internet connection!"))
         }else{
-            instance.updateName(username)
+            instance.updateName(username.trim())
         }
     }
 

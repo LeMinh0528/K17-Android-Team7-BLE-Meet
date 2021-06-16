@@ -16,7 +16,6 @@
             android:text="Content"
             android:textSize="18dp"
             android:textColor="@color/colorblue100"
-            android:fontFamily="@font/roboto_black"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -26,6 +25,8 @@
             android:textStyle="italic"
             android:textSize="16dp"
             android:ems="10"
+            android:backgroundTint="@color/colorblue100"
+            android:textCursorDrawable="@color/colorblue100"
             android:singleLine="true"
             android:maxLength="60"
             android:layout_marginRight="50dp"
@@ -55,7 +56,7 @@
                 android:text="Cancle"
                 android:textSize="18sp"
                 android:gravity="center"
-                android:textColor="@color/colorblue100"
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
