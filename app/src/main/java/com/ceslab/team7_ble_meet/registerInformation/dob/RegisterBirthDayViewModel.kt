@@ -1,9 +1,11 @@
 package com.ceslab.team7_ble_meet.registerInformation.dob
 
-import android.view.View
+import android.annotation.SuppressLint
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ceslab.team7_ble_meet.UsersFireStoreHandler
+import com.ceslab.team7_ble_meet.utils.NetworkUtils
 import java.util.*
 
 class RegisterBirthDayViewModel: ViewModel() {
@@ -12,13 +14,19 @@ class RegisterBirthDayViewModel: ViewModel() {
     var month: String = if(Calendar.getInstance().get(Calendar.MONTH) < 10) "0${Calendar.getInstance().get(Calendar.MONTH)}"
         else Calendar.getInstance().get(Calendar.MONTH).toString()
     var year: String = Calendar.getInstance().get(Calendar.YEAR).toString()
+    @SuppressLint("StaticFieldLeak")
+    var context : Context? = null
 
     private var instance = UsersFireStoreHandler()
     var userResp: MutableLiveData<UsersFireStoreHandler.Resp?> = instance.userResp
 
     fun updateBirthDay(){
-        var dof = "$day/$month/$year"
-        instance.updateBirthDay(dof)
+        if (!NetworkUtils.isNetworkAvailable(context)){
+            userResp.postValue(UsersFireStoreHandler.Resp("NONE","FAILED","Error wifi connection!"))
+        }else{
+            val dof = "$day/$month/$year"
+            instance.updateBirthDay(dof)
+        }
     }
 
 }

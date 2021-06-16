@@ -8,11 +8,10 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.ceslab.team7_ble_meet.R
-import com.ceslab.team7_ble_meet.UsersFireStoreHandler
-import com.ceslab.team7_ble_meet.dialog.ConfirmDialog
 import com.ceslab.team7_ble_meet.dialog.ReadDialog
 import com.ceslab.team7_ble_meet.dialog.ReadDialogListener
 import com.ceslab.team7_ble_meet.toast
+import com.ceslab.team7_ble_meet.utils.NetworkUtils
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
@@ -127,6 +126,7 @@ class EditPassionsActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        Log.d("EditPassionActivity","on back press")
         if (listChooser.size < 5) {
             confirmDialog =
                 showConfirm(message = "To have passions display on your profile, you must select at least 5 passions",
@@ -138,14 +138,20 @@ class EditPassionsActivity : AppCompatActivity() {
                         }
                     })
         }else{
-            viewmodel.updateTag(listChooser){
-                if(it == "SUCCESS"){
-                    toast("Update tag successful!")
-                }else{
-                    toast("Error update tag")
-                }
+            if(!NetworkUtils.isNetworkAvailable(this)){
+                toast("Error wifi connection!")
                 super.onBackPressed()
+            }else{
+                viewmodel.updateTag(listChooser){
+                    if(it == "SUCCESS"){
+                        toast("Update tag successful!")
+                    }else{
+                        toast("Error update tag")
+                    }
+                    super.onBackPressed()
+                }
             }
+
 
         }
     }

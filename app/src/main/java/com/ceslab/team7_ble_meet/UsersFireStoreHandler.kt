@@ -97,6 +97,7 @@ class UsersFireStoreHandler {
     }
 
     fun updateTag(list: MutableList<String>, onComplete: (status: String) -> Unit) {
+        Log.d("UserFireStoreHandler","update tag passion")
         val note = mutableMapOf<String, MutableList<String>>()
         note["Tag"] = list
         userRef.document(KeyValueDB.getUserShortId())
@@ -104,13 +105,19 @@ class UsersFireStoreHandler {
             .addOnSuccessListener {
                 uidRef.document(KeyValueDB.getUserId())
                     .set(hashMapOf("isRegisterTag" to true), SetOptions.merge())
-
+                Log.d("UserFireStoreHandler","update tag passion sucsses ")
                 KeyValueDB.setUserTag(true)
                 onComplete("SUCCESS")
             }
-            .addOnFailureListener {
+            .addOnCanceledListener {
+                Log.d("UserFireStoreHandler","update tagfaiiled ")
                 onComplete("FAILED")
             }
+            .addOnFailureListener {
+                Log.d("UserFireStoreHandler","update tagfaiiled ")
+                onComplete("FAILED")
+            }
+
     }
 
     fun getTags(onComplete: (tags: MutableList<String>) -> Unit) {
@@ -355,7 +362,7 @@ class UsersFireStoreHandler {
     ): ListenerRegistration {
         return userRef.document(KeyValueDB.getUserShortId())
             .collection("engagedChatChannel")
-            .addSnapshotListener { querySnapshot, exception ->
+            .addSnapshotListener(MetadataChanges.INCLUDE) { querySnapshot, exception ->
                 if (exception != null) {
                     Log.d("UserFireStoreHandler", "error: ${exception.message}")
                     return@addSnapshotListener
@@ -423,7 +430,7 @@ class UsersFireStoreHandler {
     ): ListenerRegistration {
         return chatChannelRef.document(channelId).collection("messages")
             .orderBy("time")
-            .addSnapshotListener { querySnapshot, exception ->
+            .addSnapshotListener(MetadataChanges.INCLUDE) { querySnapshot, exception ->
                 if (exception != null) {
                     return@addSnapshotListener
                 }
@@ -499,7 +506,7 @@ class UsersFireStoreHandler {
     fun setLastTextListener(channelId: String, onComplete: (text: String) -> Unit):ListenerRegistration{
         Log.d("UserFireStoreHandler","go to lasst text")
         return chatChannelRef.document(channelId).collection("messages")
-            .orderBy("time").addSnapshotListener{querySnapshot, exception ->
+            .orderBy("time").addSnapshotListener(MetadataChanges.INCLUDE){ querySnapshot, exception ->
                 if (querySnapshot != null) {
                     if(querySnapshot.documents.size > 0){
                         Log.d("UserFireStoreHandler","query1: ${querySnapshot.size()}")
@@ -527,7 +534,7 @@ class UsersFireStoreHandler {
 
     fun setTagChangedListener(onComplete: (listTag: MutableList<String>) -> Unit):ListenerRegistration{
         return userRef.document(KeyValueDB.getUserShortId())
-            .addSnapshotListener{ documentSnapshot, exception ->
+            .addSnapshotListener(MetadataChanges.INCLUDE){ documentSnapshot, exception ->
                 Log.d("UserFireStoreHandle","${documentSnapshot?.get("Tag")} ")
                 if(exception != null){
                     onComplete(mutableListOf())

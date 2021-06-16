@@ -29,6 +29,7 @@ import com.ceslab.team7_ble_meet.profile.EditProfileViewModel
 import com.ceslab.team7_ble_meet.toast
 import com.ceslab.team7_ble_meet.utils.GlideApp
 import com.ceslab.team7_ble_meet.utils.ImagesStorageUtils
+import com.ceslab.team7_ble_meet.utils.NetworkUtils
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
 import com.theartofdev.edmodo.cropper.CropImage
@@ -105,15 +106,20 @@ class EditProfileActivity : AppCompatActivity() {
 
                         override fun confirm(result: String) {
                             Log.d("EditProfileActivity","result: $result")
-                            viewModel.updateBio(result){ status, bio ->
-                                if(status == "SUCCESS"){
-                                    binding.bio.text = bio
-                                    toast("Update bio successful!")
-                                }else{
-                                    toast("Error updating bio!")
-                                }
+                            if(!NetworkUtils.isNetworkAvailable(this@EditProfileActivity)){
+                                toast("Error wifi connection!")
+                            }else{
+                                viewModel.updateBio(result){ status, bio ->
+                                    if(status == "SUCCESS"){
+                                        binding.bio.text = bio
+                                        toast("Update bio successful!")
+                                    }else{
+                                        toast("Error updating bio!")
+                                    }
 
+                                }
                             }
+
                         }
                     })
             }
@@ -123,7 +129,7 @@ class EditProfileActivity : AppCompatActivity() {
             tvtag.setOnClickListener{
                 val intent = Intent(this@EditProfileActivity, EditPassionsActivity::class.java)
 //                intent.putExtra("TAG",viewModel.tag)
-                startActivityForResult(intent,6)
+                startActivity(intent)
 
             }
         }
@@ -183,32 +189,37 @@ class EditProfileActivity : AppCompatActivity() {
                     val selectedImageBmp = MediaStore.Images.Media.getBitmap(contentResolver, uri)
                     val outputStream = ByteArrayOutputStream()
                     selectedImageBmp.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
-                    if(setAvatar){
-                        viewModel.updateAvatar(outputStream.toByteArray()){ status, path ->
-                            if(status == "SUCCESS"){
-                                GlideApp.with(this)
-                                    .load(ImagesStorageUtils.pathToReference(path))
-                                    .placeholder(R.drawable.ic_user)
-                                    .into(binding.avatar)
-                                toast("Change image successful!")
-                            }else{
-                                toast(path)
+                    if(!NetworkUtils.isNetworkAvailable(this)){
+                        toast("Error wifi connection!")
+                    }else{
+                        if(setAvatar){
+                            viewModel.updateAvatar(outputStream.toByteArray()){ status, path ->
+                                if(status == "SUCCESS"){
+                                    GlideApp.with(this)
+                                        .load(ImagesStorageUtils.pathToReference(path))
+                                        .placeholder(R.drawable.ic_user)
+                                        .into(binding.avatar)
+                                    toast("Change image successful!")
+                                }else{
+                                    toast(path)
+                                }
+                            }
+                        }
+                        if(setBackground){
+                            viewModel.updateBackground(outputStream.toByteArray()){status, path ->
+                                if(status == "SUCCESS"){
+                                    GlideApp.with(this)
+                                        .load(ImagesStorageUtils.pathToReference(path))
+                                        .placeholder(R.drawable.backgroud_default)
+                                        .into(binding.background)
+                                    toast("Change image successful!")
+                                }else{
+                                    toast(path)
+                                }
                             }
                         }
                     }
-                    if(setBackground){
-                        viewModel.updateBackground(outputStream.toByteArray()){status, path ->
-                            if(status == "SUCCESS"){
-                                GlideApp.with(this)
-                                    .load(ImagesStorageUtils.pathToReference(path))
-                                    .placeholder(R.drawable.backgroud_default)
-                                    .into(binding.background)
-                                toast("Change image successful!")
-                            }else{
-                                toast(path)
-                            }
-                        }
-                    }
+
 //                    viewModel.selected = outputStream.toByteArray()
                 }
             }
@@ -221,7 +232,7 @@ class EditProfileActivity : AppCompatActivity() {
             .start(this);
     }
 
-    fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
+    private fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
         val path = MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, inImage.toString(), null)
@@ -302,11 +313,11 @@ class EditProfileActivity : AppCompatActivity() {
             toast("Permission granted!")
         }
     }
-    fun showConfirm(title:String,
-                    message: String,
-                    textYes: String,
-                    textCancel: String,
-                    listener: EditDialogListener):
+    private fun showConfirm(title:String,
+                            message: String,
+                            textYes: String,
+                            textCancel: String,
+                            listener: EditDialogListener):
             EditBioDialog{
         Log.d("TAG","onback press")
         val dialog = EditBioDialog.Builder()

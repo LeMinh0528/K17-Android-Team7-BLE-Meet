@@ -32,6 +32,7 @@ class RegisterUserNameActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_register_user_name)
         viewModel = ViewModelProvider(this).get(RegisterUserNameViewModel::class.java)
         binding.viewmodel = viewModel
+        viewModel.context = this
     }
     private fun initAction(){
         binding.apply {

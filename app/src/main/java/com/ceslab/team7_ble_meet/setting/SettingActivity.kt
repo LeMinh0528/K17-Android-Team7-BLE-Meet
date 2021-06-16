@@ -16,6 +16,7 @@ import com.ceslab.team7_ble_meet.login.LogInActivity
 import com.ceslab.team7_ble_meet.repository.KeyValueDB
 import com.ceslab.team7_ble_meet.service.BleService
 import com.ceslab.team7_ble_meet.toast
+import com.ceslab.team7_ble_meet.utils.NetworkUtils
 
 class SettingActivity : AppCompatActivity() {
     lateinit var btnLogout: CardView
@@ -47,11 +48,13 @@ class SettingActivity : AppCompatActivity() {
                     override fun cancel() {
                         confirmDialog?.dismiss()
                     }
-
                     override fun confirm() {
-                        stopBleService()
-                        logoutFireBase()
-
+                        if (!NetworkUtils.isNetworkAvailable(this@SettingActivity)){
+                            toast("Error wifi connection!")
+                        }else{
+                            stopBleService()
+                            logoutFireBase()
+                        }
                     }
                 })
         }
