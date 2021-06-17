@@ -65,7 +65,7 @@ class BleService: LifecycleService() {
 
                     //Add sex orientation key
                     val genderOrientation = if (data["Interested"].toString() == "Male") 0 else {
-                        if (data["Interested"].toString() != "Female") 1 else 2
+                        if (data["Interested"].toString() == "Female") 1 else 2
                     }
                     characteristicUser[3] = genderOrientation
                     characteristicUser2ByteArray = convertListCharacteristic2ByteArray(characteristicUser)
@@ -129,7 +129,6 @@ class BleService: LifecycleService() {
     }
 
     private fun handleDataDiscovered(data: ByteArray) {
-        Log.d(TAG,"handle data: ${bytesToHex(data)}")
         val dataDiscovered = data.drop(4)
         val listOfCharacteristic = convertByteArray2ListCharacteristic(dataDiscovered.toByteArray())
         if (checkCharacteristic(listOfCharacteristic, characteristicUser)) {
@@ -173,8 +172,7 @@ class BleService: LifecycleService() {
 
     private fun checkCharacteristic(input: List<Int>, self: List<Int>): Boolean {
         var score = 0
-        if((self[3] == input[2] && self[3] == 2) && (input[3] == self[2] || input[3] == 2)){
-            Log.d(TAG,"match gender")
+        if((self[3] == input[2] || self[3] == 2) && (input[3] == self[2] || input[3] == 2)){
             for (i in 4..8){
                 for (j in 4..8){
                     if(input[i] == self[j]){
@@ -183,8 +181,6 @@ class BleService: LifecycleService() {
                 }
             }
         }
-        Log.d(TAG,"input: $input")
-        Log.d(TAG,"filter: $self")
         Log.d(TAG,"score $score")
         return score >= 3
     }
@@ -195,10 +191,6 @@ class BleService: LifecycleService() {
         Log.d(TAG, "stop ble service")
     }
 }
-
-//characteristicUser = listOf(1720148, 25, 1, 1, 165, 60, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17)
-//target = listOf(18, 30, 1, 2, 3, 1, 2, 3, 160, 180, 50, 80, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 11, 12, 13, 14, 15, 16, 17, 18)
-//val sizeEachCharacter = mutableListOf(24, 7, 3, 3, 8, 8, 4, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7)
 
 //private fun setUpDataAdvertise(input: MutableList<Int>): ByteArray {
 //    val output = ByteArray(24)
