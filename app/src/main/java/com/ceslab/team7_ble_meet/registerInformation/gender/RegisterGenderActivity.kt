@@ -53,6 +53,7 @@ class RegisterGenderActivity : AppCompatActivity() {
 
     private fun setupViewModel(){
         viewModel = ViewModelProvider(this).get(RegisterGenderViewModel::class.java)
+        viewModel.context = this
     }
 
     private fun setupView(){

@@ -9,11 +9,11 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ceslab.team7_ble_meet.R
 import com.ceslab.team7_ble_meet.registerInformation.avatar.RegisterPictureActivity
 import com.ceslab.team7_ble_meet.toast
+import com.ceslab.team7_ble_meet.utils.NetworkUtils
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.activity_register_birthday.*
@@ -58,30 +58,22 @@ class RegisterTagActivity : AppCompatActivity() {
             btn_continue.isEnabled = false
             progressbar.visibility = View.VISIBLE
             tv_btn.visibility = View.GONE
-            viewModel.register(listChooser){
-                btn_continue.isEnabled = true
-                progressbar.visibility = View.GONE
-                tv_btn.visibility = View.VISIBLE
-                if(it == "SUCCESS"){
-                    gotoRegisterPicture()
-                }else{
-                    toast("Error edit tags")
+            if (!NetworkUtils.isNetworkAvailable(this)){
+               toast("Error internet connection!")
+            }else{
+                viewModel.register(listChooser){
+                    btn_continue.isEnabled = true
+                    progressbar.visibility = View.GONE
+                    tv_btn.visibility = View.VISIBLE
+                    if(it == "SUCCESS"){
+                        gotoRegisterPicture()
+                    }else{
+                        toast("Error edit tags")
+                    }
                 }
             }
+
         }
-//        viewModel.userResp.observe(this, Observer { result ->
-//            btn_continue.isEnabled = true
-//            progressbar.visibility = View.GONE
-//            tv_btn.visibility = View.VISIBLE
-//
-//            Log.d("RegisterTagActivity","registertag observer")
-//            if(result != null){
-//                toast("result: ${result.message}")
-//                if(result.type == "NONE" && result.status == "SUCCESS"){
-//                    gotoRegisterPicture()
-//                }
-//            }
-//        })
         btn_backpress.setOnClickListener {
             onBackPressed()
         }

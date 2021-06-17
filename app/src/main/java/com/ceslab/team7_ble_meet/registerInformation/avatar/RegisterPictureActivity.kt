@@ -67,6 +67,7 @@ class RegisterPictureActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(RegisterPictureViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register_picture)
         binding.viewmodel = viewModel
+        viewModel.context = this
     }
 
     fun setAction(){

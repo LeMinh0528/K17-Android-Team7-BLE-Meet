@@ -7,7 +7,9 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
+
 
 class MyApplication : Application() {
 //    val database by lazy { UserDiscoveredDataBase.getDatabase(this) }
@@ -23,14 +25,27 @@ class MyApplication : Application() {
         super.onCreate()
         context = applicationContext
         instance = this
-
+        setUpFireBase()
         createBleChannelNotification()
         createMessagingChannelNotification()
     }
 
+    private fun setUpFireBase(){
+        val db = FirebaseFirestore.getInstance()
+        val settings = FirebaseFirestoreSettings.Builder()
+            .setPersistenceEnabled(true)
+            .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
+            .build()
+        db.firestoreSettings = settings
+    }
+
     private fun createBleChannelNotification() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            val notificationChannel = NotificationChannel(CHANNEL_ID,CHANNEL_NAME,NotificationManager.IMPORTANCE_HIGH)
+            val notificationChannel = NotificationChannel(
+                CHANNEL_ID,
+                CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_HIGH
+            )
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(notificationChannel)
         }

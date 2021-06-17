@@ -102,6 +102,7 @@ class RegisterBirthdayActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(RegisterBirthDayViewModel::class.java)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_register_birthday)
         binding.viewmodel = viewModel
+        viewModel.context = this
     }
    
 }

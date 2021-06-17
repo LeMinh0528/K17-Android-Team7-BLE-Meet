@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ceslab.team7_ble_meet.R
+import com.ceslab.team7_ble_meet.UsersFireStoreHandler
 import com.ceslab.team7_ble_meet.databinding.ActivityRegisterUserNameBinding
 import com.ceslab.team7_ble_meet.dialog.ConfirmDialog
 import com.ceslab.team7_ble_meet.dialog.ConfirmDialogListener
@@ -16,6 +17,7 @@ import com.ceslab.team7_ble_meet.login.LogInActivity
 import com.ceslab.team7_ble_meet.registerInformation.gender.RegisterGenderActivity
 import com.ceslab.team7_ble_meet.signup.SignUpActivity
 import com.ceslab.team7_ble_meet.toast
+import com.ceslab.team7_ble_meet.utils.NetworkUtils
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_register_user_name.*
 
@@ -32,6 +34,7 @@ class RegisterUserNameActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_register_user_name)
         viewModel = ViewModelProvider(this).get(RegisterUserNameViewModel::class.java)
         binding.viewmodel = viewModel
+        viewModel.context = this
     }
     private fun initAction(){
         binding.apply {
@@ -96,8 +99,12 @@ class RegisterUserNameActivity : AppCompatActivity() {
                 }
 
                 override fun confirm() {
-                    clearData()
-                    goToSignUp()
+                    if(!NetworkUtils.isNetworkAvailable(this@RegisterUserNameActivity)){
+                        toast("Error internet connection, Cannot delete user!")
+                    }else{
+                        clearData()
+                        goToSignUp()
+                    }
                 }
             })
     }
