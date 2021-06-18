@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Team7_BLE-Meet</string>
+    <string name="app_name">BleMe</string>
     <string name="sign_up_1">Sign Up</string>
     <string name="sign_up_2">SIGN UP</string>
     <string name="username_1">Username</string>
