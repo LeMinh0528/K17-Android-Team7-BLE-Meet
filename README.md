@@ -7,7 +7,10 @@ I. main function:
 
 II. Demo
 1. Demo 1: Register User
-<img src="demo/part1.gif" width="320" height="700"/> 
+<img src="demo/demo1.gif" width="320" height="700"/> 
 
 2. Demo 2: scan bluetooth connection
-<img src="demo/part2.gif" width="320" height="700"/> 
+<img src="demo/demo2.gif" width="320" height="700"/>
+
+3. Demo 3: Log out and discover
+<img src="demo/demo3.gif" width="320" height="700"/> 
